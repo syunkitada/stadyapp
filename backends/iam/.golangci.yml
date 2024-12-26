@@ -1,0 +1,46 @@
+linters:
+  enable-all: true
+  disable:
+    - gofumpt
+    - exhaustruct
+    - exhaustivestruct
+#  disable:
+#    - wrapcheck
+#    - wsl
+#    - varnamelen
+#    - mnd
+#    - testifylint
+#    - nlreturn
+#    - ireturn
+#    - intrange
+#    - inamedparam
+#    - perfsprint
+#    - exhaustruct
+#    - errorlint
+#    - err113
+#    - depguard
+#    - stylecheck
+#    - forcetypeassert
+#    - cyclop
+#    - revive
+#    - dupl
+#    - nonamedreturns
+#    - nestif
+#    - lll
+#    - gosec
+#    - gofumpt
+#    - gci
+#    - forbidigo
+#    - gocritic
+
+linters-settings:
+  depguard:
+    rules:
+      Main:
+        allow:
+          - "$gostd"
+          - github.com/labstack/echo/v4
+          - github.com/syunkitada/stadyapp
+  mnd:
+    ignored-numbers:
+      - "0644"
