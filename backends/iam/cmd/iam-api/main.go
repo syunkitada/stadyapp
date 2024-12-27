@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log/slog"
 	"net"
 	"os"
 
+	"github.com/getkin/kin-openapi/openapi3filter"
 	"github.com/labstack/echo/v4"
 	echomiddleware "github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
@@ -69,11 +71,29 @@ func main() {
 		},
 	}))
 
+	options := &middleware.Options{
+		Options: openapi3filter.Options{
+			AuthenticationFunc: func(ctx context.Context, input *openapi3filter.AuthenticationInput) error {
+				slog.Info(fmt.Sprintf("authentication func: %+v", input))
+
+				switch input.SecuritySchemeName {
+				case "XUser":
+					fmt.Println("XUser", input)
+				default:
+					return fmt.Errorf("unknown security scheme: %s", input.SecuritySchemeName)
+				}
+
+				return nil
+			},
+		},
+	}
+
+	echoServer.Use(middleware.OapiRequestValidatorWithOptions(swagger, options))
+
 	echoServer.Use(echomiddleware.Recover())
 	echoServer.Logger.SetLevel(log.INFO)
 	// Use our validation middleware to check all requests against the
 	// OpenAPI schema.
-	echoServer.Use(middleware.OapiRequestValidator(swagger))
 
 	// We now register our petStore above as the handler for the interface
 	oapi.RegisterHandlers(echoServer, apiHandler)

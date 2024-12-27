@@ -2,9 +2,7 @@ package db
 
 import (
 	"context"
-	"net/http"
 
-	"github.com/labstack/echo/v4"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
@@ -14,8 +12,6 @@ func (self *DB) FindProjects(ctx context.Context, input *db.FindProjectsInput) (
 	query := self.DB.WithContext(ctx).Model(model.Project{}).
 		Select("id,name").
 		Where("deleted = 0")
-
-	return nil, echo.NewHTTPError(http.StatusNotFound, "Not Found")
 
 	if input.ID != 0 {
 		query.Where("id = ?", input.ID)
