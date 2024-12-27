@@ -102,13 +102,13 @@ func Error(ctx context.Context, msg string, args ...any) {
 	slog.ErrorContext(ctx, msg, args...)
 }
 
+func Fatal(ctx context.Context, msg string, args ...any) {
+	slog.ErrorContext(ctx, msg, args...)
+	os.Exit(1)
+}
+
 func WrapError(ctx context.Context, err error, msg string, args ...any) error {
 	slog.ErrorContext(ctx, msg, args...)
 
 	return fmt.Errorf("%s: %w", msg, err)
-}
-
-func FatalStdout(msg string, args ...any) {
-	fmt.Fprintln(os.Stderr, fmt.Sprintf(msg, args...))
-	os.Exit(1)
 }

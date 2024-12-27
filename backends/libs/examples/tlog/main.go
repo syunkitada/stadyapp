@@ -17,6 +17,8 @@ func main() {
 	if err != nil {
 		tlog.Error(ctx, err.Error())
 	}
+
+	tlog.Fatal(ctx, "Hello, Fatal!")
 }
 
 func HelloWorld(ctx context.Context) error {
