@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"runtime"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
@@ -81,15 +82,23 @@ func WithEchoContext(ectx echo.Context) context.Context {
 	return ctx
 }
 
-func Info(ctx context.Context, err error, msg string, args ...any) {
+func NewContext() context.Context {
+	ctx := context.Background()
+	traceID := uuid.New().String()
+	ctx = context.WithValue(ctx, KeyTraceID, traceID)
+
+	return ctx
+}
+
+func Info(ctx context.Context, msg string, args ...any) {
 	slog.InfoContext(ctx, msg, args...)
 }
 
-func Warn(ctx context.Context, err error, msg string, args ...any) {
+func Warn(ctx context.Context, msg string, args ...any) {
 	slog.WarnContext(ctx, msg, args...)
 }
 
-func Error(ctx context.Context, err error, msg string, args ...any) {
+func Error(ctx context.Context, msg string, args ...any) {
 	slog.ErrorContext(ctx, msg, args...)
 }
 

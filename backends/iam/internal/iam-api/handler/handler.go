@@ -25,11 +25,15 @@ func NewHandler(conf *config.Config, db db.IDB) *Handler {
 
 // sendHandlerError wraps sending of an error in the Error format, and
 // handling the failure to marshal that.
-func sendHandlerError(ctx echo.Context, code int, message string) error {
+func sendHandlerError(ectx echo.Context, code int, message string) error {
 	itemErr := oapi.Error{
 		Code:    int32(code),
 		Message: message,
 	}
-	err := ctx.JSON(code, itemErr)
-	return err
+	err := ectx.JSON(code, itemErr)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

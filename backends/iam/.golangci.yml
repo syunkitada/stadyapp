@@ -3,7 +3,8 @@ linters:
   disable:
     - gofumpt
     - exhaustruct
-    - exhaustivestruct
+    - exhaustivestruct # depricated
+    - exportloopref # depricated
 #  disable:
 #    - wrapcheck
 #    - wsl
@@ -34,13 +35,31 @@ linters:
 #    - gocritic
 
 linters-settings:
+  gci:
+    sections:
+      - standard
+      - default
+      - prefix(github.com/syunkitada/stadyapp)
   depguard:
     rules:
       Main:
         allow:
           - "$gostd"
+          - github.com/DATA-DOG/go-sqlmock
           - github.com/labstack/echo/v4
+          - github.com/labstack/gommon
+          - github.com/oapi-codegen/echo-middleware
           - github.com/syunkitada/stadyapp
   mnd:
     ignored-numbers:
       - "0644"
+  varnamelen:
+    ignore-names:
+      - db
+  revive:
+    rules:
+      - name: receiver-naming
+        disabled: true
+  wrapcheck:
+    ignoreSigs:
+      - tlog.WrapError(

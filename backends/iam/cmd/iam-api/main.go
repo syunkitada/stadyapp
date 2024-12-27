@@ -63,6 +63,7 @@ func main() {
 				slog.Int64("response_size", values.ResponseSize),
 				slog.String("latency", values.Latency.String()),
 			)
+
 			return nil
 		},
 	}))

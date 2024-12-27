@@ -6,6 +6,7 @@ import (
 	"context"
 
 	"github.com/DATA-DOG/go-sqlmock"
+
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 )
 

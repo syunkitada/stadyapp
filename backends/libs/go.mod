@@ -3,8 +3,9 @@ module github.com/syunkitada/stadyapp/backends/libs
 go 1.22.5
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/labstack/echo/v4 v4.13.3
-	golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67
+	gorm.io/gorm v1.25.12
 )
 
 require (
