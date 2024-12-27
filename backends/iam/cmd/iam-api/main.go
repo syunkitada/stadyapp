@@ -15,7 +15,7 @@ import (
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/config"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/handler"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
-	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/tlog"
+	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/logic/db"
 )
 

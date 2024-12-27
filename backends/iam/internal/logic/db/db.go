@@ -15,7 +15,7 @@ import (
 	"gorm.io/gorm/logger"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
-	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/tlog"
+	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
 type DB struct {

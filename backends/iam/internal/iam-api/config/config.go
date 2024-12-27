@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/tlog"
+	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/logic/db"
 )
 
