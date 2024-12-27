@@ -9,43 +9,43 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-var _ logger.Interface = (*Logger)(nil)
+var _ logger.Interface = (*GormLogger)(nil)
 
-type Logger struct {
+type GormLogger struct {
 	LogLevel      logger.LogLevel
 	SlowThreshold time.Duration
 }
 
 // LogMode implements logger.Interface.
-func (log *Logger) LogMode(level logger.LogLevel) logger.Interface { //nolint:ireturn
+func (log *GormLogger) LogMode(level logger.LogLevel) logger.Interface { //nolint:ireturn
 	log.LogLevel = level
 
 	return log
 }
 
 // Info implements logger.Interface.
-func (log *Logger) Info(ctx context.Context, msg string, data ...interface{}) {
+func (log *GormLogger) Info(ctx context.Context, msg string, data ...interface{}) {
 	if log.LogLevel >= logger.Info {
 		slog.InfoContext(ctx, fmt.Sprintf(msg, data...))
 	}
 }
 
 // Warn implements logger.Interface.
-func (log *Logger) Warn(ctx context.Context, msg string, data ...interface{}) {
+func (log *GormLogger) Warn(ctx context.Context, msg string, data ...interface{}) {
 	if log.LogLevel >= logger.Warn {
 		slog.WarnContext(ctx, fmt.Sprintf(msg, data...))
 	}
 }
 
 // Error implements logger.Interface.
-func (log *Logger) Error(ctx context.Context, msg string, data ...interface{}) {
+func (log *GormLogger) Error(ctx context.Context, msg string, data ...interface{}) {
 	if log.LogLevel >= logger.Error {
 		slog.ErrorContext(ctx, fmt.Sprintf(msg, data...))
 	}
 }
 
 // Trace implements logger.Interface.
-func (log *Logger) Trace(ctx context.Context, begin time.Time,
+func (log *GormLogger) Trace(ctx context.Context, begin time.Time,
 	queryFn func() (sql string, rowsAffected int64), err error) {
 	if log.LogLevel <= logger.Silent {
 		return

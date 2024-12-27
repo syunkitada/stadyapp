@@ -63,8 +63,7 @@ func Init(conf *Config) {
 	default:
 		file, err := os.OpenFile(conf.OutputPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
-			os.Stderr.WriteString("Failed to open log file")
-			os.Exit(1)
+			panic("failed to os.OpenFile: " + err.Error())
 		}
 
 		handler = slog.NewJSONHandler(file, opts)
