@@ -5,10 +5,10 @@
 package mock_api
 
 import (
+	context "context"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	echo "github.com/labstack/echo/v4"
 	oapi "github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
 )
 
@@ -36,7 +36,7 @@ func (m *MockIAPI) EXPECT() *MockIAPIMockRecorder {
 }
 
 // AddProject mocks base method.
-func (m *MockIAPI) AddProject(ctx echo.Context, item *oapi.NewProject) error {
+func (m *MockIAPI) AddProject(ctx context.Context, item *oapi.NewProject) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AddProject", ctx, item)
 	ret0, _ := ret[0].(error)
@@ -50,7 +50,7 @@ func (mr *MockIAPIMockRecorder) AddProject(ctx, item interface{}) *gomock.Call {
 }
 
 // AddRole mocks base method.
-func (m *MockIAPI) AddRole(ctx echo.Context, item *oapi.NewRole) error {
+func (m *MockIAPI) AddRole(ctx context.Context, item *oapi.NewRole) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AddRole", ctx, item)
 	ret0, _ := ret[0].(error)
@@ -64,7 +64,7 @@ func (mr *MockIAPIMockRecorder) AddRole(ctx, item interface{}) *gomock.Call {
 }
 
 // DeleteProject mocks base method.
-func (m *MockIAPI) DeleteProject(ctx echo.Context, id uint64) error {
+func (m *MockIAPI) DeleteProject(ctx context.Context, id uint64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteProject", ctx, id)
 	ret0, _ := ret[0].(error)
@@ -78,7 +78,7 @@ func (mr *MockIAPIMockRecorder) DeleteProject(ctx, id interface{}) *gomock.Call 
 }
 
 // DeleteRole mocks base method.
-func (m *MockIAPI) DeleteRole(ctx echo.Context, id uint64) error {
+func (m *MockIAPI) DeleteRole(ctx context.Context, id uint64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteRole", ctx, id)
 	ret0, _ := ret[0].(error)
@@ -92,10 +92,10 @@ func (mr *MockIAPIMockRecorder) DeleteRole(ctx, id interface{}) *gomock.Call {
 }
 
 // FindProjectByID mocks base method.
-func (m *MockIAPI) FindProjectByID(ctx echo.Context, id uint64) (oapi.Project, error) {
+func (m *MockIAPI) FindProjectByID(ctx context.Context, id uint64) (*oapi.Project, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindProjectByID", ctx, id)
-	ret0, _ := ret[0].(oapi.Project)
+	ret0, _ := ret[0].(*oapi.Project)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -107,7 +107,7 @@ func (mr *MockIAPIMockRecorder) FindProjectByID(ctx, id interface{}) *gomock.Cal
 }
 
 // FindProjects mocks base method.
-func (m *MockIAPI) FindProjects(ctx echo.Context, params oapi.FindProjectsParams) ([]oapi.Project, error) {
+func (m *MockIAPI) FindProjects(ctx context.Context, params oapi.FindProjectsParams) ([]oapi.Project, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindProjects", ctx, params)
 	ret0, _ := ret[0].([]oapi.Project)
@@ -122,10 +122,10 @@ func (mr *MockIAPIMockRecorder) FindProjects(ctx, params interface{}) *gomock.Ca
 }
 
 // FindRoleByID mocks base method.
-func (m *MockIAPI) FindRoleByID(ctx echo.Context, id uint64) (oapi.Role, error) {
+func (m *MockIAPI) FindRoleByID(ctx context.Context, id uint64) (*oapi.Role, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindRoleByID", ctx, id)
-	ret0, _ := ret[0].(oapi.Role)
+	ret0, _ := ret[0].(*oapi.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -137,7 +137,7 @@ func (mr *MockIAPIMockRecorder) FindRoleByID(ctx, id interface{}) *gomock.Call {
 }
 
 // FindRoles mocks base method.
-func (m *MockIAPI) FindRoles(ctx echo.Context, params oapi.FindRolesParams) ([]oapi.Role, error) {
+func (m *MockIAPI) FindRoles(ctx context.Context, params oapi.FindRolesParams) ([]oapi.Role, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindRoles", ctx, params)
 	ret0, _ := ret[0].([]oapi.Role)

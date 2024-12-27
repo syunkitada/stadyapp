@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/go-sql-driver/mysql"
@@ -17,8 +16,7 @@ type Config struct {
 func GetDefaultConfig() Config {
 	jst, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
-		fmt.Printf("Failed to time.LoadLocation: err=%s\n", err.Error())
-		os.Exit(1)
+		panic(fmt.Sprintf("Failed to time.LoadLocation: err=%s\n", err.Error()))
 	}
 
 	return Config{

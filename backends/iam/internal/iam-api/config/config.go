@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/logic/db"
+	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
 type Config struct {

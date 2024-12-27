@@ -283,7 +283,7 @@ components:
       properties:
         code:
           type: integer
-          format: int32
+          format: int
           description: Error code
         message:
           type: string

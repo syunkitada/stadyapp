@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"log/slog"
 	"math/rand"
-	"os"
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -32,16 +32,14 @@ func New(conf *Config) db.IDB {
 
 func (self *DB) MustOpen(ctx context.Context) {
 	if err := self.Open(ctx); err != nil {
-		fmt.Println("failed to MustOpen")
-		os.Exit(1)
+		tlog.Fatal(ctx, "failed to MustOpen")
 	}
 }
 
 func (self *DB) MustOpenMock(ctx context.Context) sqlmock.Sqlmock {
 	mock, err := self.OpenMock(ctx)
 	if err != nil {
-		fmt.Println("failed to MustOpenMock")
-		os.Exit(1)
+		tlog.Fatal(ctx, "failed to MustOpenMock")
 	}
 
 	return mock
@@ -67,7 +65,7 @@ func (self *DB) OpenMock(ctx context.Context) (sqlmock.Sqlmock, error) {
 func (self *DB) Open(ctx context.Context) error {
 	var err error
 	self.DB, err = gorm.Open(mysql.Open(self.conf.FormatDSN()), &gorm.Config{
-		Logger: &tlog.Logger{
+		Logger: &tlog.GormLogger{
 			LogLevel:      logger.Info,
 			SlowThreshold: time.Duration(self.conf.SlowLogThresholdMilliSec) * time.Millisecond,
 		},
@@ -204,7 +202,7 @@ func (e *RetryError) Error() string {
 	return e.Msg
 }
 
-func (self *DB) TransactWithRetry(txFunc func(tx *gorm.DB) (err error)) error {
+func (self *DB) TransactWithRetry(ctx context.Context, txFunc func(tx *gorm.DB) (err error)) error {
 	err := transact(self.DB, txFunc)
 	if err != nil {
 		switch err.(type) {
@@ -214,7 +212,7 @@ func (self *DB) TransactWithRetry(txFunc func(tx *gorm.DB) (err error)) error {
 			time.Sleep(time.Duration(n) * time.Second)
 
 			for i := range ttl {
-				fmt.Printf("retry count=%d, %s\n", i, err.Error())
+				tlog.Error(ctx, "failed to transact, but retrying", slog.Int("retry", i), slog.String("err", err.Error()))
 				err = transact(self.DB, txFunc)
 
 				switch err.(type) {

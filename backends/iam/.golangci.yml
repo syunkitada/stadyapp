@@ -7,8 +7,6 @@ linters:
     - exportloopref # depricated
     - dupl
     - ireturn
-    - errorlint # tmp ignored
-    - err113 # tmp ignored
 
 linters-settings:
   gci:
@@ -43,6 +41,7 @@ linters-settings:
   wrapcheck:
     ignoreSigs:
       - tlog.Wrap
+      - tlog.Bind
   stylecheck:
     checks:
       - "all"

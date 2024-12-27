@@ -5,6 +5,7 @@
 package mock_db
 
 import (
+	context "context"
 	reflect "reflect"
 
 	sqlmock "github.com/DATA-DOG/go-sqlmock"
@@ -37,77 +38,77 @@ func (m *MockIDBCommon) EXPECT() *MockIDBCommonMockRecorder {
 }
 
 // MustClose mocks base method.
-func (m *MockIDBCommon) MustClose() {
+func (m *MockIDBCommon) MustClose(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "MustClose")
+	m.ctrl.Call(m, "MustClose", ctx)
 }
 
 // MustClose indicates an expected call of MustClose.
-func (mr *MockIDBCommonMockRecorder) MustClose() *gomock.Call {
+func (mr *MockIDBCommonMockRecorder) MustClose(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustClose", reflect.TypeOf((*MockIDBCommon)(nil).MustClose))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustClose", reflect.TypeOf((*MockIDBCommon)(nil).MustClose), ctx)
 }
 
 // MustCreateDatabase mocks base method.
-func (m *MockIDBCommon) MustCreateDatabase() {
+func (m *MockIDBCommon) MustCreateDatabase(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "MustCreateDatabase")
+	m.ctrl.Call(m, "MustCreateDatabase", ctx)
 }
 
 // MustCreateDatabase indicates an expected call of MustCreateDatabase.
-func (mr *MockIDBCommonMockRecorder) MustCreateDatabase() *gomock.Call {
+func (mr *MockIDBCommonMockRecorder) MustCreateDatabase(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustCreateDatabase", reflect.TypeOf((*MockIDBCommon)(nil).MustCreateDatabase))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustCreateDatabase", reflect.TypeOf((*MockIDBCommon)(nil).MustCreateDatabase), ctx)
 }
 
 // MustMigrate mocks base method.
-func (m *MockIDBCommon) MustMigrate() {
+func (m *MockIDBCommon) MustMigrate(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "MustMigrate")
+	m.ctrl.Call(m, "MustMigrate", ctx)
 }
 
 // MustMigrate indicates an expected call of MustMigrate.
-func (mr *MockIDBCommonMockRecorder) MustMigrate() *gomock.Call {
+func (mr *MockIDBCommonMockRecorder) MustMigrate(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustMigrate", reflect.TypeOf((*MockIDBCommon)(nil).MustMigrate))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustMigrate", reflect.TypeOf((*MockIDBCommon)(nil).MustMigrate), ctx)
 }
 
 // MustOpen mocks base method.
-func (m *MockIDBCommon) MustOpen() {
+func (m *MockIDBCommon) MustOpen(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "MustOpen")
+	m.ctrl.Call(m, "MustOpen", ctx)
 }
 
 // MustOpen indicates an expected call of MustOpen.
-func (mr *MockIDBCommonMockRecorder) MustOpen() *gomock.Call {
+func (mr *MockIDBCommonMockRecorder) MustOpen(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustOpen", reflect.TypeOf((*MockIDBCommon)(nil).MustOpen))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustOpen", reflect.TypeOf((*MockIDBCommon)(nil).MustOpen), ctx)
 }
 
 // MustOpenMock mocks base method.
-func (m *MockIDBCommon) MustOpenMock() sqlmock.Sqlmock {
+func (m *MockIDBCommon) MustOpenMock(ctx context.Context) sqlmock.Sqlmock {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MustOpenMock")
+	ret := m.ctrl.Call(m, "MustOpenMock", ctx)
 	ret0, _ := ret[0].(sqlmock.Sqlmock)
 	return ret0
 }
 
 // MustOpenMock indicates an expected call of MustOpenMock.
-func (mr *MockIDBCommonMockRecorder) MustOpenMock() *gomock.Call {
+func (mr *MockIDBCommonMockRecorder) MustOpenMock(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustOpenMock", reflect.TypeOf((*MockIDBCommon)(nil).MustOpenMock))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustOpenMock", reflect.TypeOf((*MockIDBCommon)(nil).MustOpenMock), ctx)
 }
 
 // MustRecreateDatabase mocks base method.
-func (m *MockIDBCommon) MustRecreateDatabase() {
+func (m *MockIDBCommon) MustRecreateDatabase(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "MustRecreateDatabase")
+	m.ctrl.Call(m, "MustRecreateDatabase", ctx)
 }
 
 // MustRecreateDatabase indicates an expected call of MustRecreateDatabase.
-func (mr *MockIDBCommonMockRecorder) MustRecreateDatabase() *gomock.Call {
+func (mr *MockIDBCommonMockRecorder) MustRecreateDatabase(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustRecreateDatabase", reflect.TypeOf((*MockIDBCommon)(nil).MustRecreateDatabase))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustRecreateDatabase", reflect.TypeOf((*MockIDBCommon)(nil).MustRecreateDatabase), ctx)
 }
 
 // MockIDB is a mock of IDB interface.
@@ -134,165 +135,165 @@ func (m *MockIDB) EXPECT() *MockIDBMockRecorder {
 }
 
 // AddProject mocks base method.
-func (m *MockIDB) AddProject(item *model.Project) (*model.Project, error) {
+func (m *MockIDB) AddProject(ctx context.Context, item *model.Project) (*model.Project, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddProject", item)
+	ret := m.ctrl.Call(m, "AddProject", ctx, item)
 	ret0, _ := ret[0].(*model.Project)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddProject indicates an expected call of AddProject.
-func (mr *MockIDBMockRecorder) AddProject(item interface{}) *gomock.Call {
+func (mr *MockIDBMockRecorder) AddProject(ctx, item interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddProject", reflect.TypeOf((*MockIDB)(nil).AddProject), item)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddProject", reflect.TypeOf((*MockIDB)(nil).AddProject), ctx, item)
 }
 
 // AddRole mocks base method.
-func (m *MockIDB) AddRole(item *model.Role) (*model.Role, error) {
+func (m *MockIDB) AddRole(ctx context.Context, item *model.Role) (*model.Role, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddRole", item)
+	ret := m.ctrl.Call(m, "AddRole", ctx, item)
 	ret0, _ := ret[0].(*model.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddRole indicates an expected call of AddRole.
-func (mr *MockIDBMockRecorder) AddRole(item interface{}) *gomock.Call {
+func (mr *MockIDBMockRecorder) AddRole(ctx, item interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRole", reflect.TypeOf((*MockIDB)(nil).AddRole), item)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRole", reflect.TypeOf((*MockIDB)(nil).AddRole), ctx, item)
 }
 
 // DeleteProject mocks base method.
-func (m *MockIDB) DeleteProject(id uint64) error {
+func (m *MockIDB) DeleteProject(ctx context.Context, id uint64) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteProject", id)
+	ret := m.ctrl.Call(m, "DeleteProject", ctx, id)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteProject indicates an expected call of DeleteProject.
-func (mr *MockIDBMockRecorder) DeleteProject(id interface{}) *gomock.Call {
+func (mr *MockIDBMockRecorder) DeleteProject(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProject", reflect.TypeOf((*MockIDB)(nil).DeleteProject), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProject", reflect.TypeOf((*MockIDB)(nil).DeleteProject), ctx, id)
 }
 
 // DeleteRole mocks base method.
-func (m *MockIDB) DeleteRole(id uint64) error {
+func (m *MockIDB) DeleteRole(ctx context.Context, id uint64) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteRole", id)
+	ret := m.ctrl.Call(m, "DeleteRole", ctx, id)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteRole indicates an expected call of DeleteRole.
-func (mr *MockIDBMockRecorder) DeleteRole(id interface{}) *gomock.Call {
+func (mr *MockIDBMockRecorder) DeleteRole(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRole", reflect.TypeOf((*MockIDB)(nil).DeleteRole), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRole", reflect.TypeOf((*MockIDB)(nil).DeleteRole), ctx, id)
 }
 
 // FindProjects mocks base method.
-func (m *MockIDB) FindProjects(input *db.FindProjectsInput) ([]model.Project, error) {
+func (m *MockIDB) FindProjects(ctx context.Context, input *db.FindProjectsInput) ([]model.Project, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindProjects", input)
+	ret := m.ctrl.Call(m, "FindProjects", ctx, input)
 	ret0, _ := ret[0].([]model.Project)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindProjects indicates an expected call of FindProjects.
-func (mr *MockIDBMockRecorder) FindProjects(input interface{}) *gomock.Call {
+func (mr *MockIDBMockRecorder) FindProjects(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindProjects", reflect.TypeOf((*MockIDB)(nil).FindProjects), input)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindProjects", reflect.TypeOf((*MockIDB)(nil).FindProjects), ctx, input)
 }
 
 // FindRoles mocks base method.
-func (m *MockIDB) FindRoles(input *db.FindRolesInput) ([]model.Role, error) {
+func (m *MockIDB) FindRoles(ctx context.Context, input *db.FindRolesInput) ([]model.Role, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindRoles", input)
+	ret := m.ctrl.Call(m, "FindRoles", ctx, input)
 	ret0, _ := ret[0].([]model.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindRoles indicates an expected call of FindRoles.
-func (mr *MockIDBMockRecorder) FindRoles(input interface{}) *gomock.Call {
+func (mr *MockIDBMockRecorder) FindRoles(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindRoles", reflect.TypeOf((*MockIDB)(nil).FindRoles), input)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindRoles", reflect.TypeOf((*MockIDB)(nil).FindRoles), ctx, input)
 }
 
 // MustClose mocks base method.
-func (m *MockIDB) MustClose() {
+func (m *MockIDB) MustClose(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "MustClose")
+	m.ctrl.Call(m, "MustClose", ctx)
 }
 
 // MustClose indicates an expected call of MustClose.
-func (mr *MockIDBMockRecorder) MustClose() *gomock.Call {
+func (mr *MockIDBMockRecorder) MustClose(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustClose", reflect.TypeOf((*MockIDB)(nil).MustClose))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustClose", reflect.TypeOf((*MockIDB)(nil).MustClose), ctx)
 }
 
 // MustCreateDatabase mocks base method.
-func (m *MockIDB) MustCreateDatabase() {
+func (m *MockIDB) MustCreateDatabase(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "MustCreateDatabase")
+	m.ctrl.Call(m, "MustCreateDatabase", ctx)
 }
 
 // MustCreateDatabase indicates an expected call of MustCreateDatabase.
-func (mr *MockIDBMockRecorder) MustCreateDatabase() *gomock.Call {
+func (mr *MockIDBMockRecorder) MustCreateDatabase(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustCreateDatabase", reflect.TypeOf((*MockIDB)(nil).MustCreateDatabase))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustCreateDatabase", reflect.TypeOf((*MockIDB)(nil).MustCreateDatabase), ctx)
 }
 
 // MustMigrate mocks base method.
-func (m *MockIDB) MustMigrate() {
+func (m *MockIDB) MustMigrate(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "MustMigrate")
+	m.ctrl.Call(m, "MustMigrate", ctx)
 }
 
 // MustMigrate indicates an expected call of MustMigrate.
-func (mr *MockIDBMockRecorder) MustMigrate() *gomock.Call {
+func (mr *MockIDBMockRecorder) MustMigrate(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustMigrate", reflect.TypeOf((*MockIDB)(nil).MustMigrate))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustMigrate", reflect.TypeOf((*MockIDB)(nil).MustMigrate), ctx)
 }
 
 // MustOpen mocks base method.
-func (m *MockIDB) MustOpen() {
+func (m *MockIDB) MustOpen(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "MustOpen")
+	m.ctrl.Call(m, "MustOpen", ctx)
 }
 
 // MustOpen indicates an expected call of MustOpen.
-func (mr *MockIDBMockRecorder) MustOpen() *gomock.Call {
+func (mr *MockIDBMockRecorder) MustOpen(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustOpen", reflect.TypeOf((*MockIDB)(nil).MustOpen))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustOpen", reflect.TypeOf((*MockIDB)(nil).MustOpen), ctx)
 }
 
 // MustOpenMock mocks base method.
-func (m *MockIDB) MustOpenMock() sqlmock.Sqlmock {
+func (m *MockIDB) MustOpenMock(ctx context.Context) sqlmock.Sqlmock {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MustOpenMock")
+	ret := m.ctrl.Call(m, "MustOpenMock", ctx)
 	ret0, _ := ret[0].(sqlmock.Sqlmock)
 	return ret0
 }
 
 // MustOpenMock indicates an expected call of MustOpenMock.
-func (mr *MockIDBMockRecorder) MustOpenMock() *gomock.Call {
+func (mr *MockIDBMockRecorder) MustOpenMock(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustOpenMock", reflect.TypeOf((*MockIDB)(nil).MustOpenMock))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustOpenMock", reflect.TypeOf((*MockIDB)(nil).MustOpenMock), ctx)
 }
 
 // MustRecreateDatabase mocks base method.
-func (m *MockIDB) MustRecreateDatabase() {
+func (m *MockIDB) MustRecreateDatabase(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "MustRecreateDatabase")
+	m.ctrl.Call(m, "MustRecreateDatabase", ctx)
 }
 
 // MustRecreateDatabase indicates an expected call of MustRecreateDatabase.
-func (mr *MockIDBMockRecorder) MustRecreateDatabase() *gomock.Call {
+func (mr *MockIDBMockRecorder) MustRecreateDatabase(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustRecreateDatabase", reflect.TypeOf((*MockIDB)(nil).MustRecreateDatabase))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustRecreateDatabase", reflect.TypeOf((*MockIDB)(nil).MustRecreateDatabase), ctx)
 }
 
 // MockIDBProject is a mock of IDBProject interface.
@@ -319,47 +320,47 @@ func (m *MockIDBProject) EXPECT() *MockIDBProjectMockRecorder {
 }
 
 // AddProject mocks base method.
-func (m *MockIDBProject) AddProject(item *model.Project) (*model.Project, error) {
+func (m *MockIDBProject) AddProject(ctx context.Context, item *model.Project) (*model.Project, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddProject", item)
+	ret := m.ctrl.Call(m, "AddProject", ctx, item)
 	ret0, _ := ret[0].(*model.Project)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddProject indicates an expected call of AddProject.
-func (mr *MockIDBProjectMockRecorder) AddProject(item interface{}) *gomock.Call {
+func (mr *MockIDBProjectMockRecorder) AddProject(ctx, item interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddProject", reflect.TypeOf((*MockIDBProject)(nil).AddProject), item)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddProject", reflect.TypeOf((*MockIDBProject)(nil).AddProject), ctx, item)
 }
 
 // DeleteProject mocks base method.
-func (m *MockIDBProject) DeleteProject(id uint64) error {
+func (m *MockIDBProject) DeleteProject(ctx context.Context, id uint64) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteProject", id)
+	ret := m.ctrl.Call(m, "DeleteProject", ctx, id)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteProject indicates an expected call of DeleteProject.
-func (mr *MockIDBProjectMockRecorder) DeleteProject(id interface{}) *gomock.Call {
+func (mr *MockIDBProjectMockRecorder) DeleteProject(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProject", reflect.TypeOf((*MockIDBProject)(nil).DeleteProject), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProject", reflect.TypeOf((*MockIDBProject)(nil).DeleteProject), ctx, id)
 }
 
 // FindProjects mocks base method.
-func (m *MockIDBProject) FindProjects(input *db.FindProjectsInput) ([]model.Project, error) {
+func (m *MockIDBProject) FindProjects(ctx context.Context, input *db.FindProjectsInput) ([]model.Project, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindProjects", input)
+	ret := m.ctrl.Call(m, "FindProjects", ctx, input)
 	ret0, _ := ret[0].([]model.Project)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindProjects indicates an expected call of FindProjects.
-func (mr *MockIDBProjectMockRecorder) FindProjects(input interface{}) *gomock.Call {
+func (mr *MockIDBProjectMockRecorder) FindProjects(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindProjects", reflect.TypeOf((*MockIDBProject)(nil).FindProjects), input)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindProjects", reflect.TypeOf((*MockIDBProject)(nil).FindProjects), ctx, input)
 }
 
 // MockIDBRole is a mock of IDBRole interface.
@@ -386,45 +387,45 @@ func (m *MockIDBRole) EXPECT() *MockIDBRoleMockRecorder {
 }
 
 // AddRole mocks base method.
-func (m *MockIDBRole) AddRole(item *model.Role) (*model.Role, error) {
+func (m *MockIDBRole) AddRole(ctx context.Context, item *model.Role) (*model.Role, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddRole", item)
+	ret := m.ctrl.Call(m, "AddRole", ctx, item)
 	ret0, _ := ret[0].(*model.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddRole indicates an expected call of AddRole.
-func (mr *MockIDBRoleMockRecorder) AddRole(item interface{}) *gomock.Call {
+func (mr *MockIDBRoleMockRecorder) AddRole(ctx, item interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRole", reflect.TypeOf((*MockIDBRole)(nil).AddRole), item)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRole", reflect.TypeOf((*MockIDBRole)(nil).AddRole), ctx, item)
 }
 
 // DeleteRole mocks base method.
-func (m *MockIDBRole) DeleteRole(id uint64) error {
+func (m *MockIDBRole) DeleteRole(ctx context.Context, id uint64) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteRole", id)
+	ret := m.ctrl.Call(m, "DeleteRole", ctx, id)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteRole indicates an expected call of DeleteRole.
-func (mr *MockIDBRoleMockRecorder) DeleteRole(id interface{}) *gomock.Call {
+func (mr *MockIDBRoleMockRecorder) DeleteRole(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRole", reflect.TypeOf((*MockIDBRole)(nil).DeleteRole), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRole", reflect.TypeOf((*MockIDBRole)(nil).DeleteRole), ctx, id)
 }
 
 // FindRoles mocks base method.
-func (m *MockIDBRole) FindRoles(input *db.FindRolesInput) ([]model.Role, error) {
+func (m *MockIDBRole) FindRoles(ctx context.Context, input *db.FindRolesInput) ([]model.Role, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindRoles", input)
+	ret := m.ctrl.Call(m, "FindRoles", ctx, input)
 	ret0, _ := ret[0].([]model.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindRoles indicates an expected call of FindRoles.
-func (mr *MockIDBRoleMockRecorder) FindRoles(input interface{}) *gomock.Call {
+func (mr *MockIDBRoleMockRecorder) FindRoles(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindRoles", reflect.TypeOf((*MockIDBRole)(nil).FindRoles), input)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindRoles", reflect.TypeOf((*MockIDBRole)(nil).FindRoles), ctx, input)
 }

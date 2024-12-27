@@ -65,12 +65,8 @@ github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.10.0 h1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOfJA=
 github.com/stretchr/testify v1.10.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
-github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227010534-f60770cd1028 h1:o6t2a0RJZSQxufGT4jrxioq+OjGCdUWQJqOkntNvE60=
-github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227010534-f60770cd1028/go.mod h1:eLeXzCXt5RBZOLcOk+0Oz4WZqcxckDtWT2n36QFnIf0=
-github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227011856-36114a4bf804 h1:UtHuttHQgX1LnWc+eRV6TRRnZGRDhWBLdlEMJGS/aJQ=
-github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227011856-36114a4bf804/go.mod h1:eLeXzCXt5RBZOLcOk+0Oz4WZqcxckDtWT2n36QFnIf0=
-github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227015300-84cca10e8c83 h1:WFw8CBRC2vOqi6H8JAA3c54K7BPHqiPqvajSU1V5QVs=
-github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227015300-84cca10e8c83/go.mod h1:eLeXzCXt5RBZOLcOk+0Oz4WZqcxckDtWT2n36QFnIf0=
+github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227065346-843dc0e5096e h1:uwgzBHghyejg4aLfOP/rppm8VemzMpvIXinDOECpWdY=
+github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227065346-843dc0e5096e/go.mod h1:eLeXzCXt5RBZOLcOk+0Oz4WZqcxckDtWT2n36QFnIf0=
 github.com/ugorji/go/codec v1.2.11 h1:BMaWp1Bb6fHwEtbplGBGJ498wD+LKlNSl25MjdZY4dU=
 github.com/ugorji/go/codec v1.2.11/go.mod h1:UNopzCgEMSXjBc6AOMqYvWC1ktqTAfzJZUZgYf6w6lg=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=

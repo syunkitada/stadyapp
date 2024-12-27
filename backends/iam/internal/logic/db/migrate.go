@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"os"
+	"log/slog"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
@@ -10,8 +10,7 @@ import (
 
 func (self *DB) MustMigrate(ctx context.Context) {
 	if err := self.Migrate(ctx); err != nil {
-		print("failed to self.Migrate", err.Error())
-		os.Exit(1)
+		tlog.Fatal(ctx, "failed to MustMigrate", slog.String("err", err.Error()))
 	}
 }
 
