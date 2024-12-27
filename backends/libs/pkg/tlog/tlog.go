@@ -33,7 +33,7 @@ func GetDefaultConfig() Config {
 
 var _ slog.Handler = &TLogHandler{}
 
-type TLogHandler struct { //nolint:revive
+type TLogHandler struct {
 	slog.Handler
 }
 
