@@ -1,0 +1,24 @@
+name: stadyapp
+
+services:
+  nginx:
+    image: nginx:latest
+    network_mode: host
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - /etc/labo/tls-assets/localhost.test/server-key.pem:/etc/nginx/ssl/server-key.pem
+      - /etc/labo/tls-assets/localhost.test/server.pem:/etc/nginx/ssl/server.pem
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:latest
+    command: --config=/etc/oauth2_proxy/oauth2_proxy.cfg
+    network_mode: host
+    volumes:
+      - ./oauth2_proxy/oauth2_proxy.cfg:/etc/oauth2_proxy/oauth2_proxy.cfg
+  mysql:
+    image: mysql:8.4.3
+    network_mode: host
+    volumes:
+      - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
