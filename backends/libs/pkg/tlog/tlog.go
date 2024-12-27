@@ -15,7 +15,7 @@ import (
 const OutputPathStdout = "stdout"
 const TagTraceID = "trace_id"
 const TagFile = "file"
-const GormloggerFile = "gormlogger.go"
+const GormFile = "gorm.go"
 
 type key int
 
@@ -39,7 +39,7 @@ type TLogHandler struct { //nolint:revive
 
 func (h *TLogHandler) Handle(ctx context.Context, record slog.Record) error {
 	_, file, line, _ := runtime.Caller(4) //nolint:mnd
-	if filepath.Base(file) == GormloggerFile {
+	if filepath.Base(file) == GormFile {
 		_, file, line, _ = runtime.Caller(5) //nolint:mnd
 	}
 
