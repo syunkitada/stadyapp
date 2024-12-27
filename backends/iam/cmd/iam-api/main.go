@@ -15,16 +15,17 @@ import (
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/config"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/handler"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
-	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/logic/db"
+	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
 func main() {
 	conf := config.GetDefaultConfig()
 	tlog.Init(&conf.Logger)
+	ctx := tlog.NewContext()
 
 	db := db.New(&conf.DB)
-	db.MustOpen()
+	db.MustOpen(ctx)
 
 	port := flag.String("port", "8080", "Port for test HTTP server")
 	flag.Parse()

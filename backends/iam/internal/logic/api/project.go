@@ -2,65 +2,60 @@ package api
 
 import (
 	"context"
-	"fmt"
-	"net/http"
 
-	"log/slog"
-
-	"github.com/labstack/echo/v4"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
+	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *API) FindProjects(ctx context.Context, params oapi.FindProjectsParams) (items []oapi.Project, err error) {
+func (self *API) FindProjects(ctx context.Context, params oapi.FindProjectsParams) ([]oapi.Project, error) {
 	dbProjects, err := self.db.FindProjects(ctx, &db.FindProjectsInput{})
 
-	slog.InfoContext(ctx, "FindProjects", "dbProjects", dbProjects)
-
 	if err != nil {
-		return nil, err
+		return nil, tlog.WrapError(ctx, err, "failed to self.db.FindProjects")
 	}
 
+	projects := []oapi.Project{}
 	for _, dbProject := range dbProjects {
-		items = append(items, oapi.Project{
+		projects = append(projects, oapi.Project{
 			Id:   dbProject.ID,
 			Name: dbProject.Name,
 		})
 	}
 
-	return items, nil
+	return projects, nil
 }
 
-func (self *API) FindProjectByID(ctx context.Context, id uint64) (item oapi.Project, err error) {
+func (self *API) FindProjectByID(ctx context.Context, id uint64) (*oapi.Project, error) {
 	dbProjects, err := self.db.FindProjects(ctx, &db.FindProjectsInput{ID: id})
 
 	if err != nil {
-		return item, err
+		return nil, tlog.WrapError(ctx, err, "failed to self.db.FindProjects")
 	}
 
 	if len(dbProjects) > 1 {
-		return item, echo.NewHTTPError(http.StatusConflict, fmt.Sprintf("multiple items found: id=%d", id))
+		return nil, tlog.WrapEchoConflictError(ctx, "multiple projects found")
 	}
 
 	if len(dbProjects) == 0 {
-		return item, echo.NewHTTPError(http.StatusNotFound, fmt.Sprintf("item not found: id=%d", id))
+		return nil, tlog.WrapEchoNotFoundError(ctx, "project does not found")
 	}
 
 	dbProject := dbProjects[0]
-	item = oapi.Project{
+	project := &oapi.Project{
 		Id:   dbProject.ID,
 		Name: dbProject.Name,
 	}
 
-	return item, nil
+	return project, nil
 }
 
-func (self *API) AddProject(ctx context.Context, item *oapi.NewProject) error {
+func (self *API) AddProject(ctx context.Context, project *oapi.NewProject) error {
 	if _, err := self.db.AddProject(ctx, &model.Project{
-		Name: item.Name,
+		Name: project.Name,
 	}); err != nil {
-		return err
+		return tlog.WrapError(ctx, err, "failed to self.db.AddProject")
 	}
 
 	return nil
@@ -68,7 +63,7 @@ func (self *API) AddProject(ctx context.Context, item *oapi.NewProject) error {
 
 func (self *API) DeleteProject(ctx context.Context, id uint64) error {
 	if err := self.db.DeleteProject(ctx, id); err != nil {
-		return err
+		return tlog.WrapError(ctx, err, "failed to self.db.DeleteProject")
 	}
 
 	return nil

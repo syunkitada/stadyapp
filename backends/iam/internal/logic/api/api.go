@@ -11,7 +11,7 @@ type API struct {
 	db   db.IDB
 }
 
-func New(conf *config.Config, db db.IDB) api.IAPI {
+func New(conf *config.Config, db db.IDB) api.IAPI { //nolint:ireturn
 	return &API{
 		conf: conf,
 		db:   db,

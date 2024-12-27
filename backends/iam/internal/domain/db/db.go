@@ -11,12 +11,12 @@ import (
 )
 
 type IDBCommon interface {
-	MustOpenMock() sqlmock.Sqlmock
-	MustOpen()
-	MustClose()
-	MustCreateDatabase()
-	MustRecreateDatabase()
-	MustMigrate()
+	MustOpenMock(ctx context.Context) sqlmock.Sqlmock
+	MustOpen(ctx context.Context)
+	MustClose(ctx context.Context)
+	MustCreateDatabase(ctx context.Context)
+	MustRecreateDatabase(ctx context.Context)
+	MustMigrate(ctx context.Context)
 }
 
 type IDB interface {

@@ -5,34 +5,10 @@ linters:
     - exhaustruct
     - exhaustivestruct # depricated
     - exportloopref # depricated
-#  disable:
-#    - wrapcheck
-#    - wsl
-#    - varnamelen
-#    - mnd
-#    - testifylint
-#    - nlreturn
-#    - ireturn
-#    - intrange
-#    - inamedparam
-#    - perfsprint
-#    - exhaustruct
-#    - errorlint
-#    - err113
-#    - depguard
-#    - stylecheck
-#    - forcetypeassert
-#    - cyclop
-#    - revive
-#    - dupl
-#    - nonamedreturns
-#    - nestif
-#    - lll
-#    - gosec
-#    - gofumpt
-#    - gci
-#    - forbidigo
-#    - gocritic
+    - dupl
+    - ireturn
+    - errorlint # tmp ignored
+    - err113 # tmp ignored
 
 linters-settings:
   gci:
@@ -45,7 +21,10 @@ linters-settings:
       Main:
         allow:
           - "$gostd"
+          - github.com/stretchr/testify
           - github.com/DATA-DOG/go-sqlmock
+          - gorm.io/gorm
+          - github.com/go-sql-driver/mysql
           - github.com/labstack/echo/v4
           - github.com/labstack/gommon
           - github.com/oapi-codegen/echo-middleware
@@ -56,10 +35,15 @@ linters-settings:
   varnamelen:
     ignore-names:
       - db
+      - tx
   revive:
     rules:
       - name: receiver-naming
         disabled: true
   wrapcheck:
     ignoreSigs:
-      - tlog.WrapError(
+      - tlog.Wrap
+  stylecheck:
+    checks:
+      - "all"
+      - "-ST1006"

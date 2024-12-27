@@ -10,7 +10,8 @@ import (
 
 type Config struct {
 	mysql.Config
-	IsDebug bool
+	IsDebug                  bool
+	SlowLogThresholdMilliSec int
 }
 
 func GetDefaultConfig() Config {
@@ -31,6 +32,7 @@ func GetDefaultConfig() Config {
 			Collation: "utf8mb4_unicode_ci",
 			Loc:       jst,
 		},
-		IsDebug: true,
+		IsDebug:                  true,
+		SlowLogThresholdMilliSec: 5, //nolint:mnd
 	}
 }

@@ -107,3 +107,8 @@ func WrapError(ctx context.Context, err error, msg string, args ...any) error {
 
 	return fmt.Errorf("%s: %w", msg, err)
 }
+
+func FatalStdout(msg string, args ...any) {
+	fmt.Fprintln(os.Stderr, fmt.Sprintf(msg, args...))
+	os.Exit(1)
+}

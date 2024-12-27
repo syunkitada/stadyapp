@@ -26,3 +26,7 @@ lint:
 
 mysql:
 	sudo docker exec -it stadyapp-mysql-1 mysql -uadmin -padminpass
+
+mod:
+	go mod tidy
+	go get -u github.com/syunkitada/stadyapp/backends/libs@latest

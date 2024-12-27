@@ -3,6 +3,7 @@ package db
 //go:generate mockgen -source=$GOFILE -destination=mock_$GOPACKAGE/$GOFILE -package=mock_$GOPACKAGE
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"math/rand"
@@ -29,26 +30,27 @@ func New(conf *Config) db.IDB {
 	}
 }
 
-func (self *DB) MustOpen() {
-	if err := self.Open(); err != nil {
-		fmt.Println("Failed to MustOpen")
+func (self *DB) MustOpen(ctx context.Context) {
+	if err := self.Open(ctx); err != nil {
+		fmt.Println("failed to MustOpen")
 		os.Exit(1)
 	}
 }
 
-func (self *DB) MustOpenMock() (mock sqlmock.Sqlmock) {
-	mock, err := self.OpenMock()
+func (self *DB) MustOpenMock(ctx context.Context) sqlmock.Sqlmock {
+	mock, err := self.OpenMock(ctx)
 	if err != nil {
-		fmt.Println("Failed to MustOpenMock")
+		fmt.Println("failed to MustOpenMock")
 		os.Exit(1)
 	}
+
 	return mock
 }
 
-func (self *DB) OpenMock() (mock sqlmock.Sqlmock, err error) {
+func (self *DB) OpenMock(ctx context.Context) (sqlmock.Sqlmock, error) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
-		return nil, err
+		return nil, tlog.WrapError(ctx, err, "failed to sqlmock.New")
 	}
 
 	self.DB, err = gorm.Open(mysql.New(mysql.Config{
@@ -56,128 +58,145 @@ func (self *DB) OpenMock() (mock sqlmock.Sqlmock, err error) {
 		SkipInitializeWithVersion: true,
 	}), &gorm.Config{})
 	if err != nil {
-		return nil, err
+		return nil, tlog.WrapError(ctx, err, "failed to gorm.Open")
 	}
+
 	return mock, nil
 }
 
-func (self *DB) Open() (err error) {
+func (self *DB) Open(ctx context.Context) error {
+	var err error
 	self.DB, err = gorm.Open(mysql.Open(self.conf.FormatDSN()), &gorm.Config{
 		Logger: &tlog.Logger{
-			LogLevel:      logger.Info,          // ログレベルの設定
-			SlowThreshold: 5 * time.Millisecond, // スロークエリの閾値
+			LogLevel:      logger.Info,
+			SlowThreshold: time.Duration(self.conf.SlowLogThresholdMilliSec) * time.Millisecond,
 		},
 	})
+
 	if err != nil {
-		return err
+		return tlog.WrapError(ctx, err, "failed to gorm.Open")
 	}
+
 	if self.conf.IsDebug {
 		self.DB.Logger.LogMode(logger.Info)
 		self.DB = self.DB.Debug()
 	}
-	return
+
+	return nil
 }
 
-func (self *DB) MustClose() {
-	if err := self.Open(); err != nil {
-		log.Fatalf("Failed Close")
+func (self *DB) MustClose(ctx context.Context) {
+	if err := self.Open(ctx); err != nil {
+		log.Fatalf("failed Close")
 	}
 }
 
-func (self *DB) Close() (err error) {
+func (self *DB) Close(ctx context.Context) error {
 	if db, err := self.DB.DB(); err != nil {
-		return err
+		return tlog.WrapError(ctx, err, "failed to self.DB.DB")
 	} else {
 		if err := db.Close(); err != nil {
-			return err
+			return tlog.WrapError(ctx, err, "failed to db.Close")
 		}
 	}
-	return
+
+	return nil
 }
 
-func (self *DB) MustCreateDatabase() {
-	if err := self.CreateDatabase(); err != nil {
+func (self *DB) MustCreateDatabase(ctx context.Context) {
+	if err := self.CreateDatabase(ctx); err != nil {
 		log.Fatalf("failed to CreateDatabase")
 	}
 }
 
-func (self *DB) MustDropDatabase() {
-	if err := self.DropDatabase(); err != nil {
-		log.Fatalf("Failed DropDatabase")
+func (self *DB) MustDropDatabase(ctx context.Context) {
+	if err := self.DropDatabase(ctx); err != nil {
+		log.Fatalf("failed DropDatabase")
 	}
 }
 
-func (self *DB) DropDatabase() (err error) {
+func (self *DB) DropDatabase(ctx context.Context) error {
 	dbName := self.conf.DBName
 	self.conf.DBName = ""
+
 	defer func() {
 		self.conf.DBName = dbName
 	}()
 
 	db, err := gorm.Open(mysql.Open(self.conf.FormatDSN()), &gorm.Config{})
 	if err != nil {
-		return err
+		return tlog.WrapError(ctx, err, "failed to gorm.Open")
 	}
-	if err := db.Exec(fmt.Sprintf("DROP DATABASE IF EXISTS %s", dbName)).Error; err != nil {
-		return err
+
+	if err := db.Exec("DROP DATABASE IF EXISTS " + dbName).Error; err != nil {
+		return tlog.WrapError(ctx, err, "failed to db.Exec")
 	}
+
 	return nil
 }
 
-func (self *DB) MustRecreateDatabase() {
-	self.MustDropDatabase()
-	self.MustCreateDatabase()
+func (self *DB) MustRecreateDatabase(ctx context.Context) {
+	self.MustDropDatabase(ctx)
+	self.MustCreateDatabase(ctx)
 }
 
-func (self *DB) CreateDatabase() (err error) {
+func (self *DB) CreateDatabase(ctx context.Context) error {
 	dbName := self.conf.DBName
 	self.conf.DBName = ""
+
 	defer func() {
 		self.conf.DBName = dbName
 	}()
 
 	db, err := gorm.Open(mysql.Open(self.conf.FormatDSN()), &gorm.Config{})
 	if err != nil {
-		return err
+		return tlog.WrapError(ctx, err, "failed to gorm.Open")
 	}
-	if err := db.Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", dbName)).Error; err != nil {
-		return err
+
+	if err := db.Exec("CREATE DATABASE IF NOT EXISTS " + dbName).Error; err != nil {
+		return tlog.WrapError(ctx, err, "failed to db.Exec")
 	}
+
 	return nil
 }
 
 func (self *DB) Transact(txFunc func(tx *gorm.DB) (err error)) (err error) {
 	tx := self.DB.Begin()
 	if err = tx.Error; err != nil {
-		return
+		return err
 	}
+
 	defer func() {
 		if p := recover(); p != nil {
 			if tmpErr := tx.Rollback().Error; tmpErr != nil {
-				log.Printf("Failed rollback on recover: %s", tmpErr.Error())
+				log.Printf("failed rollback on recover: %s", tmpErr.Error())
 			}
-			err = fmt.Errorf("Recovered: %v", p)
+
+			err = fmt.Errorf("recovered: %v", p)
 		} else if err != nil {
 			if tmpErr := tx.Rollback().Error; tmpErr != nil {
-				log.Printf("Failed rollback on err: %s", tmpErr.Error())
+				log.Printf("failed rollback on err: %s", tmpErr.Error())
 			} else {
-				log.Printf("Rollbacked because of err: %s", err.Error())
+				log.Printf("rollbacked because of err: %s", err.Error())
 			}
 		} else {
 			if err = tx.Commit().Error; err != nil {
 				log.Printf("Failed commit: %s", err.Error())
+
 				if tmpErr := tx.Rollback().Error; tmpErr != nil {
-					log.Printf("Failed rollback on commit: %s", tmpErr.Error())
+					log.Printf("failed rollback on commit: %s", tmpErr.Error())
 				}
 			}
 		}
 	}()
+
 	err = txFunc(tx)
-	return
+
+	return err
 }
 
 type RetryError struct {
-	Ttl int
+	TTL int
 	Msg string
 }
 
@@ -185,57 +204,66 @@ func (e *RetryError) Error() string {
 	return e.Msg
 }
 
-func (self *DB) TransactWithRetry(txFunc func(tx *gorm.DB) (err error)) (err error) {
-	err = transact(self.DB, txFunc)
+func (self *DB) TransactWithRetry(txFunc func(tx *gorm.DB) (err error)) error {
+	err := transact(self.DB, txFunc)
 	if err != nil {
 		switch err.(type) {
 		case *RetryError:
-			ttl := err.(*RetryError).Ttl
+			ttl := err.(*RetryError).TTL
 			n := rand.Intn(ttl)
 			time.Sleep(time.Duration(n) * time.Second)
-			for i := 0; i < ttl; i++ {
-				fmt.Printf("Retry count=%d, %s\n", i, err.Error())
+
+			for i := range ttl {
+				fmt.Printf("retry count=%d, %s\n", i, err.Error())
 				err = transact(self.DB, txFunc)
+
 				switch err.(type) {
 				case *RetryError:
 					continue
 				default:
-					return
+					return err
 				}
 			}
 		default:
-			return
+			return err
 		}
 	}
-	return
+
+	return nil
 }
 
+//nolint:nolintlint,nonamedreturns
 func transact(db *gorm.DB, txFunc func(tx *gorm.DB) (err error)) (err error) {
 	tx := db.Begin()
 	if err = tx.Error; err != nil {
-		return
+		return err
 	}
+
 	defer func() {
 		if p := recover(); p != nil {
 			if tmpErr := tx.Rollback().Error; tmpErr != nil {
-				log.Printf("Failed rollback on recover: %s", tmpErr.Error())
+				log.Printf("failed rollback on recover: %s", tmpErr.Error())
 			}
-			err = fmt.Errorf("Recovered: %v", p)
+
+			err = fmt.Errorf("recovered: %v", p)
 		} else if err != nil {
 			if tmpErr := tx.Rollback().Error; tmpErr != nil {
-				log.Printf("Failed rollback on err: %s", tmpErr.Error())
+				log.Printf("failed rollback on err: %s", tmpErr.Error())
 			} else {
-				log.Printf("Rollbacked because of err: %s", err.Error())
+				log.Printf("rollbacked because of err: %s", err.Error())
 			}
 		} else {
 			if err = tx.Commit().Error; err != nil {
-				log.Printf("Failed commit: %s", err.Error())
+				log.Printf("failed commit: %s", err.Error())
+
 				if tmpErr := tx.Rollback().Error; tmpErr != nil {
-					log.Printf("Failed rollback on commit: %s", tmpErr.Error())
+					log.Printf("failed rollback on commit: %s", tmpErr.Error())
 				}
 			}
 		}
 	}()
+
 	err = txFunc(tx)
-	return
+
+	return err
 }

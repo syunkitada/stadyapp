@@ -2,13 +2,13 @@ package db
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
+	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *DB) FindProjects(ctx context.Context, input *db.FindProjectsInput) (items []model.Project, err error) {
+func (self *DB) FindProjects(ctx context.Context, input *db.FindProjectsInput) ([]model.Project, error) {
 	query := self.DB.WithContext(ctx).Model(model.Project{}).
 		Select("id,name").
 		Where("deleted = 0")
@@ -21,8 +21,9 @@ func (self *DB) FindProjects(ctx context.Context, input *db.FindProjectsInput) (
 		query.Where("name = ?", input.Name)
 	}
 
-	if err = query.Scan(&items).Error; err != nil {
-		return nil, fmt.Errorf("failed to find projects: %v", err)
+	items := []model.Project{}
+	if err := query.Scan(&items).Error; err != nil {
+		return nil, tlog.WrapError(ctx, err, "failed to query.Scan")
 	}
 
 	return items, nil
@@ -30,15 +31,15 @@ func (self *DB) FindProjects(ctx context.Context, input *db.FindProjectsInput) (
 
 func (self *DB) AddProject(ctx context.Context, item *model.Project) (*model.Project, error) {
 	if err := self.DB.WithContext(ctx).Model(model.Project{}).Save(item).Error; err != nil {
-		return nil, err
+		return nil, tlog.WrapError(ctx, err, "failed to self.DB.WithContext.Save")
 	}
 
 	return item, nil
 }
 
-func (self *DB) DeleteProject(ctx context.Context, id uint64) (err error) {
-	if err = self.DB.WithContext(ctx).Where("id = ?", id).Delete(model.Project{}).Error; err != nil {
-		return err
+func (self *DB) DeleteProject(ctx context.Context, id uint64) error {
+	if err := self.DB.WithContext(ctx).Where("id = ?", id).Delete(model.Project{}).Error; err != nil {
+		return tlog.WrapError(ctx, err, "failed to self.DB.WithContext.Delete")
 	}
 
 	return nil

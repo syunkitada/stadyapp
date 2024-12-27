@@ -12,7 +12,7 @@ require (
 	github.com/oapi-codegen/echo-middleware v1.0.2
 	github.com/oapi-codegen/runtime v1.1.1
 	github.com/stretchr/testify v1.10.0
-	github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227010534-f60770cd1028
+	github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227015300-84cca10e8c83
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
 )
