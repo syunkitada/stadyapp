@@ -4,10 +4,10 @@ package db
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"log/slog"
-	"math/rand"
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -165,12 +165,12 @@ func (self *DB) Transact(txFunc func(tx *gorm.DB) (err error)) (err error) {
 	}
 
 	defer func() {
-		if p := recover(); p != nil {
+		if p := recover(); p != nil { //nolint:nestif
 			if tmpErr := tx.Rollback().Error; tmpErr != nil {
 				log.Printf("failed rollback on recover: %s", tmpErr.Error())
 			}
 
-			err = fmt.Errorf("recovered: %v", p)
+			err = fmt.Errorf("recovered: %v", p) //nolint:err113
 		} else if err != nil {
 			if tmpErr := tx.Rollback().Error; tmpErr != nil {
 				log.Printf("failed rollback on err: %s", tmpErr.Error())
@@ -194,35 +194,45 @@ func (self *DB) Transact(txFunc func(tx *gorm.DB) (err error)) (err error) {
 }
 
 type RetryError struct {
-	TTL int
-	Msg string
+	Retrys           int
+	RetryIntervalSec int
+	Msg              string
 }
 
 func (e *RetryError) Error() string {
 	return e.Msg
 }
 
+func AsRetryError(err error) (bool, *RetryError) {
+	var retryErr *RetryError
+	ok := errors.As(err, &retryErr)
+
+	return ok, retryErr
+}
+
 func (self *DB) TransactWithRetry(ctx context.Context, txFunc func(tx *gorm.DB) (err error)) error {
 	err := transact(self.DB, txFunc)
-	if err != nil {
-		switch err.(type) {
-		case *RetryError:
-			ttl := err.(*RetryError).TTL
-			n := rand.Intn(ttl)
-			time.Sleep(time.Duration(n) * time.Second)
+	if err != nil { //nolint:nestif
+		ok, retryError := AsRetryError(err)
+		if ok {
+			if retryError.RetryIntervalSec == 0 {
+				retryError.RetryIntervalSec = 3
+			}
 
-			for i := range ttl {
+			time.Sleep(time.Duration(retryError.RetryIntervalSec) * time.Second)
+
+			for i := range retryError.Retrys {
 				tlog.Error(ctx, "failed to transact, but retrying", slog.Int("retry", i), slog.String("err", err.Error()))
 				err = transact(self.DB, txFunc)
+				ok, _ = AsRetryError(err)
 
-				switch err.(type) {
-				case *RetryError:
+				if ok {
 					continue
-				default:
+				} else {
 					return err
 				}
 			}
-		default:
+		} else {
 			return err
 		}
 	}
@@ -238,12 +248,12 @@ func transact(db *gorm.DB, txFunc func(tx *gorm.DB) (err error)) (err error) {
 	}
 
 	defer func() {
-		if p := recover(); p != nil {
+		if p := recover(); p != nil { //nolint:nestif
 			if tmpErr := tx.Rollback().Error; tmpErr != nil {
 				log.Printf("failed rollback on recover: %s", tmpErr.Error())
 			}
 
-			err = fmt.Errorf("recovered: %v", p)
+			err = fmt.Errorf("recovered: %v", p) //nolint:err113
 		} else if err != nil {
 			if tmpErr := tx.Rollback().Error; tmpErr != nil {
 				log.Printf("failed rollback on err: %s", tmpErr.Error())

@@ -4,11 +4,12 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
+	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/echo_middleware"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
 func (self *Handler) FindRoles(ectx echo.Context, params oapi.FindRolesParams) error {
-	ctx := tlog.WithEchoContext(ectx)
+	ctx := echo_middleware.WithAuthEchoContext(ectx)
 
 	items, err := self.api.FindRoles(ctx, params)
 	if err != nil {
@@ -19,7 +20,7 @@ func (self *Handler) FindRoles(ectx echo.Context, params oapi.FindRolesParams) e
 }
 
 func (self *Handler) AddRole(ectx echo.Context) error {
-	ctx := tlog.WithEchoContext(ectx)
+	ctx := echo_middleware.WithAuthEchoContext(ectx)
 
 	var newRole oapi.NewRole
 
@@ -35,7 +36,7 @@ func (self *Handler) AddRole(ectx echo.Context) error {
 }
 
 func (self *Handler) FindRoleByID(ectx echo.Context, itemID uint64) error {
-	ctx := tlog.WithEchoContext(ectx)
+	ctx := echo_middleware.WithAuthEchoContext(ectx)
 
 	item, err := self.api.FindRoleByID(ctx, itemID)
 	if err != nil {
@@ -46,7 +47,7 @@ func (self *Handler) FindRoleByID(ectx echo.Context, itemID uint64) error {
 }
 
 func (self *Handler) DeleteRole(ectx echo.Context, id uint64) error {
-	ctx := tlog.WithEchoContext(ectx)
+	ctx := echo_middleware.WithAuthEchoContext(ectx)
 
 	err := self.api.DeleteRole(ctx, id)
 	if err != nil {

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"log/slog"
@@ -10,18 +9,19 @@ import (
 
 	"github.com/getkin/kin-openapi/openapi3filter"
 	"github.com/labstack/echo/v4"
-	echomiddleware "github.com/labstack/echo/v4/middleware"
+	middleware "github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
-	middleware "github.com/oapi-codegen/echo-middleware"
+	oapi_echo_middleware "github.com/oapi-codegen/echo-middleware"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/config"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/handler"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
+	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/echo_middleware"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/logic/db"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func main() {
+func main() { //nolint:funlen
 	conf := config.GetDefaultConfig()
 	tlog.Init(&conf.Logger)
 	ctx := tlog.NewContext()
@@ -48,15 +48,15 @@ func main() {
 	// This is how you set up a basic Echo router
 	echoServer := echo.New()
 	// Log all requests
-	echoServer.Use(echomiddleware.RequestID())
+	echoServer.Use(middleware.RequestID())
 
-	echoServer.Use(echomiddleware.RequestLoggerWithConfig(echomiddleware.RequestLoggerConfig{
+	echoServer.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogMethod:       true,
 		LogURI:          true,
 		LogStatus:       true,
 		LogResponseSize: true,
 		LogLatency:      true,
-		LogValuesFunc: func(c echo.Context, values echomiddleware.RequestLoggerValues) error {
+		LogValuesFunc: func(c echo.Context, values middleware.RequestLoggerValues) error {
 			ctx := tlog.WithEchoContext(c)
 			slog.InfoContext(ctx,
 				"request was processed",
@@ -71,26 +71,15 @@ func main() {
 		},
 	}))
 
-	options := &middleware.Options{
+	options := &oapi_echo_middleware.Options{
 		Options: openapi3filter.Options{
-			AuthenticationFunc: func(ctx context.Context, input *openapi3filter.AuthenticationInput) error {
-				slog.Info(fmt.Sprintf("authentication func: %+v", input))
-
-				switch input.SecuritySchemeName {
-				case "XUser":
-					fmt.Println("XUser", input)
-				default:
-					return fmt.Errorf("unknown security scheme: %s", input.SecuritySchemeName)
-				}
-
-				return nil
-			},
+			AuthenticationFunc: echo_middleware.AuthenticationFunc,
 		},
 	}
 
-	echoServer.Use(middleware.OapiRequestValidatorWithOptions(swagger, options))
+	echoServer.Use(oapi_echo_middleware.OapiRequestValidatorWithOptions(swagger, options))
 
-	echoServer.Use(echomiddleware.Recover())
+	echoServer.Use(middleware.Recover())
 	echoServer.Logger.SetLevel(log.INFO)
 	// Use our validation middleware to check all requests against the
 	// OpenAPI schema.

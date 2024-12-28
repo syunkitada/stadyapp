@@ -10,6 +10,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func WithEchoContext(ectx echo.Context) context.Context {
+	ctx := ectx.Request().Context()
+	traceID := ectx.Response().Header().Get(echo.HeaderXRequestID)
+	ctx = context.WithValue(ctx, KeyTraceID, traceID)
+
+	return ctx
+}
+
 type EchoErrorResponse struct {
 	Message string `json:"message"`
 }

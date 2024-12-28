@@ -7,6 +7,7 @@ linters:
     - exportloopref # depricated
     - dupl
     - ireturn
+    - canonicalheader
 
 linters-settings:
   gci:
@@ -26,6 +27,7 @@ linters-settings:
           - github.com/labstack/echo/v4
           - github.com/labstack/gommon
           - github.com/oapi-codegen/echo-middleware
+          - github.com/getkin/kin-openapi
           - github.com/syunkitada/stadyapp
   mnd:
     ignored-numbers:
@@ -34,6 +36,7 @@ linters-settings:
     ignore-names:
       - db
       - tx
+      - ok
   revive:
     rules:
       - name: receiver-naming
@@ -46,3 +49,4 @@ linters-settings:
     checks:
       - "all"
       - "-ST1006"
+      - "-ST1003" # ST1003: should not use underscores in package names

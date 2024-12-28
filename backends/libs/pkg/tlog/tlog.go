@@ -9,7 +9,6 @@ import (
 	"runtime"
 
 	"github.com/google/uuid"
-	"github.com/labstack/echo/v4"
 )
 
 const OutputPathStdout = "stdout"
@@ -71,14 +70,6 @@ func Init(conf *Config) {
 
 	logger := slog.New(&TLogHandler{handler})
 	slog.SetDefault(logger)
-}
-
-func WithEchoContext(ectx echo.Context) context.Context {
-	ctx := ectx.Request().Context()
-	traceID := ectx.Response().Header().Get(echo.HeaderXRequestID)
-	ctx = context.WithValue(ctx, KeyTraceID, traceID)
-
-	return ctx
 }
 
 func NewContext() context.Context {
