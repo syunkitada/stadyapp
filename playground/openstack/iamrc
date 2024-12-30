@@ -1,5 +1,5 @@
 export OS_IDENTITY_API_VERSION=3
-export OS_AUTH_URL=http://localhost:10080/api/iam/v3
+export OS_AUTH_URL=http://localhost:10080/api/iam/keystone/v3
 
 export OS_PROJECT_NAME=admin
 export OS_REGION_NAME=region1

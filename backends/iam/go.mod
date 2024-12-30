@@ -13,6 +13,7 @@ require (
 	github.com/oapi-codegen/runtime v1.1.1
 	github.com/stretchr/testify v1.10.0
 	github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227065346-843dc0e5096e
+	golang.org/x/oauth2 v0.24.0
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
 )

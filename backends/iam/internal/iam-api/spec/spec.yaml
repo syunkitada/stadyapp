@@ -31,19 +31,19 @@ paths:
     $ref: "./paths/roles.yaml#/roles"
   /v1/roles/{id}:
     $ref: "./paths/roles.yaml#/roles_id"
-  /v3:
+  /keystone/v3:
     $ref: "./paths/keystone.yaml#/v3"
-  /v3/auth/tokens:
+  /keystone/v3/auth/tokens:
     $ref: "./paths/keystone_tokens.yaml#/tokens"
-  /v3/projects:
+  /keystone/v3/projects:
     $ref: "./paths/keystone_projects.yaml#/projects"
-  /v3/projects/{id}:
+  /keystone/v3/projects/{id}:
     $ref: "./paths/keystone_projects.yaml#/projects_id"
-  /v3/users:
+  /keystone/v3/users:
     $ref: "./paths/keystone_users.yaml#/users"
-  /v3/users/{id}:
+  /keystone/v3/users/{id}:
     $ref: "./paths/keystone_users.yaml#/users_id"
-  /v3/roles:
+  /keystone/v3/roles:
     $ref: "./paths/keystone_roles.yaml#/roles"
-  /v3/roles/{id}:
+  /keystone/v3/roles/{id}:
     $ref: "./paths/keystone_roles.yaml#/roles_id"

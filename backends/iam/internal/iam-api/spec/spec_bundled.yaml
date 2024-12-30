@@ -260,7 +260,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /v3:
+  /keystone/v3:
     get:
       security: []
       summary: Get keystone version
@@ -285,7 +285,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /v3/auth/tokens:
+  /keystone/v3/auth/tokens:
     post:
       summary: Create a new keystone token
       description: Create a new keystone token
@@ -315,7 +315,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /v3/projects:
+  /keystone/v3/projects:
     get:
       summary: Get keystone projects
       description: Create a new keystone token
@@ -375,7 +375,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /v3/projects/{id}:
+  /keystone/v3/projects/{id}:
     get:
       summary: Get a project by ID
       description: Get a project by ID
@@ -432,7 +432,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /v3/users:
+  /keystone/v3/users:
     get:
       summary: Get keystone users
       description: Create a new keystone token
@@ -492,7 +492,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /v3/users/{id}:
+  /keystone/v3/users/{id}:
     get:
       summary: Get a user by ID
       description: Get a user by ID
@@ -549,7 +549,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /v3/roles:
+  /keystone/v3/roles:
     get:
       summary: Get keystone roles
       description: Create a new keystone token
@@ -609,7 +609,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /v3/roles/{id}:
+  /keystone/v3/roles/{id}:
     get:
       summary: Get a role by ID
       description: Get a role by ID
