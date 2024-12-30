@@ -1,0 +1,119 @@
+projects:
+  get:
+    summary: Get keystone projects
+    description: Create a new keystone token
+    operationId: getKeystoneProjects
+    parameters:
+      - name: name
+        in: query
+        description: Filters the response by a project name
+        required: false
+        schema:
+          type: string
+    responses:
+      "200":
+        description: get keystone projects
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_project.yaml#/KeystoneProjects"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+  post:
+    summary: Create a new keystone project
+    description: Create a new keystone project
+    operationId: createKeystoneProject
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/keystone_project.yaml#/CreateKeystoneProjectInput"
+    responses:
+      "200":
+        description: keystone project response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_project.yaml#/KeystoneProject"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+projects_id:
+  get:
+    summary: Get a project by ID
+    description: Get a project by ID
+    operationId: getKeystoneProjectByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone project to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: keystone project response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_project.yaml#/KeystoneProject"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+  delete:
+    summary: Delete a project by ID
+    description: Delete a project by ID
+    operationId: deleteKeystoneProjectByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone project to delete
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: project deleted
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"

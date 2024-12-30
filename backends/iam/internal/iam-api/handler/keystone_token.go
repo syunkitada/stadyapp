@@ -8,18 +8,21 @@ import (
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *Handler) CreateToken(ectx echo.Context) error {
+func (self *Handler) CreateKeystoneToken(ectx echo.Context) error {
 	ctx := echo_middleware.WithAuthEchoContext(ectx)
 
-	var newToken oapi.NewToken
+	var input oapi.CreateKeystoneTokenInput
 
-	if err := ectx.Bind(&newToken); err != nil {
+	if err := ectx.Bind(&input); err != nil {
 		return tlog.BindEchoBadRequest(ctx, ectx, err)
 	}
 
-	// if err := self.api.AddToken(ctx, &newToken); err != nil {
-	// 	return tlog.BindEchoError(ctx, ectx, err)
-	// }
+	token, tokenStr, err := self.api.CreateKeystoneToken(ctx, &input)
+	if err != nil {
+		return tlog.BindEchoError(ctx, ectx, err)
+	}
 
-	return nil
+	ectx.Response().Header().Set("x-subject-token", tokenStr)
+
+	return tlog.BindEchoOK(ctx, ectx, token)
 }

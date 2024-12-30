@@ -1,0 +1,78 @@
+KeystoneProject:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    domain_id:
+      type: string
+    description:
+      type: string
+    enabled:
+      type: boolean
+    parent_id:
+      type: string
+    is_domain:
+      type: boolean
+    tags:
+      type: array
+      items:
+        type: string
+    options:
+      type: object
+      additionalProperties: {}
+    links:
+      $ref: "./keystone.yaml#/KeystoneSelfPagerLinks"
+  required:
+    - id
+    - name
+    - domain_id
+    - description
+    - enabled
+    - parent_id
+    - is_domain
+    - tags
+    - options
+    - links
+
+KeystoneProjects:
+  type: object
+  properties:
+    projects:
+      type: array
+      items:
+        $ref: "#/KeystoneProject"
+    links:
+      $ref: "./keystone.yaml#/KeystonePagerLinks"
+  required:
+    - projects
+    - links
+
+CreateKeystoneProjectInput:
+  type: object
+  properties:
+    project:
+      type: object
+      properties:
+        domain_id:
+          type: string
+        name:
+          type: string
+        enabled:
+          type: boolean
+        options:
+          type: object
+          additionalProperties: {}
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - domain_id
+        - name
+        - enabled
+        - options
+        - tags
+  required:
+    - project

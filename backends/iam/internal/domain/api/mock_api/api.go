@@ -63,6 +63,109 @@ func (mr *MockIAPIMockRecorder) AddRole(ctx, item interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRole", reflect.TypeOf((*MockIAPI)(nil).AddRole), ctx, item)
 }
 
+// CreateKeystoneProject mocks base method.
+func (m *MockIAPI) CreateKeystoneProject(ctx context.Context, input *oapi.CreateKeystoneProjectInput) (*oapi.KeystoneProject, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateKeystoneProject", ctx, input)
+	ret0, _ := ret[0].(*oapi.KeystoneProject)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateKeystoneProject indicates an expected call of CreateKeystoneProject.
+func (mr *MockIAPIMockRecorder) CreateKeystoneProject(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateKeystoneProject", reflect.TypeOf((*MockIAPI)(nil).CreateKeystoneProject), ctx, input)
+}
+
+// CreateKeystoneRole mocks base method.
+func (m *MockIAPI) CreateKeystoneRole(ctx context.Context, input *oapi.CreateKeystoneRoleInput) (*oapi.KeystoneRole, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateKeystoneRole", ctx, input)
+	ret0, _ := ret[0].(*oapi.KeystoneRole)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateKeystoneRole indicates an expected call of CreateKeystoneRole.
+func (mr *MockIAPIMockRecorder) CreateKeystoneRole(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateKeystoneRole", reflect.TypeOf((*MockIAPI)(nil).CreateKeystoneRole), ctx, input)
+}
+
+// CreateKeystoneToken mocks base method.
+func (m *MockIAPI) CreateKeystoneToken(ctx context.Context, input *oapi.CreateKeystoneTokenInput) (*oapi.KeystoneToken, string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateKeystoneToken", ctx, input)
+	ret0, _ := ret[0].(*oapi.KeystoneToken)
+	ret1, _ := ret[1].(string)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// CreateKeystoneToken indicates an expected call of CreateKeystoneToken.
+func (mr *MockIAPIMockRecorder) CreateKeystoneToken(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateKeystoneToken", reflect.TypeOf((*MockIAPI)(nil).CreateKeystoneToken), ctx, input)
+}
+
+// CreateKeystoneUser mocks base method.
+func (m *MockIAPI) CreateKeystoneUser(ctx context.Context, input *oapi.CreateKeystoneUserInput) (*oapi.KeystoneUser, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateKeystoneUser", ctx, input)
+	ret0, _ := ret[0].(*oapi.KeystoneUser)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateKeystoneUser indicates an expected call of CreateKeystoneUser.
+func (mr *MockIAPIMockRecorder) CreateKeystoneUser(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateKeystoneUser", reflect.TypeOf((*MockIAPI)(nil).CreateKeystoneUser), ctx, input)
+}
+
+// DeleteKeystoneProject mocks base method.
+func (m *MockIAPI) DeleteKeystoneProject(ctx context.Context, id string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteKeystoneProject", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteKeystoneProject indicates an expected call of DeleteKeystoneProject.
+func (mr *MockIAPIMockRecorder) DeleteKeystoneProject(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteKeystoneProject", reflect.TypeOf((*MockIAPI)(nil).DeleteKeystoneProject), ctx, id)
+}
+
+// DeleteKeystoneRole mocks base method.
+func (m *MockIAPI) DeleteKeystoneRole(ctx context.Context, id string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteKeystoneRole", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteKeystoneRole indicates an expected call of DeleteKeystoneRole.
+func (mr *MockIAPIMockRecorder) DeleteKeystoneRole(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteKeystoneRole", reflect.TypeOf((*MockIAPI)(nil).DeleteKeystoneRole), ctx, id)
+}
+
+// DeleteKeystoneUser mocks base method.
+func (m *MockIAPI) DeleteKeystoneUser(ctx context.Context, id string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteKeystoneUser", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteKeystoneUser indicates an expected call of DeleteKeystoneUser.
+func (mr *MockIAPIMockRecorder) DeleteKeystoneUser(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteKeystoneUser", reflect.TypeOf((*MockIAPI)(nil).DeleteKeystoneUser), ctx, id)
+}
+
 // DeleteProject mocks base method.
 func (m *MockIAPI) DeleteProject(ctx context.Context, id uint64) error {
 	m.ctrl.T.Helper()
@@ -149,4 +252,94 @@ func (m *MockIAPI) FindRoles(ctx context.Context, params oapi.FindRolesParams) (
 func (mr *MockIAPIMockRecorder) FindRoles(ctx, params interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindRoles", reflect.TypeOf((*MockIAPI)(nil).FindRoles), ctx, params)
+}
+
+// GetKeystoneProjectByID mocks base method.
+func (m *MockIAPI) GetKeystoneProjectByID(ctx context.Context, id string) (*oapi.KeystoneProject, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneProjectByID", ctx, id)
+	ret0, _ := ret[0].(*oapi.KeystoneProject)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneProjectByID indicates an expected call of GetKeystoneProjectByID.
+func (mr *MockIAPIMockRecorder) GetKeystoneProjectByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneProjectByID", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneProjectByID), ctx, id)
+}
+
+// GetKeystoneProjects mocks base method.
+func (m *MockIAPI) GetKeystoneProjects(ctx context.Context, input *oapi.GetKeystoneProjectsParams) ([]oapi.KeystoneProject, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneProjects", ctx, input)
+	ret0, _ := ret[0].([]oapi.KeystoneProject)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneProjects indicates an expected call of GetKeystoneProjects.
+func (mr *MockIAPIMockRecorder) GetKeystoneProjects(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneProjects", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneProjects), ctx, input)
+}
+
+// GetKeystoneRoleByID mocks base method.
+func (m *MockIAPI) GetKeystoneRoleByID(ctx context.Context, id string) (*oapi.KeystoneRole, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneRoleByID", ctx, id)
+	ret0, _ := ret[0].(*oapi.KeystoneRole)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneRoleByID indicates an expected call of GetKeystoneRoleByID.
+func (mr *MockIAPIMockRecorder) GetKeystoneRoleByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneRoleByID", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneRoleByID), ctx, id)
+}
+
+// GetKeystoneRoles mocks base method.
+func (m *MockIAPI) GetKeystoneRoles(ctx context.Context, input *oapi.GetKeystoneRolesParams) ([]oapi.KeystoneRole, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneRoles", ctx, input)
+	ret0, _ := ret[0].([]oapi.KeystoneRole)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneRoles indicates an expected call of GetKeystoneRoles.
+func (mr *MockIAPIMockRecorder) GetKeystoneRoles(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneRoles", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneRoles), ctx, input)
+}
+
+// GetKeystoneUserByID mocks base method.
+func (m *MockIAPI) GetKeystoneUserByID(ctx context.Context, id string) (*oapi.KeystoneUser, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneUserByID", ctx, id)
+	ret0, _ := ret[0].(*oapi.KeystoneUser)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneUserByID indicates an expected call of GetKeystoneUserByID.
+func (mr *MockIAPIMockRecorder) GetKeystoneUserByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneUserByID", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneUserByID), ctx, id)
+}
+
+// GetKeystoneUsers mocks base method.
+func (m *MockIAPI) GetKeystoneUsers(ctx context.Context, input *oapi.GetKeystoneUsersParams) ([]oapi.KeystoneUser, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneUsers", ctx, input)
+	ret0, _ := ret[0].([]oapi.KeystoneUser)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneUsers indicates an expected call of GetKeystoneUsers.
+func (mr *MockIAPIMockRecorder) GetKeystoneUsers(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneUsers", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneUsers), ctx, input)
 }

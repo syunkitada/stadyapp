@@ -1,21 +1,21 @@
 tokens:
   post:
-    summary: Create a new token
-    description: Create a new token
-    operationId: createToken
+    summary: Create a new keystone token
+    description: Create a new keystone token
+    operationId: createKeystoneToken
     requestBody:
       required: true
       content:
         application/json:
           schema:
-            $ref: "../schemas/keystone_token.yaml#/NewToken"
+            $ref: "../schemas/keystone_token.yaml#/CreateKeystoneTokenInput"
     responses:
       "200":
         description: token response
         content:
           application/json:
             schema:
-              $ref: "../schemas/keystone_token.yaml#/Token"
+              $ref: "../schemas/keystone_token.yaml#/KeystoneToken"
       "4XX":
         description: unexpected error
         content:

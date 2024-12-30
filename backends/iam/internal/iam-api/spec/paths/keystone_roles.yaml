@@ -1,0 +1,119 @@
+roles:
+  get:
+    summary: Get keystone roles
+    description: Create a new keystone token
+    operationId: getKeystoneRoles
+    parameters:
+      - name: name
+        in: query
+        description: Filters the response by a role name
+        required: false
+        schema:
+          type: string
+    responses:
+      "200":
+        description: get keystone roles
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_role.yaml#/KeystoneRoles"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+  post:
+    summary: Create a new keystone role
+    description: Create a new keystone role
+    operationId: createKeystoneRole
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/keystone_role.yaml#/CreateKeystoneRoleInput"
+    responses:
+      "200":
+        description: keystone role response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_role.yaml#/KeystoneRole"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+roles_id:
+  get:
+    summary: Get a role by ID
+    description: Get a role by ID
+    operationId: getKeystoneRoleByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone role to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: keystone role response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_role.yaml#/KeystoneRole"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+  delete:
+    summary: Delete a role by ID
+    description: Delete a role by ID
+    operationId: deleteKeystoneRoleByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone role to delete
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: role deleted
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"

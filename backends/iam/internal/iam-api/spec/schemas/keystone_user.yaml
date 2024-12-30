@@ -1,0 +1,66 @@
+KeystoneUser:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    domain_id:
+      type: string
+    enabled:
+      type: boolean
+    password_expires_at:
+      type: string
+      format: date-time
+      nullable: true
+    options:
+      type: object
+      additionalProperties: {}
+    links:
+      $ref: "./keystone.yaml#/KeystoneSelfPagerLinks"
+  required:
+    - id
+    - name
+    - domain_id
+    - enabled
+    - password_expires_at
+    - options
+    - links
+
+KeystoneUsers:
+  type: object
+  properties:
+    users:
+      type: array
+      items:
+        $ref: "#/KeystoneUser"
+    links:
+      $ref: "./keystone.yaml#/KeystonePagerLinks"
+  required:
+    - users
+    - links
+
+CreateKeystoneUserInput:
+  type: object
+  properties:
+    user:
+      type: object
+      properties:
+        default_project_id:
+          type: string
+        enabled:
+          type: boolean
+        domain_id:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+      required:
+        - default_project_id
+        - enabled
+        - domain_id
+        - name
+        - password
+  required:
+    - user

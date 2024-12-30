@@ -1,15 +1,16 @@
 v3:
   get:
-    summary: Get keystone version data
-    description: Get keystone version data
-    operationId: getKeystoneInfo
+    security: []
+    summary: Get keystone version
+    description: Get keystone version
+    operationId: getKeystoneVersion
     responses:
       "200":
-        description: keystone info response
+        description: keystone version
         content:
           application/json:
             schema:
-              $ref: "../schemas/keystone.yaml#/Info"
+              $ref: "../schemas/keystone.yaml#/KeystoneVersion"
       "4XX":
         description: unexpected error
         content:
