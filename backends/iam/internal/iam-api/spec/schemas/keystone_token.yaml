@@ -1,0 +1,175 @@
+Token:
+  type: object
+  properties:
+    token:
+      type: object
+      properties:
+        audit_ids:
+          type: array
+          items:
+            type: string
+        catalog:
+          type: array
+          items:
+            type: object
+            properties:
+              endpoints:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    interface:
+                      type: string
+                    region:
+                      type: string
+                    region_id:
+                      type: string
+                    url:
+                      type: string
+                      format: uri
+                  required:
+                    - id
+                    - interface
+                    - region
+                    - region_id
+                    - url
+              type:
+                type: string
+              id:
+                type: string
+              name:
+                type: string
+            required:
+              - endpoints
+              - type
+              - id
+              - name
+        expires_at:
+          type: string
+          format: date-time
+        is_domain:
+          type: boolean
+        issued_at:
+          type: string
+          format: date-time
+        methods:
+          type: array
+          items:
+            type: string
+        project:
+          type: object
+          properties:
+            domain:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+              required:
+                - id
+                - name
+            id:
+              type: string
+            name:
+              type: string
+          required:
+            - domain
+            - id
+            - name
+        roles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+            required:
+              - id
+              - name
+        user:
+          type: object
+          properties:
+            domain:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+              required:
+                - id
+                - name
+            id:
+              type: string
+            name:
+              type: string
+            password_expires_at:
+              type: string
+              format: date-time
+          required:
+            - domain
+            - id
+            - name
+            - password_expires_at
+      required:
+        - audit_ids
+        - catalog
+        - expires_at
+        - is_domain
+        - issued_at
+        - methods
+        - project
+        - roles
+        - user
+  required:
+    - token
+
+NewToken:
+  type: object
+  properties:
+    auth:
+      type: object
+      properties:
+        identity:
+          type: object
+          properties:
+            methods:
+              type: array
+              items:
+                type: string
+            token:
+              type: object
+              properties:
+                id:
+                  type: string
+          required:
+            - methods
+            - token
+        scope:
+          type: object
+          properties:
+            project:
+              type: object
+              properties:
+                domain:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                  required:
+                    - id
+                name:
+                  type: string
+              required:
+                - domain
+                - name
+      required:
+        - identity
+        - scope
+  required:
+    - auth

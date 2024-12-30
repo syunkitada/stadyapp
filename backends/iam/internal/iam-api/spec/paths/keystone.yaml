@@ -1,0 +1,24 @@
+v3:
+  get:
+    summary: Get keystone version data
+    description: Get keystone version data
+    operationId: getKeystoneInfo
+    responses:
+      "200":
+        description: keystone info response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone.yaml#/Info"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"

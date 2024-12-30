@@ -9,10 +9,12 @@ install:
 
 gen:
 	mkdir -p internal/iam-api/spec/oapi
-	oapi-codegen -generate "types" -package oapi internal/iam-api/spec/spec.yaml > internal/iam-api/spec/oapi/types.gen.go
-	oapi-codegen -generate "client" -package oapi internal/iam-api/spec/spec.yaml > internal/iam-api/spec/oapi/client.gen.go
-	oapi-codegen -generate "server" -package oapi internal/iam-api/spec/spec.yaml > internal/iam-api/spec/oapi/server.gen.go
-	oapi-codegen -generate "spec" -package oapi internal/iam-api/spec/spec.yaml > internal/iam-api/spec/oapi/spec.gen.go
+	cd internal/iam-api/spec && npx @redocly/cli lint spec.yaml
+	cd internal/iam-api/spec && npx @redocly/cli bundle spec.yaml -o spec_bundled.yaml
+	oapi-codegen -generate "types" -package oapi internal/iam-api/spec/spec_bundled.yaml > internal/iam-api/spec/oapi/types.gen.go
+	oapi-codegen -generate "client" -package oapi internal/iam-api/spec/spec_bundled.yaml > internal/iam-api/spec/oapi/client.gen.go
+	oapi-codegen -generate "server" -package oapi internal/iam-api/spec/spec_bundled.yaml > internal/iam-api/spec/oapi/server.gen.go
+	oapi-codegen -generate "spec" -package oapi internal/iam-api/spec/spec_bundled.yaml > internal/iam-api/spec/oapi/spec.gen.go
 	go generate ./internal/...
 
 db:

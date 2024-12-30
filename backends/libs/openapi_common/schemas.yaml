@@ -1,0 +1,15 @@
+openapi: "3.0.0"
+components:
+  schemas:
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int
+          description: Error code
+        message:
+          type: string
+          description: Error message

@@ -1,0 +1,4 @@
+VersionData:
+  type: object
+  properties:
+    token:

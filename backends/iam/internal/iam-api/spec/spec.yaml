@@ -1,4 +1,6 @@
 openapi: "3.0.0"
+servers:
+  - url: http://127.0.0.1
 info:
   version: 1.0.0
   title: Swagger Projectstore
@@ -11,279 +13,25 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-paths:
-  /v1/projects:
-    get:
-      summary: Returns all projects
-      description: |
-        Returns all projects
-      operationId: findProjects
-      parameters:
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          schema:
-            type: integer
-            format: int32
-      responses:
-        "200":
-          description: project response
-          content:
-            application/json:
-              schema:
-                type: array
-                projects:
-                  $ref: "#/components/schemas/Project"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-    post:
-      summary: Creates a new project
-      description: Creates a new project in the store. Duplicates are allowed
-      operationId: addProject
-      requestBody:
-        description: Project to add to the store
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/NewProject"
-      responses:
-        "200":
-          description: project response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Project"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /v1/projects/{id}:
-    get:
-      summary: Returns a project by ID
-      description: Returns a project based on a single ID
-      operationId: findProjectByID
-      parameters:
-        - name: id
-          in: path
-          description: ID of project to fetch
-          required: true
-          schema:
-            type: integer
-            format: uint64
-      responses:
-        "200":
-          description: project response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Project"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-    delete:
-      summary: Deletes a project by ID
-      description: deletes a single project based on the ID supplied
-      operationId: deleteProject
-      parameters:
-        - name: id
-          in: path
-          description: ID of project to delete
-          required: true
-          schema:
-            type: integer
-            format: uint64
-      responses:
-        "204":
-          description: project deleted
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /v1/roles:
-    get:
-      summary: Returns all roles
-      description: |
-        Returns all roles
-      operationId: findRoles
-      parameters:
-        - name: tags
-          in: query
-          description: tags to filter by
-          required: false
-          style: form
-          schema:
-            type: array
-            roles:
-              type: string
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          schema:
-            type: integer
-            format: int32
-      responses:
-        "200":
-          description: role response
-          content:
-            application/json:
-              schema:
-                type: array
-                roles:
-                  $ref: "#/components/schemas/Role"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-    post:
-      summary: Creates a new role
-      description: Creates a new role in the store. Duplicates are allowed
-      operationId: addRole
-      requestBody:
-        description: Role to add to the store
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/NewRole"
-      responses:
-        "200":
-          description: role response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Role"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /v1/roles/{id}:
-    get:
-      summary: Returns a role by ID
-      description: Returns a role based on a single ID
-      operationId: findRoleByID
-      parameters:
-        - name: id
-          in: path
-          description: ID of role to fetch
-          required: true
-          schema:
-            type: integer
-            format: uint64
-      responses:
-        "200":
-          description: role response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Role"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-    delete:
-      summary: Deletes a role by ID
-      description: deletes a single role based on the ID supplied
-      operationId: deleteRole
-      parameters:
-        - name: id
-          in: path
-          description: ID of role to delete
-          required: true
-          schema:
-            type: integer
-            format: uint64
-      responses:
-        "204":
-          description: role deleted
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
 security:
   - XUser: []
 components:
   securitySchemes:
     XUser:
-      type: http
-      name: x-user
+      type: apiKey
+      name: x-user-name
       in: header
       description: "the custom authorization type"
-  schemas:
-    Project:
-      allOf:
-        - $ref: "#/components/schemas/NewProject"
-        - required:
-            - id
-          properties:
-            id:
-              type: integer
-              format: uint64
-              description: Unique id of the project
-
-    NewProject:
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          description: Name of the project
-        tag:
-          type: string
-          description: Type of the project
-
-    Role:
-      allOf:
-        - $ref: "#/components/schemas/NewRole"
-        - required:
-            - id
-          properties:
-            id:
-              type: integer
-              format: uint64
-              description: Unique id of the project
-
-    NewRole:
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          description: Name of the project
-        tag:
-          type: string
-          description: Type of the project
-
-    Error:
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int
-          description: Error code
-        message:
-          type: string
-          description: Error message
+paths:
+  /v1/projects:
+    $ref: "./paths/projects.yaml#/projects"
+  /v1/projects/{id}:
+    $ref: "./paths/projects.yaml#/projects_id"
+  /v1/roles:
+    $ref: "./paths/roles.yaml#/roles"
+  /v1/roles/{id}:
+    $ref: "./paths/roles.yaml#/roles_id"
+  /v3:
+    $ref: "./paths/keystone.yaml#/v3"
+  /v3/auth/tokens:
+    $ref: "./paths/keystone_tokens.yaml#/tokens"

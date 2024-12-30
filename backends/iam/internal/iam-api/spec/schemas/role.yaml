@@ -1,0 +1,26 @@
+Role:
+  allOf:
+    - $ref: "#/NewRole"
+    - required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: uint64
+          description: Unique id of the role
+
+Roles:
+  type: array
+  items:
+    $ref: "#/Role"
+
+NewRole:
+  required:
+    - name
+  properties:
+    name:
+      type: string
+      description: Name of the role
+    tag:
+      type: string
+      description: Type of the role

@@ -29,7 +29,7 @@ func main() { //nolint:funlen
 	db := db.New(&conf.DB)
 	db.MustOpen(ctx)
 
-	port := flag.String("port", "8080", "Port for test HTTP server")
+	port := flag.String("port", "10081", "Port for test HTTP server")
 	flag.Parse()
 
 	swagger, err := oapi.GetSwagger()

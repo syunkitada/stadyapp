@@ -1,0 +1,30 @@
+tokens:
+  post:
+    summary: Create a new token
+    description: Create a new token
+    operationId: createToken
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/keystone_token.yaml#/NewToken"
+    responses:
+      "200":
+        description: token response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_token.yaml#/Token"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
