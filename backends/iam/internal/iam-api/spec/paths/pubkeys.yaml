@@ -1,23 +1,24 @@
-tokens:
-  post:
-    security:
-      - XUserNameHeader: []
-    summary: Create a new keystone token
-    description: Create a new keystone token
-    operationId: createKeystoneToken
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "../schemas/keystone_token.yaml#/CreateKeystoneTokenInput"
+pubkeys:
+  get:
+    security: []
+    operationId: getPubkeys
+    summary: Returns public keys
+    description: |
+      Returns public keys
+    parameters:
+      - name: kind
+        in: query
+        description: kind of public key
+        required: true
+        schema:
+          type: string
     responses:
       "200":
-        description: token response
+        description: public key
         content:
           application/json:
             schema:
-              $ref: "../schemas/keystone_token.yaml#/KeystoneToken"
+              $ref: "../schemas/pubkey.yaml#/Pubkeys"
       "4XX":
         description: unexpected error
         content:

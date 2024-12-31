@@ -1,0 +1,17 @@
+Pubkey:
+  type: object
+  properties:
+    key:
+      type: string
+  required:
+    - key
+
+Pubkeys:
+  type: object
+  properties:
+    pubkeys:
+      type: array
+      items:
+        $ref: "#/Pubkey"
+  required:
+    - pubkeys

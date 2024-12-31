@@ -17,11 +17,17 @@ const KeyAuthContext key = iota
 
 func AuthenticationFunc(ctx context.Context, input *openapi3filter.AuthenticationInput) error {
 	switch input.SecuritySchemeName {
-	case "XUser":
+	case "XUserNameHeader":
 		xuserName := input.RequestValidationInput.Request.Header.Get("x-user-name")
 		if xuserName == "" {
 			return errors.New("missing x-user-name header") //nolint:err113,wrapcheck
 		}
+	case "XAuthTokenHeader":
+		xauthToken := input.RequestValidationInput.Request.Header.Get("x-auth-token")
+		if xauthToken == "" {
+			return errors.New("missing x-auth-token header") //nolint:err113,wrapcheck
+		}
+		fmt.Println("x-auth-token:", xauthToken)
 	default:
 		return fmt.Errorf("unknown security scheme: %s", input.SecuritySchemeName) //nolint:err113,wrapcheck
 	}

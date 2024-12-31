@@ -14,14 +14,19 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 security:
-  - XUser: []
+  - XAuthTokenHeader: []
 components:
   securitySchemes:
-    XUser:
+    XUserNameHeader:
       type: apiKey
       name: x-user-name
       in: header
-      description: "the custom authorization type"
+      description: "The custom authorization"
+    XAuthTokenHeader:
+      type: apiKey
+      name: x-auth-token
+      in: header
+      description: "The custom authorization"
 paths:
   /v1/projects:
     $ref: "./paths/projects.yaml#/projects"
@@ -31,6 +36,8 @@ paths:
     $ref: "./paths/roles.yaml#/roles"
   /v1/roles/{id}:
     $ref: "./paths/roles.yaml#/roles_id"
+  /v1/pubkeys:
+    $ref: "./paths/pubkeys.yaml#/pubkeys"
   /keystone/v3:
     $ref: "./paths/keystone.yaml#/v3"
   /keystone/v3/auth/tokens:

@@ -343,3 +343,18 @@ func (mr *MockIAPIMockRecorder) GetKeystoneUsers(ctx, input interface{}) *gomock
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneUsers", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneUsers), ctx, input)
 }
+
+// GetPubkeys mocks base method.
+func (m *MockIAPI) GetPubkeys(ctx context.Context, input *oapi.GetPubkeysParams) ([]oapi.Pubkey, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetPubkeys", ctx, input)
+	ret0, _ := ret[0].([]oapi.Pubkey)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetPubkeys indicates an expected call of GetPubkeys.
+func (mr *MockIAPIMockRecorder) GetPubkeys(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPubkeys", reflect.TypeOf((*MockIAPI)(nil).GetPubkeys), ctx, input)
+}

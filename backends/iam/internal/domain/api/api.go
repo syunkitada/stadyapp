@@ -30,4 +30,5 @@ type IAPI interface {
 	GetKeystoneRoles(ctx context.Context, input *oapi.GetKeystoneRolesParams) ([]oapi.KeystoneRole, error)
 	GetKeystoneRoleByID(ctx context.Context, id string) (*oapi.KeystoneRole, error)
 	DeleteKeystoneRole(ctx context.Context, id string) error
+	GetPubkeys(ctx context.Context, input *oapi.GetPubkeysParams) ([]oapi.Pubkey, error)
 }

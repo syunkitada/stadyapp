@@ -14,7 +14,7 @@ info:
 servers:
   - url: http://127.0.0.1
 security:
-  - XUser: []
+  - XAuthTokenHeader: []
 paths:
   /v1/projects:
     get:
@@ -260,6 +260,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /v1/pubkeys:
+    get:
+      security: []
+      operationId: getPubkeys
+      summary: Returns public keys
+      description: |
+        Returns public keys
+      parameters:
+        - name: kind
+          in: query
+          description: kind of public key
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: public key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pubkeys'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /keystone/v3:
     get:
       security: []
@@ -287,6 +320,8 @@ paths:
                 $ref: '#/components/schemas/Error'
   /keystone/v3/auth/tokens:
     post:
+      security:
+        - XUserNameHeader: []
       summary: Create a new keystone token
       description: Create a new keystone token
       operationId: createKeystoneToken
@@ -668,11 +703,16 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   securitySchemes:
-    XUser:
+    XUserNameHeader:
       type: apiKey
       name: x-user-name
       in: header
-      description: the custom authorization type
+      description: The custom authorization
+    XAuthTokenHeader:
+      type: apiKey
+      name: x-auth-token
+      in: header
+      description: The custom authorization
   schemas:
     Error:
       required:
@@ -734,6 +774,22 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Role'
+    Pubkey:
+      type: object
+      properties:
+        key:
+          type: string
+      required:
+        - key
+    Pubkeys:
+      type: object
+      properties:
+        pubkeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pubkey'
+      required:
+        - pubkeys
     KeystoneVersionLink:
       type: object
       properties:
