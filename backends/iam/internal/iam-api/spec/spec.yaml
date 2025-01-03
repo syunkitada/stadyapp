@@ -28,14 +28,6 @@ components:
       in: header
       description: "The custom authorization"
 paths:
-  /v1/projects:
-    $ref: "./paths/projects.yaml#/projects"
-  /v1/projects/{id}:
-    $ref: "./paths/projects.yaml#/projects_id"
-  /v1/roles:
-    $ref: "./paths/roles.yaml#/roles"
-  /v1/roles/{id}:
-    $ref: "./paths/roles.yaml#/roles_id"
   /v1/pubkeys:
     $ref: "./paths/pubkeys.yaml#/pubkeys"
   /keystone/v3:
@@ -50,6 +42,8 @@ paths:
     $ref: "./paths/keystone_users.yaml#/users"
   /keystone/v3/users/{id}:
     $ref: "./paths/keystone_users.yaml#/users_id"
+  /keystone/v3/users/{id}/projects:
+    $ref: "./paths/keystone_users.yaml#/users_id_projects"
   /keystone/v3/roles:
     $ref: "./paths/keystone_roles.yaml#/roles"
   /keystone/v3/roles/{id}:

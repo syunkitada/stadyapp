@@ -117,3 +117,35 @@ users_id:
           application/json:
             schema:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+users_id_projects:
+  get:
+    summary: Get user's projects
+    description: Get user's projects
+    operationId: getKeystoneUserProjectsByUserID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone user to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: keystone user response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_project.yaml#/KeystoneProjectsResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"

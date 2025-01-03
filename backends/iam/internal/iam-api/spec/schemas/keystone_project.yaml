@@ -36,7 +36,15 @@ KeystoneProject:
     - options
     - links
 
-KeystoneProjects:
+KeystoneProjectResponse:
+  type: object
+  properties:
+    project:
+      $ref: "#/KeystoneProject"
+  required:
+    - project
+
+KeystoneProjectsResponse:
   type: object
   properties:
     projects:
@@ -69,7 +77,6 @@ CreateKeystoneProjectInput:
           items:
             type: string
       required:
-        - domain_id
         - name
         - enabled
         - options

@@ -16,250 +16,6 @@ servers:
 security:
   - XAuthTokenHeader: []
 paths:
-  /v1/projects:
-    get:
-      summary: Returns all projects
-      description: |
-        Returns all projects
-      operationId: findProjects
-      parameters:
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: project response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Projects'
-        4XX:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    post:
-      summary: Creates a new project
-      description: Creates a new project in the store. Duplicates are allowed
-      operationId: addProject
-      requestBody:
-        description: Project to add to the store
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NewProject'
-      responses:
-        '200':
-          description: project response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Project'
-        4XX:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /v1/projects/{id}:
-    get:
-      summary: Returns a project by ID
-      description: Returns a project based on a single ID
-      operationId: findProjectByID
-      parameters:
-        - name: id
-          in: path
-          description: ID of project to fetch
-          required: true
-          schema:
-            type: integer
-            format: uint64
-      responses:
-        '200':
-          description: project response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Project'
-        4XX:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    delete:
-      summary: Deletes a project by ID
-      description: deletes a single project based on the ID supplied
-      operationId: deleteProject
-      parameters:
-        - name: id
-          in: path
-          description: ID of project to delete
-          required: true
-          schema:
-            type: integer
-            format: uint64
-      responses:
-        '204':
-          description: project deleted
-        4XX:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /v1/roles:
-    get:
-      summary: Returns all roles
-      description: |
-        Returns all roles
-      operationId: findRoles
-      parameters:
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: role response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Roles'
-        4XX:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    post:
-      summary: Creates a new role
-      description: Creates a new role in the store. Duplicates are allowed
-      operationId: addRole
-      requestBody:
-        description: Role to add to the store
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NewRole'
-      responses:
-        '200':
-          description: role response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Role'
-        4XX:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /v1/roles/{id}:
-    get:
-      summary: Returns a role by ID
-      description: Returns a role based on a single ID
-      operationId: findRoleByID
-      parameters:
-        - name: id
-          in: path
-          description: ID of role to fetch
-          required: true
-          schema:
-            type: integer
-            format: uint64
-      responses:
-        '200':
-          description: role response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Role'
-        4XX:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    delete:
-      summary: Deletes a role by ID
-      description: deletes a single role based on the ID supplied
-      operationId: deleteRole
-      parameters:
-        - name: id
-          in: path
-          description: ID of role to delete
-          required: true
-          schema:
-            type: integer
-            format: uint64
-      responses:
-        '204':
-          description: role deleted
-        4XX:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
   /v1/pubkeys:
     get:
       security: []
@@ -368,7 +124,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KeystoneProjects'
+                $ref: '#/components/schemas/KeystoneProjectsResponse'
         4XX:
           description: unexpected error
           content:
@@ -397,7 +153,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KeystoneProject'
+                $ref: '#/components/schemas/KeystoneProjectResponse'
         4XX:
           description: unexpected error
           content:
@@ -428,7 +184,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KeystoneProject'
+                $ref: '#/components/schemas/KeystoneProjectResponse'
         4XX:
           description: unexpected error
           content:
@@ -584,6 +340,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /keystone/v3/users/{id}/projects:
+    get:
+      summary: Get user's projects
+      description: Get user's projects
+      operationId: getKeystoneUserProjectsByUserID
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone user to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: keystone user response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneProjectsResponse'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /keystone/v3/roles:
     get:
       summary: Get keystone roles
@@ -726,54 +513,6 @@ components:
         message:
           type: string
           description: Error message
-    NewProject:
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          description: Name of the project
-        tag:
-          type: string
-          description: Type of the project
-    Project:
-      allOf:
-        - $ref: '#/components/schemas/NewProject'
-        - required:
-            - id
-          properties:
-            id:
-              type: integer
-              format: uint64
-              description: Unique id of the project
-    Projects:
-      type: array
-      items:
-        $ref: '#/components/schemas/Project'
-    NewRole:
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          description: Name of the role
-        tag:
-          type: string
-          description: Type of the role
-    Role:
-      allOf:
-        - $ref: '#/components/schemas/NewRole'
-        - required:
-            - id
-          properties:
-            id:
-              type: integer
-              format: uint64
-              description: Unique id of the role
-    Roles:
-      type: array
-      items:
-        $ref: '#/components/schemas/Role'
     Pubkey:
       type: object
       properties:
@@ -1082,7 +821,7 @@ components:
           nullable: true
       required:
         - self
-    KeystoneProjects:
+    KeystoneProjectsResponse:
       type: object
       properties:
         projects:
@@ -1114,11 +853,17 @@ components:
               items:
                 type: string
           required:
-            - domain_id
             - name
             - enabled
             - options
             - tags
+      required:
+        - project
+    KeystoneProjectResponse:
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/KeystoneProject'
       required:
         - project
     KeystoneUser:

@@ -18,8 +18,9 @@ func (self *DB) Migrate(ctx context.Context) error {
 	if err := self.DB.AutoMigrate(
 		&model.Project{},
 		&model.Role{},
+		&model.UserRoleAssignment{},
 	); err != nil {
-		return tlog.WrapError(ctx, err, "failed to self.DB.AutoMigrate")
+		return tlog.WrapErr(ctx, err, "failed to self.DB.AutoMigrate")
 	}
 
 	return nil

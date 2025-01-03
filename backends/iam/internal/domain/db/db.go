@@ -22,27 +22,73 @@ type IDBCommon interface {
 type IDB interface {
 	IDBCommon
 	IDBProject
-	IDBRole
+	// IDBRole
+	// IDBUserRoleAssignment
 }
 
-type FindProjectsInput struct {
-	ID   uint64
+type GetProjectsInput struct {
+	ID   string
 	Name string
+}
+
+type UpdateProjectInput struct {
+	ID         string
+	Properties map[string]string
+}
+
+type CreateProjectInput struct {
+	Name       string
+	Properties map[string]string
 }
 
 type IDBProject interface {
-	FindProjects(ctx context.Context, input *FindProjectsInput) ([]model.Project, error)
-	AddProject(ctx context.Context, item *model.Project) (*model.Project, error)
-	DeleteProject(ctx context.Context, id uint64) error
+	GetProjects(ctx context.Context, input *GetProjectsInput) ([]model.Project, error)
+	CreateProject(ctx context.Context, input *CreateProjectInput) (*model.Project, error)
+	UpdateProject(ctx context.Context, input *UpdateProjectInput) error
+	DeleteProjectByID(ctx context.Context, id string) error
 }
 
-type FindRolesInput struct {
-	ID   uint64
+type GetRolesInput struct {
+	ID   string
 	Name string
 }
 
+type UpdateRoleInput struct {
+	ID         string
+	Properties map[string]string
+}
+
+type CreateRoleInput struct {
+	Name       string
+	Properties map[string]string
+}
+
 type IDBRole interface {
-	FindRoles(ctx context.Context, input *FindRolesInput) ([]model.Role, error)
-	AddRole(ctx context.Context, item *model.Role) (*model.Role, error)
-	DeleteRole(ctx context.Context, id uint64) error
+	GetRoles(ctx context.Context, input *GetRolesInput) ([]model.Role, error)
+	CreateRole(ctx context.Context, input *CreateRoleInput) (*model.Role, error)
+	UpdateRole(ctx context.Context, input *UpdateRoleInput) error
+	DeleteRoleByID(ctx context.Context, id string) error
+}
+
+type GetUserRoleAssignmentsInput struct {
+	UserID    string
+	ProjectID string
+}
+
+type DeleteUserRoleAssignmentsInput struct {
+	UserID    string
+	RoleID    string
+	ProjectID string
+}
+
+type CreateUserRoleAssignmentInput struct {
+	UserID    string
+	RoleID    string
+	ProjectID string
+}
+
+type IDBUserRoleAssignment interface {
+	GetUserRoleAssignments(ctx context.Context, input *GetUserRoleAssignmentsInput) ([]model.UserRoleAssignment, error)
+	CreateUserRoleAssignment(ctx context.Context, input *CreateUserRoleAssignmentInput) (*model.UserRoleAssignment, error)
+	DeleteUserRoleAssignment(ctx context.Context, input *DeleteUserRoleAssignmentsInput) error
 }

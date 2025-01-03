@@ -2,18 +2,19 @@ package db
 
 import (
 	"context"
+	"encoding/json"
 
+	"github.com/google/uuid"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *DB) FindProjects(ctx context.Context, input *db.FindProjectsInput) ([]model.Project, error) {
+func (self *DB) GetProjects(ctx context.Context, input *db.GetProjectsInput) ([]model.Project, error) {
 	query := self.DB.WithContext(ctx).Model(model.Project{}).
-		Select("id,name").
-		Where("deleted = 0")
+		Select("id,name")
 
-	if input.ID != 0 {
+	if input.ID != "" {
 		query.Where("id = ?", input.ID)
 	}
 
@@ -21,25 +22,46 @@ func (self *DB) FindProjects(ctx context.Context, input *db.FindProjectsInput) (
 		query.Where("name = ?", input.Name)
 	}
 
-	items := []model.Project{}
-	if err := query.Scan(&items).Error; err != nil {
-		return nil, tlog.WrapError(ctx, err, "failed to query.Scan")
+	projects := []model.Project{}
+	if err := query.Scan(&projects).Error; err != nil {
+		return nil, tlog.Err(ctx, err)
 	}
 
-	return items, nil
+	return projects, nil
 }
 
-func (self *DB) AddProject(ctx context.Context, item *model.Project) (*model.Project, error) {
-	if err := self.DB.WithContext(ctx).Model(model.Project{}).Save(item).Error; err != nil {
-		return nil, tlog.WrapError(ctx, err, "failed to self.DB.WithContext.Save")
+func (self *DB) CreateProject(ctx context.Context, input *db.CreateProjectInput) (*model.Project, error) {
+	bytes, err := json.Marshal(input.Properties)
+	if err != nil {
+		return nil, tlog.WrapErr(ctx, err, "failed to json.Marshal")
 	}
 
-	return item, nil
+	project := model.Project{
+		ID:    uuid.New().String(),
+		Name:  input.Name,
+		Extra: string(bytes),
+	}
+	if err := self.DB.WithContext(ctx).Create(&project).Error; err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	return &project, nil
 }
 
-func (self *DB) DeleteProject(ctx context.Context, id uint64) error {
+func (self *DB) UpdateProject(ctx context.Context, input *db.UpdateProjectInput) error {
+	data := map[string]interface{}{}
+	if len(data) > 0 {
+		if err := self.DB.WithContext(ctx).Model(model.Project{}).Updates(data).Error; err != nil {
+			return tlog.Err(ctx, err)
+		}
+	}
+
+	return nil
+}
+
+func (self *DB) DeleteProjectByID(ctx context.Context, id string) error {
 	if err := self.DB.WithContext(ctx).Where("id = ?", id).Delete(model.Project{}).Error; err != nil {
-		return tlog.WrapError(ctx, err, "failed to self.DB.WithContext.Delete")
+		return tlog.Err(ctx, err)
 	}
 
 	return nil

@@ -2,8 +2,11 @@ package api
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
+	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_token_auth"
+	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
 func (self *API) CreateKeystoneUser(ctx context.Context, input *oapi.CreateKeystoneUserInput) (*oapi.KeystoneUser, error) {
@@ -15,6 +18,12 @@ func (self *API) CreateKeystoneUser(ctx context.Context, input *oapi.CreateKeyst
 }
 
 func (self *API) GetKeystoneUsers(ctx context.Context, input *oapi.GetKeystoneUsersParams) ([]oapi.KeystoneUser, error) {
+	authContext, err := iam_token_auth.GetAuthContext(ctx)
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+	fmt.Println("context", authContext.ProjectID)
+
 	projects := []oapi.KeystoneUser{
 		{
 			Id:   "project_id",

@@ -48,7 +48,7 @@ func (self *DB) MustOpenMock(ctx context.Context) sqlmock.Sqlmock {
 func (self *DB) OpenMock(ctx context.Context) (sqlmock.Sqlmock, error) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
-		return nil, tlog.WrapError(ctx, err, "failed to sqlmock.New")
+		return nil, tlog.WrapErr(ctx, err, "failed to sqlmock.New")
 	}
 
 	self.DB, err = gorm.Open(mysql.New(mysql.Config{
@@ -56,7 +56,7 @@ func (self *DB) OpenMock(ctx context.Context) (sqlmock.Sqlmock, error) {
 		SkipInitializeWithVersion: true,
 	}), &gorm.Config{})
 	if err != nil {
-		return nil, tlog.WrapError(ctx, err, "failed to gorm.Open")
+		return nil, tlog.WrapErr(ctx, err, "failed to gorm.Open")
 	}
 
 	return mock, nil
@@ -72,7 +72,7 @@ func (self *DB) Open(ctx context.Context) error {
 	})
 
 	if err != nil {
-		return tlog.WrapError(ctx, err, "failed to gorm.Open")
+		return tlog.WrapErr(ctx, err, "failed to gorm.Open")
 	}
 
 	if self.conf.IsDebug {
@@ -91,10 +91,10 @@ func (self *DB) MustClose(ctx context.Context) {
 
 func (self *DB) Close(ctx context.Context) error {
 	if db, err := self.DB.DB(); err != nil {
-		return tlog.WrapError(ctx, err, "failed to self.DB.DB")
+		return tlog.WrapErr(ctx, err, "failed to self.DB.DB")
 	} else {
 		if err := db.Close(); err != nil {
-			return tlog.WrapError(ctx, err, "failed to db.Close")
+			return tlog.WrapErr(ctx, err, "failed to db.Close")
 		}
 	}
 
@@ -123,11 +123,11 @@ func (self *DB) DropDatabase(ctx context.Context) error {
 
 	db, err := gorm.Open(mysql.Open(self.conf.FormatDSN()), &gorm.Config{})
 	if err != nil {
-		return tlog.WrapError(ctx, err, "failed to gorm.Open")
+		return tlog.WrapErr(ctx, err, "failed to gorm.Open")
 	}
 
 	if err := db.Exec("DROP DATABASE IF EXISTS " + dbName).Error; err != nil {
-		return tlog.WrapError(ctx, err, "failed to db.Exec")
+		return tlog.WrapErr(ctx, err, "failed to db.Exec")
 	}
 
 	return nil
@@ -148,11 +148,11 @@ func (self *DB) CreateDatabase(ctx context.Context) error {
 
 	db, err := gorm.Open(mysql.Open(self.conf.FormatDSN()), &gorm.Config{})
 	if err != nil {
-		return tlog.WrapError(ctx, err, "failed to gorm.Open")
+		return tlog.WrapErr(ctx, err, "failed to gorm.Open")
 	}
 
 	if err := db.Exec("CREATE DATABASE IF NOT EXISTS " + dbName).Error; err != nil {
-		return tlog.WrapError(ctx, err, "failed to db.Exec")
+		return tlog.WrapErr(ctx, err, "failed to db.Exec")
 	}
 
 	return nil
