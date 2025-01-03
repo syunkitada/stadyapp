@@ -97,7 +97,13 @@ func Fatal(ctx context.Context, msg string, args ...any) {
 	os.Exit(1)
 }
 
-func WrapError(ctx context.Context, err error, msg string, args ...any) error {
+func Err(ctx context.Context, err error) error {
+	slog.ErrorContext(ctx, err.Error())
+
+	return err
+}
+
+func WrapErr(ctx context.Context, err error, msg string, args ...any) error {
 	slog.ErrorContext(ctx, msg, args...)
 
 	return fmt.Errorf("%s: %w", msg, err)
