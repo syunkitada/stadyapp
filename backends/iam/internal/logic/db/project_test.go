@@ -27,13 +27,13 @@ func TestFindProjects(t *testing.T) {
 		mock := db.MustOpenMock(ctx)
 
 		rows := sqlmock.NewRows([]string{"id", "name"}).
-			AddRow(1, "hoge")
+			AddRow("uuid1", "hoge")
 		mock.ExpectQuery("^SELECT id,name FROM `projects` WHERE deleted = 0$").WillReturnRows(rows)
 
-		projects, err := db.FindProjects(ctx, &domain_db.FindProjectsInput{})
+		projects, err := db.GetProjects(ctx, &domain_db.GetProjectsInput{})
 		require.NoError(t, err)
 		assert.Equal(t,
-			[]model.Project{{ID: 1, Name: "hoge"}},
+			[]model.Project{{ID: "uuid1", Name: "hoge"}},
 			projects)
 	})
 
@@ -46,15 +46,15 @@ func TestFindProjects(t *testing.T) {
 		mock := db.MustOpenMock(ctx)
 
 		rows := sqlmock.NewRows([]string{"id", "name"}).
-			AddRow(1, "hoge")
+			AddRow("uuid1", "hoge")
 		mock.ExpectQuery("^SELECT id,name FROM `projects` WHERE deleted = 0 AND id = \\?$").
 			WithArgs(1).
 			WillReturnRows(rows)
 
-		projects, err := db.FindProjects(ctx, &domain_db.FindProjectsInput{ID: 1})
+		projects, err := db.GetProjects(ctx, &domain_db.GetProjectsInput{ID: "uuid1"})
 		require.NoError(t, err)
 		assert.Equal(t,
-			[]model.Project{{ID: 1, Name: "hoge"}},
+			[]model.Project{{ID: "uuid1", Name: "hoge"}},
 			projects)
 	})
 }
@@ -73,18 +73,18 @@ func TestProjectSenario(t *testing.T) {
 
 	var expectedProjects []model.Project
 
-	item1, err := db.AddProject(ctx, &model.Project{Name: "hoge"})
+	item1, err := db.CreateProject(ctx, &domain_db.CreateProjectInput{Name: "hoge"})
 	require.NoError(t, err)
 
 	expectedProjects = append(expectedProjects, *item1)
-	items, err := db.FindProjects(ctx, &domain_db.FindProjectsInput{})
+	items, err := db.GetProjects(ctx, &domain_db.GetProjectsInput{})
 	require.NoError(t, err)
 	assert.Equal(t, expectedProjects, items)
 
-	err = db.DeleteProject(ctx, item1.ID)
+	err = db.DeleteProjectByID(ctx, item1.ID)
 	require.NoError(t, err)
 
-	items, err = db.FindProjects(ctx, &domain_db.FindProjectsInput{})
+	items, err = db.GetProjects(ctx, &domain_db.GetProjectsInput{})
 	require.NoError(t, err)
 	assert.Empty(t, items)
 }

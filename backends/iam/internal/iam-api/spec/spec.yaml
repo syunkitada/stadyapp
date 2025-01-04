@@ -17,9 +17,9 @@ security:
   - XAuthTokenHeader: []
 components:
   securitySchemes:
-    XUserNameHeader:
+    XUserIDHeader:
       type: apiKey
-      name: x-user-name
+      name: x-user-id
       in: header
       description: "The custom authorization"
     XAuthTokenHeader:
@@ -34,10 +34,18 @@ paths:
     $ref: "./paths/keystone.yaml#/v3"
   /keystone/v3/auth/tokens:
     $ref: "./paths/keystone_tokens.yaml#/tokens"
+  /keystone/v3/domains:
+    $ref: "./paths/keystone_domains.yaml#/domains"
+  /keystone/v3/domains/{id}:
+    $ref: "./paths/keystone_domains.yaml#/domains_id"
+  # /keystone/v3/domains/{id}/users/{user_id}/roles/{role_id}:
+  #   $ref: "./paths/keystone_domains.yaml#/domains_id_users_user_id_roles_role_id"
   /keystone/v3/projects:
     $ref: "./paths/keystone_projects.yaml#/projects"
   /keystone/v3/projects/{id}:
     $ref: "./paths/keystone_projects.yaml#/projects_id"
+  /keystone/v3/projects/{id}/users/{user_id}/roles/{role_id}:
+    $ref: "./paths/keystone_projects.yaml#/projects_id_users_user_id_roles_role_id"
   /keystone/v3/users:
     $ref: "./paths/keystone_users.yaml#/users"
   /keystone/v3/users/{id}:

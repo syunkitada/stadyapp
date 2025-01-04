@@ -28,12 +28,15 @@ linters-settings:
           - github.com/labstack/gommon
           - github.com/oapi-codegen/echo-middleware
           - github.com/getkin/kin-openapi
+          - github.com/golang-jwt/jwt
+          - github.com/google/uuid
           - github.com/syunkitada/stadyapp
   mnd:
     ignored-numbers:
       - "0644"
   varnamelen:
     ignore-names:
+      - id
       - db
       - tx
       - ok
@@ -44,6 +47,7 @@ linters-settings:
   wrapcheck:
     ignoreSigs:
       - tlog.Wrap
+      - tlog.Err
       - tlog.Bind
   stylecheck:
     checks:

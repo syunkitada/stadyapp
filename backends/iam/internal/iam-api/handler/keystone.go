@@ -9,8 +9,6 @@ import (
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-// GetKeystoneVersion returns keystone version as below.
-// {"version": {"id": "v3.14", "status": "stable", "updated": "2020-04-07T00:00:00Z", "links": [{"rel": "self", "href": "http://localhost:5000/v3/"}], "media-types": [{"base": "application/json", "type": "application/vnd.openstack.identity-v3+json"}]}}
 func (self *Handler) GetKeystoneVersion(ectx echo.Context) error {
 	ctx := tlog.WithEchoContext(ectx)
 

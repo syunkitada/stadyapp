@@ -77,7 +77,7 @@ paths:
   /keystone/v3/auth/tokens:
     post:
       security:
-        - XUserNameHeader: []
+        - XUserIDHeader: []
       summary: Create a new keystone token
       description: Create a new keystone token
       operationId: createKeystoneToken
@@ -106,10 +106,163 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /keystone/v3/domains:
+    get:
+      summary: Get keystone domains
+      description: Get keystone domains
+      operationId: getKeystoneDomains
+      parameters:
+        - name: name
+          in: query
+          description: Filters the response by a domain name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get keystone domains
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneDomainsResponse'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new keystone domain
+      description: Create a new keystone domain
+      operationId: createKeystoneDomain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateKeystoneDomainInput'
+      responses:
+        '200':
+          description: keystone domain response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneDomainResponse'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /keystone/v3/domains/{id}:
+    get:
+      summary: Get a domain by ID
+      description: Get a domain by ID
+      operationId: getKeystoneDomainByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone domain to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: keystone domain response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneDomainResponse'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: Update a domain by ID
+      description: Update a domain by ID
+      operationId: updateKeystoneDomainByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone domain to fetch
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateKeystoneDomainInput'
+      responses:
+        '200':
+          description: keystone domain response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneDomainResponse'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete a domain by ID
+      description: Delete a domain by ID
+      operationId: deleteKeystoneDomainByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone domain to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: domain deleted
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /keystone/v3/projects:
     get:
       summary: Get keystone projects
-      description: Create a new keystone token
+      description: Get keystone projects
       operationId: getKeystoneProjects
       parameters:
         - name: name
@@ -118,6 +271,14 @@ paths:
           required: false
           schema:
             type: string
+        - name: tags
+          in: query
+          description: Filters the response by tags
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: get keystone projects
@@ -197,6 +358,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    patch:
+      summary: Update a project by ID
+      description: Update a project by ID
+      operationId: updateKeystoneProjectByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone project to fetch
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateKeystoneProjectInput'
+      responses:
+        '200':
+          description: keystone project response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneProjectResponse'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     delete:
       summary: Delete a project by ID
       description: Delete a project by ID
@@ -211,6 +408,83 @@ paths:
       responses:
         '204':
           description: project deleted
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /keystone/v3/projects/{id}/users/{user_id}/roles/{role_id}:
+    put:
+      summary: Assign a role to a user on a project
+      description: Assign a role to a user on a project
+      operationId: assignRoleToProject
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone project to fetch
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          description: ID of keystone user to fetch
+          required: true
+          schema:
+            type: string
+        - name: role_id
+          in: path
+          description: ID of keystone role to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: role assigned to a user on a project
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Unassign a role from a user on a project
+      description: Unassign a role to a user on a project
+      operationId: unassignRoleFromProject
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone project to fetch
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          description: ID of keystone user to fetch
+          required: true
+          schema:
+            type: string
+        - name: role_id
+          in: path
+          description: ID of keystone role to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: role unassigned from a user on a project
         4XX:
           description: unexpected error
           content:
@@ -374,7 +648,7 @@ paths:
   /keystone/v3/roles:
     get:
       summary: Get keystone roles
-      description: Create a new keystone token
+      description: Get keystone roles
       operationId: getKeystoneRoles
       parameters:
         - name: name
@@ -389,7 +663,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KeystoneRoles'
+                $ref: '#/components/schemas/KeystoneRolesResponse'
         4XX:
           description: unexpected error
           content:
@@ -418,7 +692,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KeystoneRole'
+                $ref: '#/components/schemas/KeystoneRoleResponse'
         4XX:
           description: unexpected error
           content:
@@ -449,7 +723,43 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KeystoneRole'
+                $ref: '#/components/schemas/KeystoneRoleResponse'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: Update a role by ID
+      description: Update a role by ID
+      operationId: updateKeystoneRoleByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone role to fetch
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateKeystoneRoleInput'
+      responses:
+        '200':
+          description: keystone role response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneRoleResponse'
         4XX:
           description: unexpected error
           content:
@@ -490,9 +800,9 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   securitySchemes:
-    XUserNameHeader:
+    XUserIDHeader:
       type: apiKey
-      name: x-user-name
+      name: x-user-id
       in: header
       description: The custom authorization
     XAuthTokenHeader:
@@ -768,40 +1078,25 @@ components:
           format: uri
       required:
         - self
-    KeystoneProject:
+    KeystoneDomain:
       type: object
       properties:
         id:
           type: string
         name:
           type: string
-        domain_id:
-          type: string
         description:
           type: string
         enabled:
           type: boolean
-        parent_id:
-          type: string
-        is_domain:
-          type: boolean
-        tags:
-          type: array
-          items:
-            type: string
-        options:
-          type: object
-          additionalProperties: {}
         links:
           $ref: '#/components/schemas/KeystoneSelfPagerLinks'
+      additionalProperties: {}
       required:
         - id
         - name
-        - domain_id
         - description
         - enabled
-        - parent_id
-        - is_domain
         - tags
         - options
         - links
@@ -821,6 +1116,89 @@ components:
           nullable: true
       required:
         - self
+    KeystoneDomainsResponse:
+      type: object
+      properties:
+        domains:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeystoneDomain'
+        links:
+          $ref: '#/components/schemas/KeystonePagerLinks'
+      required:
+        - domains
+        - links
+    CreateKeystoneDomainInput:
+      type: object
+      properties:
+        domain:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            enabled:
+              type: boolean
+          additionalProperties: {}
+          required:
+            - name
+            - enabled
+      required:
+        - domain
+    KeystoneDomainResponse:
+      type: object
+      properties:
+        domain:
+          $ref: '#/components/schemas/KeystoneDomain'
+      required:
+        - domain
+    UpdateKeystoneDomainInput:
+      type: object
+      properties:
+        domain:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            enabled:
+              type: boolean
+          additionalProperties: {}
+      required:
+        - domain
+    KeystoneProject:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        domain_id:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        parent_id:
+          type: string
+        is_domain:
+          type: boolean
+        links:
+          $ref: '#/components/schemas/KeystoneSelfPagerLinks'
+      additionalProperties: {}
+      required:
+        - id
+        - name
+        - domain_id
+        - description
+        - enabled
+        - parent_id
+        - is_domain
+        - tags
+        - options
+        - links
     KeystoneProjectsResponse:
       type: object
       properties:
@@ -843,20 +1221,21 @@ components:
               type: string
             name:
               type: string
+            description:
+              type: string
             enabled:
               type: boolean
-            options:
-              type: object
-              additionalProperties: {}
             tags:
               type: array
               items:
                 type: string
+            organization_id:
+              type: string
+          additionalProperties: {}
           required:
             - name
             - enabled
-            - options
-            - tags
+            - domain_id
       required:
         - project
     KeystoneProjectResponse:
@@ -864,6 +1243,27 @@ components:
       properties:
         project:
           $ref: '#/components/schemas/KeystoneProject'
+      required:
+        - project
+    UpdateKeystoneProjectInput:
+      type: object
+      properties:
+        project:
+          type: object
+          properties:
+            domain_id:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            enabled:
+              type: boolean
+            tags:
+              type: array
+              items:
+                type: string
+          additionalProperties: {}
       required:
         - project
     KeystoneUser:
@@ -937,29 +1337,19 @@ components:
           type: string
         name:
           type: string
-        domain_id:
-          type: string
-          nullable: true
         description:
           type: string
-          nullable: true
-        options:
-          type: object
-          properties:
-            immutable:
-              type: boolean
-          required:
-            - immutable
         links:
           $ref: '#/components/schemas/KeystoneSelfPagerLinks'
+      additionalProperties: {}
       required:
         - id
         - name
-        - domain_id
         - description
+        - tags
         - options
         - links
-    KeystoneRoles:
+    KeystoneRolesResponse:
       type: object
       properties:
         roles:
@@ -979,14 +1369,30 @@ components:
           properties:
             name:
               type: string
-            domain_id:
+            description:
               type: string
-            options:
-              type: object
-              additionalProperties: {}
+          additionalProperties: {}
           required:
             - name
-            - domain_id
-            - options
+      required:
+        - role
+    KeystoneRoleResponse:
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/KeystoneRole'
+      required:
+        - role
+    UpdateKeystoneRoleInput:
+      type: object
+      properties:
+        role:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+          additionalProperties: {}
       required:
         - role

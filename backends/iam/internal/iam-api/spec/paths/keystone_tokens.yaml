@@ -1,7 +1,7 @@
 tokens:
   post:
     security:
-      - XUserNameHeader: []
+      - XUserIDHeader: []
     summary: Create a new keystone token
     description: Create a new keystone token
     operationId: createKeystoneToken

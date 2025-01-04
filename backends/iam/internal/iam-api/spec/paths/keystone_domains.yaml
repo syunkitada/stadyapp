@@ -1,22 +1,22 @@
-roles:
+domains:
   get:
-    summary: Get keystone roles
-    description: Get keystone roles
-    operationId: getKeystoneRoles
+    summary: Get keystone domains
+    description: Get keystone domains
+    operationId: getKeystoneDomains
     parameters:
       - name: name
         in: query
-        description: Filters the response by a role name
+        description: Filters the response by a domain name
         required: false
         schema:
           type: string
     responses:
       "200":
-        description: get keystone roles
+        description: get keystone domains
         content:
           application/json:
             schema:
-              $ref: "../schemas/keystone_role.yaml#/KeystoneRolesResponse"
+              $ref: "../schemas/keystone_domain.yaml#/KeystoneDomainsResponse"
       "4XX":
         description: unexpected error
         content:
@@ -30,22 +30,22 @@ roles:
             schema:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
   post:
-    summary: Create a new keystone role
-    description: Create a new keystone role
-    operationId: createKeystoneRole
+    summary: Create a new keystone domain
+    description: Create a new keystone domain
+    operationId: createKeystoneDomain
     requestBody:
       required: true
       content:
         application/json:
           schema:
-            $ref: "../schemas/keystone_role.yaml#/CreateKeystoneRoleInput"
+            $ref: "../schemas/keystone_domain.yaml#/CreateKeystoneDomainInput"
     responses:
       "200":
-        description: keystone role response
+        description: keystone domain response
         content:
           application/json:
             schema:
-              $ref: "../schemas/keystone_role.yaml#/KeystoneRoleResponse"
+              $ref: "../schemas/keystone_domain.yaml#/KeystoneDomainResponse"
       "4XX":
         description: unexpected error
         content:
@@ -59,25 +59,25 @@ roles:
             schema:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
 
-roles_id:
+domains_id:
   get:
-    summary: Get a role by ID
-    description: Get a role by ID
-    operationId: getKeystoneRoleByID
+    summary: Get a domain by ID
+    description: Get a domain by ID
+    operationId: getKeystoneDomainByID
     parameters:
       - name: id
         in: path
-        description: ID of keystone role to fetch
+        description: ID of keystone domain to fetch
         required: true
         schema:
           type: string
     responses:
       "200":
-        description: keystone role response
+        description: keystone domain response
         content:
           application/json:
             schema:
-              $ref: "../schemas/keystone_role.yaml#/KeystoneRoleResponse"
+              $ref: "../schemas/keystone_domain.yaml#/KeystoneDomainResponse"
       "4XX":
         description: unexpected error
         content:
@@ -92,13 +92,13 @@ roles_id:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
 
   patch:
-    summary: Update a role by ID
-    description: Update a role by ID
-    operationId: updateKeystoneRoleByID
+    summary: Update a domain by ID
+    description: Update a domain by ID
+    operationId: updateKeystoneDomainByID
     parameters:
       - name: id
         in: path
-        description: ID of keystone role to fetch
+        description: ID of keystone domain to fetch
         required: true
         schema:
           type: string
@@ -107,14 +107,14 @@ roles_id:
       content:
         application/json:
           schema:
-            $ref: "../schemas/keystone_role.yaml#/UpdateKeystoneRoleInput"
+            $ref: "../schemas/keystone_domain.yaml#/UpdateKeystoneDomainInput"
     responses:
       "200":
-        description: keystone role response
+        description: keystone domain response
         content:
           application/json:
             schema:
-              $ref: "../schemas/keystone_role.yaml#/KeystoneRoleResponse"
+              $ref: "../schemas/keystone_domain.yaml#/KeystoneDomainResponse"
       "4XX":
         description: unexpected error
         content:
@@ -129,19 +129,19 @@ roles_id:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
 
   delete:
-    summary: Delete a role by ID
-    description: Delete a role by ID
-    operationId: deleteKeystoneRoleByID
+    summary: Delete a domain by ID
+    description: Delete a domain by ID
+    operationId: deleteKeystoneDomainByID
     parameters:
       - name: id
         in: path
-        description: ID of keystone role to delete
+        description: ID of keystone domain to delete
         required: true
         schema:
           type: string
     responses:
       "204":
-        description: role deleted
+        description: domain deleted
       "4XX":
         description: unexpected error
         content:

@@ -21,74 +21,192 @@ type IDBCommon interface {
 
 type IDB interface {
 	IDBCommon
+	IDBDomain
 	IDBProject
-	// IDBRole
+	IDBOrganization
+	IDBTeam
+	IDBRole
 	// IDBUserRoleAssignment
 }
 
-type GetProjectsInput struct {
+// --------------------------------------------------------------------------------
+// Domain Interface
+// --------------------------------------------------------------------------------
+type GetDomainsInput struct {
 	ID   string
 	Name string
 }
 
-type UpdateProjectInput struct {
-	ID         string
-	Properties map[string]string
+type UpdateDomainByIDInput struct {
+	Name        *string
+	Description *string
+	Extra       map[string]interface{}
 }
 
-type CreateProjectInput struct {
-	Name       string
-	Properties map[string]string
+type CreateDomainInput struct {
+	ID          *string
+	Name        string
+	Description *string
+	Extra       map[string]interface{}
 }
 
-type IDBProject interface {
-	GetProjects(ctx context.Context, input *GetProjectsInput) ([]model.Project, error)
-	CreateProject(ctx context.Context, input *CreateProjectInput) (*model.Project, error)
-	UpdateProject(ctx context.Context, input *UpdateProjectInput) error
-	DeleteProjectByID(ctx context.Context, id string) error
+type IDBDomain interface {
+	GetDomains(ctx context.Context, input *GetDomainsInput) ([]model.Domain, error)
+	CreateDomain(ctx context.Context, input *CreateDomainInput) (*model.Domain, error)
+	UpdateDomainByID(ctx context.Context, id string, input *UpdateDomainByIDInput) error
+	DeleteDomainByID(ctx context.Context, id string) error
 }
 
+// --------------------------------------------------------------------------------
+// Role Interface
+// --------------------------------------------------------------------------------
 type GetRolesInput struct {
 	ID   string
 	Name string
 }
 
-type UpdateRoleInput struct {
-	ID         string
-	Properties map[string]string
+type UpdateRoleByIDInput struct {
+	Name        *string
+	Description *string
+	Extra       map[string]interface{}
 }
 
 type CreateRoleInput struct {
-	Name       string
-	Properties map[string]string
+	ID          *string
+	Name        string
+	Description *string
+	Extra       map[string]interface{}
 }
 
 type IDBRole interface {
 	GetRoles(ctx context.Context, input *GetRolesInput) ([]model.Role, error)
 	CreateRole(ctx context.Context, input *CreateRoleInput) (*model.Role, error)
-	UpdateRole(ctx context.Context, input *UpdateRoleInput) error
+	UpdateRoleByID(ctx context.Context, id string, input *UpdateRoleByIDInput) error
 	DeleteRoleByID(ctx context.Context, id string) error
+
+	AssignRoleToProject(ctx context.Context, roleID, userID, projectID string) error
+	UnassignRoleFromProject(ctx context.Context, roleID, userID, projectID string) error
+
+	AssignRoleToDomain(ctx context.Context, roleID, userID, domainID string) error
+	UnassignRoleFromDomain(ctx context.Context, roleID, userID, domainID string) error
+
+	AssignRoleToTeam(ctx context.Context, roleID, userID, teamID string) error
+	UnassignRoleFromTeam(ctx context.Context, roleID, userID, teamID string) error
+
+	AssignRoleToOrganization(ctx context.Context, roleID, userID, teamID string) error
+	UnassignRoleFromOrganization(ctx context.Context, roleID, userID, teamID string) error
 }
 
-type GetUserRoleAssignmentsInput struct {
-	UserID    string
-	ProjectID string
+// --------------------------------------------------------------------------------
+// Project Interface
+// --------------------------------------------------------------------------------
+type GetProjectsInput struct {
+	ID   string
+	Name string
 }
 
-type DeleteUserRoleAssignmentsInput struct {
-	UserID    string
-	RoleID    string
-	ProjectID string
+type UpdateProjectByIDInput struct {
+	Name        *string
+	Description *string
+	Extra       map[string]interface{}
+	DomainID    string
 }
 
-type CreateUserRoleAssignmentInput struct {
-	UserID    string
-	RoleID    string
-	ProjectID string
+type CreateProjectInput struct {
+	ID             *string
+	Name           string
+	Description    *string
+	Extra          map[string]interface{}
+	DomainID       string
+	OrganizationID string
 }
 
-type IDBUserRoleAssignment interface {
-	GetUserRoleAssignments(ctx context.Context, input *GetUserRoleAssignmentsInput) ([]model.UserRoleAssignment, error)
-	CreateUserRoleAssignment(ctx context.Context, input *CreateUserRoleAssignmentInput) (*model.UserRoleAssignment, error)
-	DeleteUserRoleAssignment(ctx context.Context, input *DeleteUserRoleAssignmentsInput) error
+type IDBProject interface {
+	GetProjects(ctx context.Context, input *GetProjectsInput) ([]model.Project, error)
+	CreateProject(ctx context.Context, input *CreateProjectInput) (*model.Project, error)
+	UpdateProjectByID(ctx context.Context, id string, input *UpdateProjectByIDInput) error
+	DeleteProjectByID(ctx context.Context, id string) error
 }
+
+// --------------------------------------------------------------------------------
+// Organization Interface
+// --------------------------------------------------------------------------------
+type GetOrganizationsInput struct {
+	ID   string
+	Name string
+}
+
+type UpdateOrganizationByIDInput struct {
+	Name        *string
+	Description *string
+	Extra       map[string]interface{}
+	DomainID    string
+}
+
+type CreateOrganizationInput struct {
+	ID          *string
+	Name        string
+	Description *string
+	Extra       map[string]interface{}
+	DomainID    string
+}
+
+type IDBOrganization interface {
+	GetOrganizations(ctx context.Context, input *GetOrganizationsInput) ([]model.Organization, error)
+	CreateOrganization(ctx context.Context, input *CreateOrganizationInput) (*model.Organization, error)
+	UpdateOrganizationByID(ctx context.Context, id string, input *UpdateOrganizationByIDInput) error
+	DeleteOrganizationByID(ctx context.Context, id string) error
+}
+
+// --------------------------------------------------------------------------------
+// Team Interface
+// --------------------------------------------------------------------------------
+type GetTeamsInput struct {
+	ID   string
+	Name string
+}
+
+type UpdateTeamByIDInput struct {
+	Name        *string
+	Description *string
+	Extra       map[string]interface{}
+	DomainID    string
+}
+
+type CreateTeamInput struct {
+	ID          *string
+	Name        string
+	Description *string
+	Extra       map[string]interface{}
+	DomainID    string
+}
+
+type IDBTeam interface {
+	GetTeams(ctx context.Context, input *GetTeamsInput) ([]model.Team, error)
+	CreateTeam(ctx context.Context, input *CreateTeamInput) (*model.Team, error)
+	UpdateTeamByID(ctx context.Context, id string, input *UpdateTeamByIDInput) error
+	DeleteTeamByID(ctx context.Context, id string) error
+}
+
+// type GetUserRoleAssignmentsInput struct {
+// 	UserID    string
+// 	ProjectID string
+// }
+//
+// type DeleteUserRoleAssignmentsInput struct {
+// 	UserID    string
+// 	RoleID    string
+// 	ProjectID string
+// }
+//
+// type CreateUserRoleAssignmentInput struct {
+// 	UserID    string
+// 	RoleID    string
+// 	ProjectID string
+// }
+//
+// type IDBUserRoleAssignment interface {
+// 	GetUserRoleAssignments(ctx context.Context, input *GetUserRoleAssignmentsInput) ([]model.UserRoleAssignment, error)
+// 	CreateUserRoleAssignment(ctx context.Context, input *CreateUserRoleAssignmentInput) (*model.UserRoleAssignment, error)
+// 	DeleteUserRoleAssignment(ctx context.Context, input *DeleteUserRoleAssignmentsInput) error
+// }

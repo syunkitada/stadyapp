@@ -11,8 +11,8 @@ import (
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *DB) GetProjects(ctx context.Context, input *db.GetProjectsInput) ([]model.Project, error) {
-	query := self.DB.WithContext(ctx).Model(model.Project{}).
+func (self *DB) GetTeams(ctx context.Context, input *db.GetTeamsInput) ([]model.Team, error) {
+	query := self.DB.WithContext(ctx).Model(model.Team{}).
 		Select("id,name,description,extra")
 
 	if input.ID != "" {
@@ -23,45 +23,45 @@ func (self *DB) GetProjects(ctx context.Context, input *db.GetProjectsInput) ([]
 		query.Where("name = ?", input.Name)
 	}
 
-	projects := []model.Project{}
-	if err := query.Scan(&projects).Error; err != nil {
+	teams := []model.Team{}
+	if err := query.Scan(&teams).Error; err != nil {
 		return nil, tlog.Err(ctx, err)
 	}
 
-	return projects, nil
+	return teams, nil
 }
 
-func (self *DB) CreateProject(ctx context.Context, input *db.CreateProjectInput) (*model.Project, error) {
+func (self *DB) CreateTeam(ctx context.Context, input *db.CreateTeamInput) (*model.Team, error) {
 	bytes, err := json.Marshal(input.Extra)
 	if err != nil {
 		return nil, tlog.WrapErr(ctx, err, "failed to json.Marshal")
 	}
 
-	project := model.Project{
-		Name:           input.Name,
-		Extra:          string(bytes),
-		DomainID:       input.DomainID,
-		OrganizationID: input.OrganizationID,
+	team := model.Team{
+		ID:       uuid.New().String(),
+		Name:     input.Name,
+		Extra:    string(bytes),
+		DomainID: input.DomainID,
 	}
 
 	if input.ID == nil {
-		project.ID = uuid.New().String()
+		team.ID = uuid.New().String()
 	} else {
-		project.ID = *input.ID
+		team.ID = *input.ID
 	}
 
 	if input.Description != nil {
-		project.Description = *input.Description
+		team.Description = *input.Description
 	}
 
-	if err := self.DB.WithContext(ctx).Create(&project).Error; err != nil {
+	if err := self.DB.WithContext(ctx).Create(&team).Error; err != nil {
 		return nil, tlog.Err(ctx, err)
 	}
 
-	return &project, nil
+	return &team, nil
 }
 
-func (self *DB) UpdateProjectByID(ctx context.Context, id string, input *db.UpdateProjectByIDInput) error {
+func (self *DB) UpdateTeamByID(ctx context.Context, id string, input *db.UpdateTeamByIDInput) error {
 	data := map[string]interface{}{}
 	if input.Name != nil {
 		data["name"] = *input.Name
@@ -81,7 +81,7 @@ func (self *DB) UpdateProjectByID(ctx context.Context, id string, input *db.Upda
 	}
 
 	if len(data) > 0 {
-		if err := self.DB.WithContext(ctx).Model(model.Project{}).Where("id = ?", id).Updates(data).Error; err != nil {
+		if err := self.DB.WithContext(ctx).Model(model.Team{}).Where("id = ?", id).Updates(data).Error; err != nil {
 			return tlog.Err(ctx, err)
 		}
 	}
@@ -89,8 +89,8 @@ func (self *DB) UpdateProjectByID(ctx context.Context, id string, input *db.Upda
 	return nil
 }
 
-func (self *DB) DeleteProjectByID(ctx context.Context, id string) error {
-	if err := self.DB.WithContext(ctx).Where("id = ?", id).Delete(model.Project{}).Error; err != nil {
+func (self *DB) DeleteTeamByID(ctx context.Context, id string) error {
+	if err := self.DB.WithContext(ctx).Where("id = ?", id).Delete(model.Team{}).Error; err != nil {
 		return tlog.Err(ctx, err)
 	}
 

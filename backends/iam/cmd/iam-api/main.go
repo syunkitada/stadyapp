@@ -10,23 +10,23 @@ import (
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/handler"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/echo_server"
-	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_token_auth"
+	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/logic/api"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/logic/db"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func main() { //nolint:funlen
+func main() {
 	conf := config.GetDefaultConfig()
 	tlog.Init(&conf.Logger)
 	ctx := tlog.NewContext()
 
-	iamTokenAuth := iam_token_auth.New(&conf.IAMTokenAuth)
+	iamAuth := iam_auth.New(&conf.IAMAuth)
 
 	db := db.New(&conf.DB)
 	db.MustOpen(ctx)
 
-	api := api.New(&conf, db, iamTokenAuth)
+	api := api.New(&conf, db, iamAuth)
 
 	port := flag.String("port", "10081", "Port for test HTTP server")
 	flag.Parse()
@@ -45,7 +45,7 @@ func main() { //nolint:funlen
 	apiHandler := handler.NewHandler(&conf, api)
 
 	// This is how you set up a basic Echo router
-	echoServer := echo_server.New(ctx, nil, swagger, iamTokenAuth)
+	echoServer := echo_server.New(ctx, nil, swagger, iamAuth)
 
 	// Use our validation middleware to check all requests against the
 	// OpenAPI schema.

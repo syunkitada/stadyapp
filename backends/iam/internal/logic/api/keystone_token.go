@@ -10,7 +10,8 @@ import (
 	"time"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
-	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_token_auth"
+	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_auth"
+	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
 func ParseKey(key []byte) (*rsa.PrivateKey, error) {
@@ -18,6 +19,7 @@ func ParseKey(key []byte) (*rsa.PrivateKey, error) {
 	if block != nil {
 		key = block.Bytes
 	}
+
 	parsedKey, err := x509.ParsePKCS8PrivateKey(key)
 	if err != nil {
 		parsedKey, err = x509.ParsePKCS1PrivateKey(key)
@@ -25,15 +27,18 @@ func ParseKey(key []byte) (*rsa.PrivateKey, error) {
 			return nil, fmt.Errorf("private key should be a PEM or plain PKCS1 or PKCS8; parse error: %v", err)
 		}
 	}
+
 	parsed, ok := parsedKey.(*rsa.PrivateKey)
 	if !ok {
 		return nil, errors.New("private key is invalid")
 	}
+
 	return parsed, nil
 }
 
-func (self *API) CreateKeystoneToken(ctx context.Context, input *oapi.CreateKeystoneTokenInput) (*oapi.KeystoneToken, string, error) {
-	authContext, err := iam_token_auth.GetAuthContext(ctx)
+func (self *API) CreateKeystoneToken(
+	ctx context.Context, input *oapi.CreateKeystoneTokenInput) (*oapi.KeystoneToken, string, error) {
+	authContext, err := iam_auth.GetAuthContext(ctx)
 
 	domainID := "default"
 
@@ -84,16 +89,17 @@ func (self *API) CreateKeystoneToken(ctx context.Context, input *oapi.CreateKeys
 		},
 	}
 
-	authData := iam_token_auth.AuthData{
+	authData := iam_auth.AuthData{
 		Domain:  domainID,
 		User:    authContext.UserID,
 		Project: "project",
-		Roles:   "roles",
-		Catalog: "gatalog",
+		Roles:   "role1,role2",
+		Catalog: "{catalog}",
 	}
-	tokenStr, err := self.iamTokenAuth.NewToken(ctx, authData)
+	tokenStr, err := self.iamAuth.NewToken(ctx, authData)
+
 	if err != nil {
-		return nil, "", err
+		return nil, "", tlog.Err(ctx, err)
 	}
 
 	return &token, tokenStr, nil

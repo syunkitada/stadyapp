@@ -1,4 +1,32 @@
-KeystoneRoles:
+KeystoneRole:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    description:
+      type: string
+    links:
+      $ref: "./keystone.yaml#/KeystoneSelfPagerLinks"
+  additionalProperties: {}
+  required:
+    - id
+    - name
+    - description
+    - tags
+    - options
+    - links
+
+KeystoneRoleResponse:
+  type: object
+  properties:
+    role:
+      $ref: "#/KeystoneRole"
+  required:
+    - role
+
+KeystoneRolesResponse:
   type: object
   properties:
     roles:
@@ -11,36 +39,6 @@ KeystoneRoles:
     - roles
     - links
 
-KeystoneRole:
-  type: object
-  properties:
-    id:
-      type: string
-    name:
-      type: string
-    domain_id:
-      type: string
-      nullable: true
-    description:
-      type: string
-      nullable: true
-    options:
-      type: object
-      properties:
-        immutable:
-          type: boolean
-      required:
-        - immutable
-    links:
-      $ref: "./keystone.yaml#/KeystoneSelfPagerLinks"
-  required:
-    - id
-    - name
-    - domain_id
-    - description
-    - options
-    - links
-
 CreateKeystoneRoleInput:
   type: object
   properties:
@@ -49,14 +47,24 @@ CreateKeystoneRoleInput:
       properties:
         name:
           type: string
-        domain_id:
+        description:
           type: string
-        options:
-          type: object
-          additionalProperties: {}
+      additionalProperties: {}
       required:
         - name
-        - domain_id
-        - options
+  required:
+    - role
+
+UpdateKeystoneRoleInput:
+  type: object
+  properties:
+    role:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      additionalProperties: {}
   required:
     - role

@@ -1,7 +1,7 @@
 projects:
   get:
     summary: Get keystone projects
-    description: Create a new keystone token
+    description: Get keystone projects
     operationId: getKeystoneProjects
     parameters:
       - name: name
@@ -10,6 +10,14 @@ projects:
         required: false
         schema:
           type: string
+      - name: tags
+        in: query
+        description: Filters the response by tags
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
     responses:
       "200":
         description: get keystone projects
@@ -91,6 +99,43 @@ projects_id:
             schema:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
 
+  patch:
+    summary: Update a project by ID
+    description: Update a project by ID
+    operationId: updateKeystoneProjectByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone project to fetch
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/keystone_project.yaml#/UpdateKeystoneProjectInput"
+    responses:
+      "200":
+        description: keystone project response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_project.yaml#/KeystoneProjectResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
   delete:
     summary: Delete a project by ID
     description: Delete a project by ID
@@ -105,6 +150,85 @@ projects_id:
     responses:
       "204":
         description: project deleted
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+projects_id_users_user_id_roles_role_id:
+  put:
+    summary: Assign a role to a user on a project
+    description: Assign a role to a user on a project
+    operationId: assignRoleToProject
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone project to fetch
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        description: ID of keystone user to fetch
+        required: true
+        schema:
+          type: string
+      - name: role_id
+        in: path
+        description: ID of keystone role to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: role assigned to a user on a project
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+  delete:
+    summary: Unassign a role from a user on a project
+    description: Unassign a role to a user on a project
+    operationId: unassignRoleFromProject
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone project to fetch
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        description: ID of keystone user to fetch
+        required: true
+        schema:
+          type: string
+      - name: role_id
+        in: path
+        description: ID of keystone role to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: role unassigned from a user on a project
       "4XX":
         description: unexpected error
         content:

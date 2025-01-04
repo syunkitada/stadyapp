@@ -1,19 +1,13 @@
-KeystoneProject:
+KeystoneDomain:
   type: object
   properties:
     id:
       type: string
     name:
       type: string
-    domain_id:
-      type: string
     description:
       type: string
     enabled:
-      type: boolean
-    parent_id:
-      type: string
-    is_domain:
       type: boolean
     links:
       $ref: "./keystone.yaml#/KeystoneSelfPagerLinks"
@@ -21,82 +15,64 @@ KeystoneProject:
   required:
     - id
     - name
-    - domain_id
     - description
     - enabled
-    - parent_id
-    - is_domain
     - tags
     - options
     - links
 
-KeystoneProjectResponse:
+KeystoneDomainResponse:
   type: object
   properties:
-    project:
-      $ref: "#/KeystoneProject"
+    domain:
+      $ref: "#/KeystoneDomain"
   required:
-    - project
+    - domain
 
-KeystoneProjectsResponse:
+KeystoneDomainsResponse:
   type: object
   properties:
-    projects:
+    domains:
       type: array
       items:
-        $ref: "#/KeystoneProject"
+        $ref: "#/KeystoneDomain"
     links:
       $ref: "./keystone.yaml#/KeystonePagerLinks"
   required:
-    - projects
+    - domains
     - links
 
-CreateKeystoneProjectInput:
+CreateKeystoneDomainInput:
   type: object
   properties:
-    project:
+    domain:
       type: object
       properties:
-        domain_id:
-          type: string
         name:
           type: string
         description:
           type: string
         enabled:
           type: boolean
-        tags:
-          type: array
-          items:
-            type: string
-        organization_id:
-          type: string
       additionalProperties: {}
       required:
         - name
         - enabled
-        - domain_id
   required:
-    - project
+    - domain
 
-UpdateKeystoneProjectInput:
+UpdateKeystoneDomainInput:
   type: object
   properties:
-    project:
+    domain:
       type: object
       properties:
-        domain_id:
-          type: string
         name:
           type: string
         description:
           type: string
         enabled:
           type: boolean
-        tags:
-          type: array
-          items:
-            type: string
       additionalProperties: {}
   required:
-    - project
+    - domain
