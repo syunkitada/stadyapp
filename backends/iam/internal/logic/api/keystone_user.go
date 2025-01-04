@@ -2,36 +2,95 @@ package api
 
 import (
 	"context"
+	"net/http"
 
+	"github.com/labstack/echo/v4"
+
+	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
+	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
+	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *API) CreateKeystoneUser(ctx context.Context, input *oapi.CreateKeystoneUserInput) (*oapi.KeystoneUser, error) {
-	project := oapi.KeystoneUser{
-		Id:   "project_id",
-		Name: "project_name",
+func (self *API) CreateKeystoneUser(
+	ctx context.Context, input *oapi.CreateKeystoneUserInput) (*oapi.KeystoneUser, error) {
+	dbUser, err := self.db.CreateUser(ctx, &db.CreateUserInput{
+		Name: input.User.Name,
+	})
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
 	}
-	return &project, nil
+
+	role, err := ConvertDBUserToAPIUser(ctx, dbUser)
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	return role, nil
 }
 
-func (self *API) GetKeystoneUsers(ctx context.Context, input *oapi.GetKeystoneUsersParams) ([]oapi.KeystoneUser, error) {
-	projects := []oapi.KeystoneUser{
-		{
-			Id:   "project_id",
-			Name: "project_name",
-		},
+func (self *API) GetKeystoneUsers(
+	ctx context.Context, input *oapi.GetKeystoneUsersParams) ([]oapi.KeystoneUser, error) {
+	getUsersInput := db.GetUsersInput{}
+	if input.Name != nil {
+		getUsersInput.Name = *input.Name
 	}
-	return projects, nil
+
+	dbUsers, err := self.db.GetUsers(ctx, &getUsersInput)
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	roles := []oapi.KeystoneUser{}
+
+	for i := range dbUsers {
+		role, err := ConvertDBUserToAPIUser(ctx, &dbUsers[i])
+		if err != nil {
+			return nil, tlog.Err(ctx, err)
+		}
+
+		roles = append(roles, *role)
+	}
+
+	return roles, nil
 }
 
 func (self *API) GetKeystoneUserByID(ctx context.Context, id string) (*oapi.KeystoneUser, error) {
-	project := oapi.KeystoneUser{
-		Id:   "project_id",
-		Name: "project_name",
+	dbUsers, err := self.db.GetUsers(ctx, &db.GetUsersInput{
+		ID: id,
+	})
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
 	}
-	return &project, nil
+
+	if len(dbUsers) == 0 {
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusNotFound, "role not found"))
+	}
+
+	if len(dbUsers) > 1 {
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "role is duplicated"))
+	}
+
+	role, err := ConvertDBUserToAPIUser(ctx, &dbUsers[0])
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	return role, nil
+}
+
+func ConvertDBUserToAPIUser(ctx context.Context, dbUser *model.User) (*oapi.KeystoneUser, error) {
+	return &oapi.KeystoneUser{
+		Id:   dbUser.ID,
+		Name: dbUser.Name,
+	}, nil
 }
 
 func (self *API) DeleteKeystoneUser(ctx context.Context, id string) error {
+	err := self.db.DeleteUserByID(ctx, id)
+	if err != nil {
+		return tlog.Err(ctx, err)
+	}
+
 	return nil
 }

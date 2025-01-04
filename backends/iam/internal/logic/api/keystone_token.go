@@ -7,8 +7,12 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
+	"net/http"
 	"time"
 
+	"github.com/labstack/echo/v4"
+
+	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
@@ -39,6 +43,38 @@ func ParseKey(key []byte) (*rsa.PrivateKey, error) {
 func (self *API) CreateKeystoneToken(
 	ctx context.Context, input *oapi.CreateKeystoneTokenInput) (*oapi.KeystoneToken, string, error) {
 	authContext, err := iam_auth.GetAuthContext(ctx)
+	if err != nil {
+		return nil, "", tlog.Err(ctx, err)
+	}
+
+	users, err := self.db.GetUsers(ctx, &db.GetUsersInput{
+		ID: authContext.UserID,
+	})
+	if err != nil {
+		return nil, "", tlog.Err(ctx, err)
+	}
+	if len(users) > 1 {
+		return nil, "", tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "user is duplicated"))
+	}
+
+	if len(users) == 0 {
+		_, err = self.db.CreateUser(ctx, &db.CreateUserInput{
+			ID:          &authContext.UserID,
+			Name:        authContext.UserID,
+			LastLoginAt: time.Now(),
+			DomainID:    "default",
+		})
+		if err != nil {
+			return nil, "", tlog.Err(ctx, err)
+		}
+	} else {
+		err = self.db.UpdateUserByID(ctx, authContext.UserID, &db.UpdateUserByIDInput{
+			LastLoginAt: time.Now(),
+		})
+		if err != nil {
+			return nil, "", tlog.Err(ctx, err)
+		}
+	}
 
 	domainID := "default"
 

@@ -19,6 +19,7 @@ func (self *DB) MustMigrate(ctx context.Context) {
 
 func (self *DB) Migrate(ctx context.Context) error {
 	if err := self.DB.AutoMigrate(
+		&model.User{},
 		&model.Project{},
 		&model.Role{},
 		&model.Organization{},

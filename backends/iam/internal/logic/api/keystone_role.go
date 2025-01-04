@@ -3,7 +3,6 @@ package api
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -26,12 +25,12 @@ func (self *API) CreateKeystoneRole(
 		return nil, tlog.Err(ctx, err)
 	}
 
-	domain, err := ConvertDBRoleToAPIRole(ctx, dbRole)
+	role, err := ConvertDBRoleToAPIRole(ctx, dbRole)
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}
 
-	return domain, nil
+	return role, nil
 }
 
 func (self *API) UpdateKeystoneRoleByID(
@@ -45,12 +44,12 @@ func (self *API) UpdateKeystoneRoleByID(
 		return nil, tlog.Err(ctx, err)
 	}
 
-	domain, err := self.GetKeystoneRoleByID(ctx, id)
+	role, err := self.GetKeystoneRoleByID(ctx, id)
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}
 
-	return domain, nil
+	return role, nil
 }
 
 func (self *API) GetKeystoneRoles(
@@ -65,18 +64,18 @@ func (self *API) GetKeystoneRoles(
 		return nil, tlog.Err(ctx, err)
 	}
 
-	domains := []oapi.KeystoneRole{}
+	roles := []oapi.KeystoneRole{}
 
 	for i := range dbRoles {
-		domain, err := ConvertDBRoleToAPIRole(ctx, &dbRoles[i])
+		role, err := ConvertDBRoleToAPIRole(ctx, &dbRoles[i])
 		if err != nil {
 			return nil, tlog.Err(ctx, err)
 		}
 
-		domains = append(domains, *domain)
+		roles = append(roles, *role)
 	}
 
-	return domains, nil
+	return roles, nil
 }
 
 func (self *API) GetKeystoneRoleByID(ctx context.Context, id string) (*oapi.KeystoneRole, error) {
@@ -88,19 +87,19 @@ func (self *API) GetKeystoneRoleByID(ctx context.Context, id string) (*oapi.Keys
 	}
 
 	if len(dbRoles) == 0 {
-		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusNotFound, "domain not found"))
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusNotFound, "role not found"))
 	}
 
 	if len(dbRoles) > 1 {
-		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "domain is duplicated"))
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "role is duplicated"))
 	}
 
-	domain, err := ConvertDBRoleToAPIRole(ctx, &dbRoles[0])
+	role, err := ConvertDBRoleToAPIRole(ctx, &dbRoles[0])
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}
 
-	return domain, nil
+	return role, nil
 }
 
 func ConvertDBRoleToAPIRole(ctx context.Context, dbRole *model.Role) (*oapi.KeystoneRole, error) {
@@ -128,7 +127,6 @@ func (self *API) DeleteKeystoneRole(ctx context.Context, id string) error {
 
 func (self *API) AssignRoleToProject(ctx context.Context, roleID, userID, projectID string) error {
 	splitedID := strings.Split(projectID, "@")
-	fmt.Println("DEBUG AssignRole", splitedID)
 	if len(splitedID) == 2 {
 		if splitedID[0] == ProjectTagTeam {
 			if err := self.db.AssignRoleToTeam(ctx, roleID, userID, splitedID[1]); err != nil {

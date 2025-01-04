@@ -38,7 +38,6 @@ func (self *DB) CreateTeam(ctx context.Context, input *db.CreateTeamInput) (*mod
 	}
 
 	team := model.Team{
-		ID:       uuid.New().String(),
 		Name:     input.Name,
 		Extra:    string(bytes),
 		DomainID: input.DomainID,

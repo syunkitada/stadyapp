@@ -4,6 +4,7 @@ package db
 
 import (
 	"context"
+	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
 
@@ -22,11 +23,11 @@ type IDBCommon interface {
 type IDB interface {
 	IDBCommon
 	IDBDomain
+	IDBUser
 	IDBProject
 	IDBOrganization
 	IDBTeam
 	IDBRole
-	// IDBUserRoleAssignment
 }
 
 // --------------------------------------------------------------------------------
@@ -95,6 +96,34 @@ type IDBRole interface {
 
 	AssignRoleToOrganization(ctx context.Context, roleID, userID, teamID string) error
 	UnassignRoleFromOrganization(ctx context.Context, roleID, userID, teamID string) error
+}
+
+// --------------------------------------------------------------------------------
+// User Interface
+// --------------------------------------------------------------------------------
+type GetUsersInput struct {
+	ID   string
+	Name string
+}
+
+type UpdateUserByIDInput struct {
+	Name        *string
+	DomainID    string
+	LastLoginAt time.Time
+}
+
+type CreateUserInput struct {
+	ID          *string
+	Name        string
+	DomainID    string
+	LastLoginAt time.Time
+}
+
+type IDBUser interface {
+	GetUsers(ctx context.Context, input *GetUsersInput) ([]model.User, error)
+	CreateUser(ctx context.Context, input *CreateUserInput) (*model.User, error)
+	UpdateUserByID(ctx context.Context, id string, input *UpdateUserByIDInput) error
+	DeleteUserByID(ctx context.Context, id string) error
 }
 
 // --------------------------------------------------------------------------------
@@ -187,26 +216,3 @@ type IDBTeam interface {
 	UpdateTeamByID(ctx context.Context, id string, input *UpdateTeamByIDInput) error
 	DeleteTeamByID(ctx context.Context, id string) error
 }
-
-// type GetUserRoleAssignmentsInput struct {
-// 	UserID    string
-// 	ProjectID string
-// }
-//
-// type DeleteUserRoleAssignmentsInput struct {
-// 	UserID    string
-// 	RoleID    string
-// 	ProjectID string
-// }
-//
-// type CreateUserRoleAssignmentInput struct {
-// 	UserID    string
-// 	RoleID    string
-// 	ProjectID string
-// }
-//
-// type IDBUserRoleAssignment interface {
-// 	GetUserRoleAssignments(ctx context.Context, input *GetUserRoleAssignmentsInput) ([]model.UserRoleAssignment, error)
-// 	CreateUserRoleAssignment(ctx context.Context, input *CreateUserRoleAssignmentInput) (*model.UserRoleAssignment, error)
-// 	DeleteUserRoleAssignment(ctx context.Context, input *DeleteUserRoleAssignmentsInput) error
-// }
