@@ -6,7 +6,7 @@ users:
     parameters:
       - name: name
         in: query
-        description: Filters the response by a project name
+        description: Filters the response by a user name
         required: false
         schema:
           type: string
@@ -136,7 +136,7 @@ users_id_projects:
         content:
           application/json:
             schema:
-              $ref: "../schemas/keystone_project.yaml#/KeystoneProjectsResponse"
+              $ref: "../schemas/keystone_user.yaml#/KeystoneUserResponse"
       "4XX":
         description: unexpected error
         content:

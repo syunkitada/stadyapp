@@ -46,13 +46,21 @@ paths:
     $ref: "./paths/keystone_projects.yaml#/projects_id"
   /keystone/v3/projects/{id}/users/{user_id}/roles/{role_id}:
     $ref: "./paths/keystone_projects.yaml#/projects_id_users_user_id_roles_role_id"
+  /keystone/v3/projects/{id}/groups/{group_id}/roles/{role_id}:
+    $ref: "./paths/keystone_projects.yaml#/projects_id_groups_group_id_roles_role_id"
   /keystone/v3/users:
     $ref: "./paths/keystone_users.yaml#/users"
   /keystone/v3/users/{id}:
     $ref: "./paths/keystone_users.yaml#/users_id"
   /keystone/v3/users/{id}/projects:
     $ref: "./paths/keystone_users.yaml#/users_id_projects"
+  /keystone/v3/groups:
+    $ref: "./paths/keystone_groups.yaml#/groups"
+  /keystone/v3/groups/{id}:
+    $ref: "./paths/keystone_groups.yaml#/groups_id"
   /keystone/v3/roles:
     $ref: "./paths/keystone_roles.yaml#/roles"
   /keystone/v3/roles/{id}:
     $ref: "./paths/keystone_roles.yaml#/roles_id"
+  /keystone/v3/role_assignments:
+    $ref: "./paths/keystone_role_assignments.yaml#/role_assignments"

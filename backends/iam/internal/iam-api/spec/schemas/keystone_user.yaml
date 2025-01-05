@@ -40,6 +40,27 @@ KeystoneUsers:
     - users
     - links
 
+KeystoneUserResponse:
+  type: object
+  properties:
+    user:
+      $ref: "#/KeystoneUser"
+  required:
+    - user
+
+KeystoneUsersResponse:
+  type: object
+  properties:
+    users:
+      type: array
+      items:
+        $ref: "#/KeystoneUser"
+    links:
+      $ref: "./keystone.yaml#/KeystonePagerLinks"
+  required:
+    - users
+    - links
+
 CreateKeystoneUserInput:
   type: object
   properties:

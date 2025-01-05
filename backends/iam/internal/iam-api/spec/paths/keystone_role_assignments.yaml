@@ -1,0 +1,49 @@
+role_assignments:
+  get:
+    summary: Get keystone role assignments
+    description: Get keystone role assignments
+    operationId: getKeystoneRoleAssignments
+    parameters:
+      - name: role.id
+        in: query
+        description: Filters the response by a role id
+        required: false
+        schema:
+          type: string
+      - name: user.id
+        in: query
+        description: Filters the response by a user id
+        required: false
+        schema:
+          type: string
+      - name: scope.domain.id
+        in: query
+        description: Filters the response by a domain id
+        required: false
+        schema:
+          type: string
+      - name: scope.project.id
+        in: query
+        description: Filters the response by a role assignment id
+        required: false
+        schema:
+          type: string
+    responses:
+      "200":
+        description: get keystone role assignments
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_role_assignment.yaml#/KeystoneRoleAssignmentsResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"

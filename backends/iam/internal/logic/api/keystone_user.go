@@ -21,12 +21,12 @@ func (self *API) CreateKeystoneUser(
 		return nil, tlog.Err(ctx, err)
 	}
 
-	role, err := ConvertDBUserToAPIUser(ctx, dbUser)
+	user, err := ConvertDBUserToAPIUser(ctx, dbUser)
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}
 
-	return role, nil
+	return user, nil
 }
 
 func (self *API) GetKeystoneUsers(
@@ -41,18 +41,18 @@ func (self *API) GetKeystoneUsers(
 		return nil, tlog.Err(ctx, err)
 	}
 
-	roles := []oapi.KeystoneUser{}
+	users := []oapi.KeystoneUser{}
 
 	for i := range dbUsers {
-		role, err := ConvertDBUserToAPIUser(ctx, &dbUsers[i])
+		user, err := ConvertDBUserToAPIUser(ctx, &dbUsers[i])
 		if err != nil {
 			return nil, tlog.Err(ctx, err)
 		}
 
-		roles = append(roles, *role)
+		users = append(users, *user)
 	}
 
-	return roles, nil
+	return users, nil
 }
 
 func (self *API) GetKeystoneUserByID(ctx context.Context, id string) (*oapi.KeystoneUser, error) {
@@ -64,19 +64,19 @@ func (self *API) GetKeystoneUserByID(ctx context.Context, id string) (*oapi.Keys
 	}
 
 	if len(dbUsers) == 0 {
-		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusNotFound, "role not found"))
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusNotFound, "user not found"))
 	}
 
 	if len(dbUsers) > 1 {
-		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "role is duplicated"))
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "user is duplicated"))
 	}
 
-	role, err := ConvertDBUserToAPIUser(ctx, &dbUsers[0])
+	user, err := ConvertDBUserToAPIUser(ctx, &dbUsers[0])
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}
 
-	return role, nil
+	return user, nil
 }
 
 func ConvertDBUserToAPIUser(ctx context.Context, dbUser *model.User) (*oapi.KeystoneUser, error) {

@@ -1,0 +1,122 @@
+KeystoneRoleAssignmentScope:
+  type: object
+  properties:
+    project:
+      $ref: "#/KeystoneRoleAssignmentProject"
+    domain:
+      $ref: "#/KeystoneRoleAssignmentDomain"
+
+KeystoneRoleAssignmentGroup:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    domain:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+  required:
+    - id
+    - name
+    - domain
+
+KeystoneRoleAssignmentUser:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    domain:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+  required:
+    - id
+    - name
+    - domain
+
+KeystoneRoleAssignmentRole:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+  required:
+    - id
+    - name
+
+KeystoneRoleAssignmentProject:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    domain:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+  required:
+    - id
+    - name
+    - domain
+
+KeystoneRoleAssignmentDomain:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+  required:
+    - id
+    - name
+
+KeystoneRoleAssignment:
+  type: object
+  properties:
+    scope:
+      $ref: "#/KeystoneRoleAssignmentScope"
+    group:
+      $ref: "#/KeystoneRoleAssignmentGroup"
+    user:
+      $ref: "#/KeystoneRoleAssignmentUser"
+    role:
+      $ref: "#/KeystoneRoleAssignmentRole"
+    links:
+      $ref: "./keystone.yaml#/KeystoneSelfPagerLinks"
+
+KeystoneRoleAssignmentsResponse:
+  type: object
+  properties:
+    role_assignments:
+      type: array
+      items:
+        $ref: "#/KeystoneRoleAssignment"
+    links:
+      $ref: "./keystone.yaml#/KeystonePagerLinks"
+  required:
+    - role_assignments
+    - links

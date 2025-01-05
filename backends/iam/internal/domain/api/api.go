@@ -13,6 +13,7 @@ type IAPI interface {
 	IAPIKeystoneDomain
 	IAPIKeystoneProject
 	IAPIKeystoneUser
+	IAPIKeystoneGroup
 	IAPIKeystoneRole
 	IAPIOther
 }
@@ -51,6 +52,11 @@ type IAPIKeystoneUser interface {
 	DeleteKeystoneUser(ctx context.Context, id string) error
 }
 
+type IAPIKeystoneGroup interface {
+	GetKeystoneGroups(ctx context.Context, input *oapi.GetKeystoneGroupsParams) ([]oapi.KeystoneGroup, error)
+	GetKeystoneGroupByID(ctx context.Context, id string) (*oapi.KeystoneGroup, error)
+}
+
 type IAPIKeystoneRole interface {
 	CreateKeystoneRole(ctx context.Context, input *oapi.CreateKeystoneRoleInput) (*oapi.KeystoneRole, error)
 	UpdateKeystoneRoleByID(
@@ -58,8 +64,11 @@ type IAPIKeystoneRole interface {
 	GetKeystoneRoles(ctx context.Context, input *oapi.GetKeystoneRolesParams) ([]oapi.KeystoneRole, error)
 	GetKeystoneRoleByID(ctx context.Context, id string) (*oapi.KeystoneRole, error)
 	DeleteKeystoneRole(ctx context.Context, id string) error
-	AssignRoleToProject(ctx context.Context, projectID string, userID string, roleID string) error
-	UnassignRoleFromProject(ctx context.Context, projectID string, userID string, roleID string) error
-	AssignRoleToDomain(ctx context.Context, projectID string, userID string, roleID string) error
-	UnassignRoleFromDomain(ctx context.Context, projectID string, userID string, roleID string) error
+	AssignKeystoneRoleToGroupProject(ctx context.Context, roleID string, groupID string, projectID string) error
+	UnassignKeystoneRoleFromGroupProject(ctx context.Context, roleID string, groupID string, projectID string) error
+	AssignKeystoneRoleToUserProject(ctx context.Context, roleID string, userID string, projectID string) error
+	UnassignKeystoneRoleFromUserProject(ctx context.Context, roleID string, userID string, projectID string) error
+	AssignKeystoneRoleToUserDomain(ctx context.Context, roleID string, userID string, domainID string) error
+	UnassignKeystoneRoleFromUserDomain(ctx context.Context, roleID string, userID string, domainID string) error
+	GetKeystoneRoleAssignments(ctx context.Context, input *oapi.GetKeystoneRoleAssignmentsParams) ([]oapi.KeystoneRoleAssignment, error)
 }

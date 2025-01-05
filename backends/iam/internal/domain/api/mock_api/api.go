@@ -35,32 +35,46 @@ func (m *MockIAPI) EXPECT() *MockIAPIMockRecorder {
 	return m.recorder
 }
 
-// AssignRoleToDomain mocks base method.
-func (m *MockIAPI) AssignRoleToDomain(ctx context.Context, projectID, userID, roleID string) error {
+// AssignKeystoneRoleToGroupProject mocks base method.
+func (m *MockIAPI) AssignKeystoneRoleToGroupProject(ctx context.Context, roleID, groupID, projectID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AssignRoleToDomain", ctx, projectID, userID, roleID)
+	ret := m.ctrl.Call(m, "AssignKeystoneRoleToGroupProject", ctx, roleID, groupID, projectID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// AssignRoleToDomain indicates an expected call of AssignRoleToDomain.
-func (mr *MockIAPIMockRecorder) AssignRoleToDomain(ctx, projectID, userID, roleID interface{}) *gomock.Call {
+// AssignKeystoneRoleToGroupProject indicates an expected call of AssignKeystoneRoleToGroupProject.
+func (mr *MockIAPIMockRecorder) AssignKeystoneRoleToGroupProject(ctx, roleID, groupID, projectID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToDomain", reflect.TypeOf((*MockIAPI)(nil).AssignRoleToDomain), ctx, projectID, userID, roleID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignKeystoneRoleToGroupProject", reflect.TypeOf((*MockIAPI)(nil).AssignKeystoneRoleToGroupProject), ctx, roleID, groupID, projectID)
 }
 
-// AssignRoleToProject mocks base method.
-func (m *MockIAPI) AssignRoleToProject(ctx context.Context, projectID, userID, roleID string) error {
+// AssignKeystoneRoleToUserDomain mocks base method.
+func (m *MockIAPI) AssignKeystoneRoleToUserDomain(ctx context.Context, roleID, userID, domainID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AssignRoleToProject", ctx, projectID, userID, roleID)
+	ret := m.ctrl.Call(m, "AssignKeystoneRoleToUserDomain", ctx, roleID, userID, domainID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// AssignRoleToProject indicates an expected call of AssignRoleToProject.
-func (mr *MockIAPIMockRecorder) AssignRoleToProject(ctx, projectID, userID, roleID interface{}) *gomock.Call {
+// AssignKeystoneRoleToUserDomain indicates an expected call of AssignKeystoneRoleToUserDomain.
+func (mr *MockIAPIMockRecorder) AssignKeystoneRoleToUserDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToProject", reflect.TypeOf((*MockIAPI)(nil).AssignRoleToProject), ctx, projectID, userID, roleID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignKeystoneRoleToUserDomain", reflect.TypeOf((*MockIAPI)(nil).AssignKeystoneRoleToUserDomain), ctx, roleID, userID, domainID)
+}
+
+// AssignKeystoneRoleToUserProject mocks base method.
+func (m *MockIAPI) AssignKeystoneRoleToUserProject(ctx context.Context, roleID, userID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignKeystoneRoleToUserProject", ctx, roleID, userID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignKeystoneRoleToUserProject indicates an expected call of AssignKeystoneRoleToUserProject.
+func (mr *MockIAPIMockRecorder) AssignKeystoneRoleToUserProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignKeystoneRoleToUserProject", reflect.TypeOf((*MockIAPI)(nil).AssignKeystoneRoleToUserProject), ctx, roleID, userID, projectID)
 }
 
 // CreateKeystoneDomain mocks base method.
@@ -225,6 +239,36 @@ func (mr *MockIAPIMockRecorder) GetKeystoneDomains(ctx, input interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneDomains", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneDomains), ctx, input)
 }
 
+// GetKeystoneGroupByID mocks base method.
+func (m *MockIAPI) GetKeystoneGroupByID(ctx context.Context, id string) (*oapi.KeystoneGroup, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneGroupByID", ctx, id)
+	ret0, _ := ret[0].(*oapi.KeystoneGroup)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneGroupByID indicates an expected call of GetKeystoneGroupByID.
+func (mr *MockIAPIMockRecorder) GetKeystoneGroupByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneGroupByID", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneGroupByID), ctx, id)
+}
+
+// GetKeystoneGroups mocks base method.
+func (m *MockIAPI) GetKeystoneGroups(ctx context.Context, input *oapi.GetKeystoneGroupsParams) ([]oapi.KeystoneGroup, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneGroups", ctx, input)
+	ret0, _ := ret[0].([]oapi.KeystoneGroup)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneGroups indicates an expected call of GetKeystoneGroups.
+func (mr *MockIAPIMockRecorder) GetKeystoneGroups(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneGroups", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneGroups), ctx, input)
+}
+
 // GetKeystoneProjectByID mocks base method.
 func (m *MockIAPI) GetKeystoneProjectByID(ctx context.Context, id string) (*oapi.KeystoneProject, error) {
 	m.ctrl.T.Helper()
@@ -253,6 +297,21 @@ func (m *MockIAPI) GetKeystoneProjects(ctx context.Context, input *oapi.GetKeyst
 func (mr *MockIAPIMockRecorder) GetKeystoneProjects(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneProjects", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneProjects), ctx, input)
+}
+
+// GetKeystoneRoleAssignments mocks base method.
+func (m *MockIAPI) GetKeystoneRoleAssignments(ctx context.Context, input *oapi.GetKeystoneRoleAssignmentsParams) ([]oapi.KeystoneRoleAssignment, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneRoleAssignments", ctx, input)
+	ret0, _ := ret[0].([]oapi.KeystoneRoleAssignment)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneRoleAssignments indicates an expected call of GetKeystoneRoleAssignments.
+func (mr *MockIAPIMockRecorder) GetKeystoneRoleAssignments(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneRoleAssignments", reflect.TypeOf((*MockIAPI)(nil).GetKeystoneRoleAssignments), ctx, input)
 }
 
 // GetKeystoneRoleByID mocks base method.
@@ -345,32 +404,46 @@ func (mr *MockIAPIMockRecorder) GetPubkeys(ctx, input interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPubkeys", reflect.TypeOf((*MockIAPI)(nil).GetPubkeys), ctx, input)
 }
 
-// UnassignRoleFromDomain mocks base method.
-func (m *MockIAPI) UnassignRoleFromDomain(ctx context.Context, projectID, userID, roleID string) error {
+// UnassignKeystoneRoleFromGroupProject mocks base method.
+func (m *MockIAPI) UnassignKeystoneRoleFromGroupProject(ctx context.Context, roleID, groupID, projectID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnassignRoleFromDomain", ctx, projectID, userID, roleID)
+	ret := m.ctrl.Call(m, "UnassignKeystoneRoleFromGroupProject", ctx, roleID, groupID, projectID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UnassignRoleFromDomain indicates an expected call of UnassignRoleFromDomain.
-func (mr *MockIAPIMockRecorder) UnassignRoleFromDomain(ctx, projectID, userID, roleID interface{}) *gomock.Call {
+// UnassignKeystoneRoleFromGroupProject indicates an expected call of UnassignKeystoneRoleFromGroupProject.
+func (mr *MockIAPIMockRecorder) UnassignKeystoneRoleFromGroupProject(ctx, roleID, groupID, projectID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromDomain", reflect.TypeOf((*MockIAPI)(nil).UnassignRoleFromDomain), ctx, projectID, userID, roleID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignKeystoneRoleFromGroupProject", reflect.TypeOf((*MockIAPI)(nil).UnassignKeystoneRoleFromGroupProject), ctx, roleID, groupID, projectID)
 }
 
-// UnassignRoleFromProject mocks base method.
-func (m *MockIAPI) UnassignRoleFromProject(ctx context.Context, projectID, userID, roleID string) error {
+// UnassignKeystoneRoleFromUserDomain mocks base method.
+func (m *MockIAPI) UnassignKeystoneRoleFromUserDomain(ctx context.Context, roleID, userID, domainID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnassignRoleFromProject", ctx, projectID, userID, roleID)
+	ret := m.ctrl.Call(m, "UnassignKeystoneRoleFromUserDomain", ctx, roleID, userID, domainID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UnassignRoleFromProject indicates an expected call of UnassignRoleFromProject.
-func (mr *MockIAPIMockRecorder) UnassignRoleFromProject(ctx, projectID, userID, roleID interface{}) *gomock.Call {
+// UnassignKeystoneRoleFromUserDomain indicates an expected call of UnassignKeystoneRoleFromUserDomain.
+func (mr *MockIAPIMockRecorder) UnassignKeystoneRoleFromUserDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromProject", reflect.TypeOf((*MockIAPI)(nil).UnassignRoleFromProject), ctx, projectID, userID, roleID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignKeystoneRoleFromUserDomain", reflect.TypeOf((*MockIAPI)(nil).UnassignKeystoneRoleFromUserDomain), ctx, roleID, userID, domainID)
+}
+
+// UnassignKeystoneRoleFromUserProject mocks base method.
+func (m *MockIAPI) UnassignKeystoneRoleFromUserProject(ctx context.Context, roleID, userID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignKeystoneRoleFromUserProject", ctx, roleID, userID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignKeystoneRoleFromUserProject indicates an expected call of UnassignKeystoneRoleFromUserProject.
+func (mr *MockIAPIMockRecorder) UnassignKeystoneRoleFromUserProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignKeystoneRoleFromUserProject", reflect.TypeOf((*MockIAPI)(nil).UnassignKeystoneRoleFromUserProject), ctx, roleID, userID, projectID)
 }
 
 // UpdateKeystoneDomainByID mocks base method.
@@ -786,6 +859,59 @@ func (mr *MockIAPIKeystoneUserMockRecorder) GetKeystoneUsers(ctx, input interfac
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneUsers", reflect.TypeOf((*MockIAPIKeystoneUser)(nil).GetKeystoneUsers), ctx, input)
 }
 
+// MockIAPIKeystoneGroup is a mock of IAPIKeystoneGroup interface.
+type MockIAPIKeystoneGroup struct {
+	ctrl     *gomock.Controller
+	recorder *MockIAPIKeystoneGroupMockRecorder
+}
+
+// MockIAPIKeystoneGroupMockRecorder is the mock recorder for MockIAPIKeystoneGroup.
+type MockIAPIKeystoneGroupMockRecorder struct {
+	mock *MockIAPIKeystoneGroup
+}
+
+// NewMockIAPIKeystoneGroup creates a new mock instance.
+func NewMockIAPIKeystoneGroup(ctrl *gomock.Controller) *MockIAPIKeystoneGroup {
+	mock := &MockIAPIKeystoneGroup{ctrl: ctrl}
+	mock.recorder = &MockIAPIKeystoneGroupMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockIAPIKeystoneGroup) EXPECT() *MockIAPIKeystoneGroupMockRecorder {
+	return m.recorder
+}
+
+// GetKeystoneGroupByID mocks base method.
+func (m *MockIAPIKeystoneGroup) GetKeystoneGroupByID(ctx context.Context, id string) (*oapi.KeystoneGroup, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneGroupByID", ctx, id)
+	ret0, _ := ret[0].(*oapi.KeystoneGroup)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneGroupByID indicates an expected call of GetKeystoneGroupByID.
+func (mr *MockIAPIKeystoneGroupMockRecorder) GetKeystoneGroupByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneGroupByID", reflect.TypeOf((*MockIAPIKeystoneGroup)(nil).GetKeystoneGroupByID), ctx, id)
+}
+
+// GetKeystoneGroups mocks base method.
+func (m *MockIAPIKeystoneGroup) GetKeystoneGroups(ctx context.Context, input *oapi.GetKeystoneGroupsParams) ([]oapi.KeystoneGroup, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneGroups", ctx, input)
+	ret0, _ := ret[0].([]oapi.KeystoneGroup)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneGroups indicates an expected call of GetKeystoneGroups.
+func (mr *MockIAPIKeystoneGroupMockRecorder) GetKeystoneGroups(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneGroups", reflect.TypeOf((*MockIAPIKeystoneGroup)(nil).GetKeystoneGroups), ctx, input)
+}
+
 // MockIAPIKeystoneRole is a mock of IAPIKeystoneRole interface.
 type MockIAPIKeystoneRole struct {
 	ctrl     *gomock.Controller
@@ -809,32 +935,46 @@ func (m *MockIAPIKeystoneRole) EXPECT() *MockIAPIKeystoneRoleMockRecorder {
 	return m.recorder
 }
 
-// AssignRoleToDomain mocks base method.
-func (m *MockIAPIKeystoneRole) AssignRoleToDomain(ctx context.Context, projectID, userID, roleID string) error {
+// AssignKeystoneRoleToGroupProject mocks base method.
+func (m *MockIAPIKeystoneRole) AssignKeystoneRoleToGroupProject(ctx context.Context, roleID, groupID, projectID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AssignRoleToDomain", ctx, projectID, userID, roleID)
+	ret := m.ctrl.Call(m, "AssignKeystoneRoleToGroupProject", ctx, roleID, groupID, projectID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// AssignRoleToDomain indicates an expected call of AssignRoleToDomain.
-func (mr *MockIAPIKeystoneRoleMockRecorder) AssignRoleToDomain(ctx, projectID, userID, roleID interface{}) *gomock.Call {
+// AssignKeystoneRoleToGroupProject indicates an expected call of AssignKeystoneRoleToGroupProject.
+func (mr *MockIAPIKeystoneRoleMockRecorder) AssignKeystoneRoleToGroupProject(ctx, roleID, groupID, projectID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToDomain", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).AssignRoleToDomain), ctx, projectID, userID, roleID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignKeystoneRoleToGroupProject", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).AssignKeystoneRoleToGroupProject), ctx, roleID, groupID, projectID)
 }
 
-// AssignRoleToProject mocks base method.
-func (m *MockIAPIKeystoneRole) AssignRoleToProject(ctx context.Context, projectID, userID, roleID string) error {
+// AssignKeystoneRoleToUserDomain mocks base method.
+func (m *MockIAPIKeystoneRole) AssignKeystoneRoleToUserDomain(ctx context.Context, roleID, userID, domainID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AssignRoleToProject", ctx, projectID, userID, roleID)
+	ret := m.ctrl.Call(m, "AssignKeystoneRoleToUserDomain", ctx, roleID, userID, domainID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// AssignRoleToProject indicates an expected call of AssignRoleToProject.
-func (mr *MockIAPIKeystoneRoleMockRecorder) AssignRoleToProject(ctx, projectID, userID, roleID interface{}) *gomock.Call {
+// AssignKeystoneRoleToUserDomain indicates an expected call of AssignKeystoneRoleToUserDomain.
+func (mr *MockIAPIKeystoneRoleMockRecorder) AssignKeystoneRoleToUserDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToProject", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).AssignRoleToProject), ctx, projectID, userID, roleID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignKeystoneRoleToUserDomain", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).AssignKeystoneRoleToUserDomain), ctx, roleID, userID, domainID)
+}
+
+// AssignKeystoneRoleToUserProject mocks base method.
+func (m *MockIAPIKeystoneRole) AssignKeystoneRoleToUserProject(ctx context.Context, roleID, userID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignKeystoneRoleToUserProject", ctx, roleID, userID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignKeystoneRoleToUserProject indicates an expected call of AssignKeystoneRoleToUserProject.
+func (mr *MockIAPIKeystoneRoleMockRecorder) AssignKeystoneRoleToUserProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignKeystoneRoleToUserProject", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).AssignKeystoneRoleToUserProject), ctx, roleID, userID, projectID)
 }
 
 // CreateKeystoneRole mocks base method.
@@ -864,6 +1004,21 @@ func (m *MockIAPIKeystoneRole) DeleteKeystoneRole(ctx context.Context, id string
 func (mr *MockIAPIKeystoneRoleMockRecorder) DeleteKeystoneRole(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteKeystoneRole", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).DeleteKeystoneRole), ctx, id)
+}
+
+// GetKeystoneRoleAssignments mocks base method.
+func (m *MockIAPIKeystoneRole) GetKeystoneRoleAssignments(ctx context.Context, input *oapi.GetKeystoneRoleAssignmentsParams) ([]oapi.KeystoneRoleAssignment, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetKeystoneRoleAssignments", ctx, input)
+	ret0, _ := ret[0].([]oapi.KeystoneRoleAssignment)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetKeystoneRoleAssignments indicates an expected call of GetKeystoneRoleAssignments.
+func (mr *MockIAPIKeystoneRoleMockRecorder) GetKeystoneRoleAssignments(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneRoleAssignments", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).GetKeystoneRoleAssignments), ctx, input)
 }
 
 // GetKeystoneRoleByID mocks base method.
@@ -896,32 +1051,46 @@ func (mr *MockIAPIKeystoneRoleMockRecorder) GetKeystoneRoles(ctx, input interfac
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKeystoneRoles", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).GetKeystoneRoles), ctx, input)
 }
 
-// UnassignRoleFromDomain mocks base method.
-func (m *MockIAPIKeystoneRole) UnassignRoleFromDomain(ctx context.Context, projectID, userID, roleID string) error {
+// UnassignKeystoneRoleFromGroupProject mocks base method.
+func (m *MockIAPIKeystoneRole) UnassignKeystoneRoleFromGroupProject(ctx context.Context, roleID, groupID, projectID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnassignRoleFromDomain", ctx, projectID, userID, roleID)
+	ret := m.ctrl.Call(m, "UnassignKeystoneRoleFromGroupProject", ctx, roleID, groupID, projectID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UnassignRoleFromDomain indicates an expected call of UnassignRoleFromDomain.
-func (mr *MockIAPIKeystoneRoleMockRecorder) UnassignRoleFromDomain(ctx, projectID, userID, roleID interface{}) *gomock.Call {
+// UnassignKeystoneRoleFromGroupProject indicates an expected call of UnassignKeystoneRoleFromGroupProject.
+func (mr *MockIAPIKeystoneRoleMockRecorder) UnassignKeystoneRoleFromGroupProject(ctx, roleID, groupID, projectID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromDomain", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).UnassignRoleFromDomain), ctx, projectID, userID, roleID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignKeystoneRoleFromGroupProject", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).UnassignKeystoneRoleFromGroupProject), ctx, roleID, groupID, projectID)
 }
 
-// UnassignRoleFromProject mocks base method.
-func (m *MockIAPIKeystoneRole) UnassignRoleFromProject(ctx context.Context, projectID, userID, roleID string) error {
+// UnassignKeystoneRoleFromUserDomain mocks base method.
+func (m *MockIAPIKeystoneRole) UnassignKeystoneRoleFromUserDomain(ctx context.Context, roleID, userID, domainID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnassignRoleFromProject", ctx, projectID, userID, roleID)
+	ret := m.ctrl.Call(m, "UnassignKeystoneRoleFromUserDomain", ctx, roleID, userID, domainID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UnassignRoleFromProject indicates an expected call of UnassignRoleFromProject.
-func (mr *MockIAPIKeystoneRoleMockRecorder) UnassignRoleFromProject(ctx, projectID, userID, roleID interface{}) *gomock.Call {
+// UnassignKeystoneRoleFromUserDomain indicates an expected call of UnassignKeystoneRoleFromUserDomain.
+func (mr *MockIAPIKeystoneRoleMockRecorder) UnassignKeystoneRoleFromUserDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromProject", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).UnassignRoleFromProject), ctx, projectID, userID, roleID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignKeystoneRoleFromUserDomain", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).UnassignKeystoneRoleFromUserDomain), ctx, roleID, userID, domainID)
+}
+
+// UnassignKeystoneRoleFromUserProject mocks base method.
+func (m *MockIAPIKeystoneRole) UnassignKeystoneRoleFromUserProject(ctx context.Context, roleID, userID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignKeystoneRoleFromUserProject", ctx, roleID, userID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignKeystoneRoleFromUserProject indicates an expected call of UnassignKeystoneRoleFromUserProject.
+func (mr *MockIAPIKeystoneRoleMockRecorder) UnassignKeystoneRoleFromUserProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignKeystoneRoleFromUserProject", reflect.TypeOf((*MockIAPIKeystoneRole)(nil).UnassignKeystoneRoleFromUserProject), ctx, roleID, userID, projectID)
 }
 
 // UpdateKeystoneRoleByID mocks base method.

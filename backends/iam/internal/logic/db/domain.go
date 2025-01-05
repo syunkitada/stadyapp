@@ -3,13 +3,34 @@ package db
 import (
 	"context"
 	"encoding/json"
+	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/labstack/echo/v4"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
+
+func (self *DB) GetDomainByID(ctx context.Context, id string) (*model.Domain, error) {
+	dbDomains, err := self.GetDomains(ctx, &db.GetDomainsInput{
+		ID: id,
+	})
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	if len(dbDomains) == 0 {
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusNotFound, "domain does not found"))
+	}
+
+	if len(dbDomains) > 1 {
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "domain is duplicated"))
+	}
+
+	return &dbDomains[0], nil
+}
 
 func (self *DB) GetDomains(ctx context.Context, input *db.GetDomainsInput) ([]model.Domain, error) {
 	query := self.DB.WithContext(ctx).Model(model.Domain{}).

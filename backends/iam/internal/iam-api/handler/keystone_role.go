@@ -89,10 +89,10 @@ func (self *Handler) DeleteKeystoneRoleByID(ectx echo.Context, id string) error 
 	return tlog.BindEchoNoContent(ctx, ectx)
 }
 
-func (self *Handler) AssignRoleToProject(ectx echo.Context, projectID string, userID string, roleID string) error {
+func (self *Handler) AssignKeystoneRoleToUserProject(ectx echo.Context, projectID string, userID string, roleID string) error {
 	ctx := iam_auth.WithEchoContext(ectx)
 
-	err := self.api.AssignRoleToProject(ctx, roleID, userID, projectID)
+	err := self.api.AssignKeystoneRoleToUserProject(ctx, roleID, userID, projectID)
 	if err != nil {
 		return tlog.BindEchoError(ctx, ectx, err)
 	}
@@ -100,10 +100,32 @@ func (self *Handler) AssignRoleToProject(ectx echo.Context, projectID string, us
 	return tlog.BindEchoNoContent(ctx, ectx)
 }
 
-func (self *Handler) UnassignRoleFromProject(ectx echo.Context, projectID string, userID string, roleID string) error {
+func (self *Handler) UnassignKeystoneRoleFromUserProject(ectx echo.Context, projectID string, userID string, roleID string) error {
 	ctx := iam_auth.WithEchoContext(ectx)
 
-	err := self.api.UnassignRoleFromProject(ctx, roleID, userID, projectID)
+	err := self.api.UnassignKeystoneRoleFromUserProject(ctx, roleID, userID, projectID)
+	if err != nil {
+		return tlog.BindEchoError(ctx, ectx, err)
+	}
+
+	return tlog.BindEchoNoContent(ctx, ectx)
+}
+
+func (self *Handler) AssignKeystoneRoleToGroupProject(ectx echo.Context, projectID string, groupID string, roleID string) error {
+	ctx := iam_auth.WithEchoContext(ectx)
+
+	err := self.api.AssignKeystoneRoleToGroupProject(ctx, roleID, groupID, projectID)
+	if err != nil {
+		return tlog.BindEchoError(ctx, ectx, err)
+	}
+
+	return tlog.BindEchoNoContent(ctx, ectx)
+}
+
+func (self *Handler) UnassignKeystoneRoleFromGroupProject(ectx echo.Context, projectID string, groupID string, roleID string) error {
+	ctx := iam_auth.WithEchoContext(ectx)
+
+	err := self.api.UnassignKeystoneRoleFromGroupProject(ctx, roleID, groupID, projectID)
 	if err != nil {
 		return tlog.BindEchoError(ctx, ectx, err)
 	}
@@ -114,7 +136,7 @@ func (self *Handler) UnassignRoleFromProject(ectx echo.Context, projectID string
 func (self *Handler) AssignRoleToDomain(ectx echo.Context, projectID string, userID string, roleID string) error {
 	ctx := iam_auth.WithEchoContext(ectx)
 
-	err := self.api.AssignRoleToDomain(ctx, roleID, userID, projectID)
+	err := self.api.AssignKeystoneRoleToUserDomain(ctx, roleID, userID, projectID)
 	if err != nil {
 		return tlog.BindEchoError(ctx, ectx, err)
 	}
@@ -125,10 +147,25 @@ func (self *Handler) AssignRoleToDomain(ectx echo.Context, projectID string, use
 func (self *Handler) UnassignRoleFromDomain(ectx echo.Context, projectID string, userID string, roleID string) error {
 	ctx := iam_auth.WithEchoContext(ectx)
 
-	err := self.api.UnassignRoleFromDomain(ctx, roleID, userID, projectID)
+	err := self.api.UnassignKeystoneRoleFromUserDomain(ctx, roleID, userID, projectID)
 	if err != nil {
 		return tlog.BindEchoError(ctx, ectx, err)
 	}
 
 	return tlog.BindEchoNoContent(ctx, ectx)
+}
+
+func (self *Handler) GetKeystoneRoleAssignments(ectx echo.Context, input oapi.GetKeystoneRoleAssignmentsParams) error {
+	ctx := iam_auth.WithEchoContext(ectx)
+
+	roleAssignments, err := self.api.GetKeystoneRoleAssignments(ctx, &input)
+	if err != nil {
+		return tlog.BindEchoError(ctx, ectx, err)
+	}
+
+	resp := oapi.KeystoneRoleAssignmentsResponse{
+		RoleAssignments: roleAssignments,
+	}
+
+	return tlog.BindEchoOK(ctx, ectx, resp)
 }

@@ -134,32 +134,102 @@ func (m *MockIDB) EXPECT() *MockIDBMockRecorder {
 	return m.recorder
 }
 
-// AssignRoleToDomain mocks base method.
-func (m *MockIDB) AssignRoleToDomain(ctx context.Context, roleID, userID, domainID string) error {
+// AssignRoleToTeamDomain mocks base method.
+func (m *MockIDB) AssignRoleToTeamDomain(ctx context.Context, roleID, teamID, domainID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AssignRoleToDomain", ctx, roleID, userID, domainID)
+	ret := m.ctrl.Call(m, "AssignRoleToTeamDomain", ctx, roleID, teamID, domainID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// AssignRoleToDomain indicates an expected call of AssignRoleToDomain.
-func (mr *MockIDBMockRecorder) AssignRoleToDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
+// AssignRoleToTeamDomain indicates an expected call of AssignRoleToTeamDomain.
+func (mr *MockIDBMockRecorder) AssignRoleToTeamDomain(ctx, roleID, teamID, domainID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToDomain", reflect.TypeOf((*MockIDB)(nil).AssignRoleToDomain), ctx, roleID, userID, domainID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToTeamDomain", reflect.TypeOf((*MockIDB)(nil).AssignRoleToTeamDomain), ctx, roleID, teamID, domainID)
 }
 
-// AssignRoleToProject mocks base method.
-func (m *MockIDB) AssignRoleToProject(ctx context.Context, roleID, userID, projectID string) error {
+// AssignRoleToTeamOrganization mocks base method.
+func (m *MockIDB) AssignRoleToTeamOrganization(ctx context.Context, roleID, teamID, organizationID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AssignRoleToProject", ctx, roleID, userID, projectID)
+	ret := m.ctrl.Call(m, "AssignRoleToTeamOrganization", ctx, roleID, teamID, organizationID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// AssignRoleToProject indicates an expected call of AssignRoleToProject.
-func (mr *MockIDBMockRecorder) AssignRoleToProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+// AssignRoleToTeamOrganization indicates an expected call of AssignRoleToTeamOrganization.
+func (mr *MockIDBMockRecorder) AssignRoleToTeamOrganization(ctx, roleID, teamID, organizationID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToProject", reflect.TypeOf((*MockIDB)(nil).AssignRoleToProject), ctx, roleID, userID, projectID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToTeamOrganization", reflect.TypeOf((*MockIDB)(nil).AssignRoleToTeamOrganization), ctx, roleID, teamID, organizationID)
+}
+
+// AssignRoleToTeamProject mocks base method.
+func (m *MockIDB) AssignRoleToTeamProject(ctx context.Context, roleID, teamID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignRoleToTeamProject", ctx, roleID, teamID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignRoleToTeamProject indicates an expected call of AssignRoleToTeamProject.
+func (mr *MockIDBMockRecorder) AssignRoleToTeamProject(ctx, roleID, teamID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToTeamProject", reflect.TypeOf((*MockIDB)(nil).AssignRoleToTeamProject), ctx, roleID, teamID, projectID)
+}
+
+// AssignRoleToUserDomain mocks base method.
+func (m *MockIDB) AssignRoleToUserDomain(ctx context.Context, roleID, userID, domainID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignRoleToUserDomain", ctx, roleID, userID, domainID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignRoleToUserDomain indicates an expected call of AssignRoleToUserDomain.
+func (mr *MockIDBMockRecorder) AssignRoleToUserDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToUserDomain", reflect.TypeOf((*MockIDB)(nil).AssignRoleToUserDomain), ctx, roleID, userID, domainID)
+}
+
+// AssignRoleToUserOrganization mocks base method.
+func (m *MockIDB) AssignRoleToUserOrganization(ctx context.Context, roleID, userID, teamID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignRoleToUserOrganization", ctx, roleID, userID, teamID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignRoleToUserOrganization indicates an expected call of AssignRoleToUserOrganization.
+func (mr *MockIDBMockRecorder) AssignRoleToUserOrganization(ctx, roleID, userID, teamID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToUserOrganization", reflect.TypeOf((*MockIDB)(nil).AssignRoleToUserOrganization), ctx, roleID, userID, teamID)
+}
+
+// AssignRoleToUserProject mocks base method.
+func (m *MockIDB) AssignRoleToUserProject(ctx context.Context, roleID, userID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignRoleToUserProject", ctx, roleID, userID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignRoleToUserProject indicates an expected call of AssignRoleToUserProject.
+func (mr *MockIDBMockRecorder) AssignRoleToUserProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToUserProject", reflect.TypeOf((*MockIDB)(nil).AssignRoleToUserProject), ctx, roleID, userID, projectID)
+}
+
+// AssignRoleToUserTeam mocks base method.
+func (m *MockIDB) AssignRoleToUserTeam(ctx context.Context, roleID, userID, teamID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignRoleToUserTeam", ctx, roleID, userID, teamID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignRoleToUserTeam indicates an expected call of AssignRoleToUserTeam.
+func (mr *MockIDBMockRecorder) AssignRoleToUserTeam(ctx, roleID, userID, teamID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToUserTeam", reflect.TypeOf((*MockIDB)(nil).AssignRoleToUserTeam), ctx, roleID, userID, teamID)
 }
 
 // CreateDomain mocks base method.
@@ -237,6 +307,21 @@ func (mr *MockIDBMockRecorder) CreateTeam(ctx, input interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTeam", reflect.TypeOf((*MockIDB)(nil).CreateTeam), ctx, input)
 }
 
+// CreateUser mocks base method.
+func (m *MockIDB) CreateUser(ctx context.Context, input *db.CreateUserInput) (*model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateUser", ctx, input)
+	ret0, _ := ret[0].(*model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateUser indicates an expected call of CreateUser.
+func (mr *MockIDBMockRecorder) CreateUser(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockIDB)(nil).CreateUser), ctx, input)
+}
+
 // DeleteDomainByID mocks base method.
 func (m *MockIDB) DeleteDomainByID(ctx context.Context, id string) error {
 	m.ctrl.T.Helper()
@@ -307,6 +392,50 @@ func (mr *MockIDBMockRecorder) DeleteTeamByID(ctx, id interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTeamByID", reflect.TypeOf((*MockIDB)(nil).DeleteTeamByID), ctx, id)
 }
 
+// DeleteUserByID mocks base method.
+func (m *MockIDB) DeleteUserByID(ctx context.Context, id string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteUserByID", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteUserByID indicates an expected call of DeleteUserByID.
+func (mr *MockIDBMockRecorder) DeleteUserByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUserByID", reflect.TypeOf((*MockIDB)(nil).DeleteUserByID), ctx, id)
+}
+
+// GetDomainByID mocks base method.
+func (m *MockIDB) GetDomainByID(ctx context.Context, id string) (*model.Domain, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetDomainByID", ctx, id)
+	ret0, _ := ret[0].(*model.Domain)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetDomainByID indicates an expected call of GetDomainByID.
+func (mr *MockIDBMockRecorder) GetDomainByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomainByID", reflect.TypeOf((*MockIDB)(nil).GetDomainByID), ctx, id)
+}
+
+// GetDomainRoleAssignments mocks base method.
+func (m *MockIDB) GetDomainRoleAssignments(ctx context.Context, input *db.GetDomainRoleAssignmentsInput) ([]model.DomainRoleAssignmentDetail, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetDomainRoleAssignments", ctx, input)
+	ret0, _ := ret[0].([]model.DomainRoleAssignmentDetail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetDomainRoleAssignments indicates an expected call of GetDomainRoleAssignments.
+func (mr *MockIDBMockRecorder) GetDomainRoleAssignments(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomainRoleAssignments", reflect.TypeOf((*MockIDB)(nil).GetDomainRoleAssignments), ctx, input)
+}
+
 // GetDomains mocks base method.
 func (m *MockIDB) GetDomains(ctx context.Context, input *db.GetDomainsInput) ([]model.Domain, error) {
 	m.ctrl.T.Helper()
@@ -320,6 +449,36 @@ func (m *MockIDB) GetDomains(ctx context.Context, input *db.GetDomainsInput) ([]
 func (mr *MockIDBMockRecorder) GetDomains(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomains", reflect.TypeOf((*MockIDB)(nil).GetDomains), ctx, input)
+}
+
+// GetOrganizationByID mocks base method.
+func (m *MockIDB) GetOrganizationByID(ctx context.Context, id string) (*model.Organization, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetOrganizationByID", ctx, id)
+	ret0, _ := ret[0].(*model.Organization)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetOrganizationByID indicates an expected call of GetOrganizationByID.
+func (mr *MockIDBMockRecorder) GetOrganizationByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOrganizationByID", reflect.TypeOf((*MockIDB)(nil).GetOrganizationByID), ctx, id)
+}
+
+// GetOrganizationRoleAssignments mocks base method.
+func (m *MockIDB) GetOrganizationRoleAssignments(ctx context.Context, input *db.GetOrganizationRoleAssignmentsInput) ([]model.OrganizationRoleAssignmentDetail, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetOrganizationRoleAssignments", ctx, input)
+	ret0, _ := ret[0].([]model.OrganizationRoleAssignmentDetail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetOrganizationRoleAssignments indicates an expected call of GetOrganizationRoleAssignments.
+func (mr *MockIDBMockRecorder) GetOrganizationRoleAssignments(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOrganizationRoleAssignments", reflect.TypeOf((*MockIDB)(nil).GetOrganizationRoleAssignments), ctx, input)
 }
 
 // GetOrganizations mocks base method.
@@ -337,6 +496,36 @@ func (mr *MockIDBMockRecorder) GetOrganizations(ctx, input interface{}) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOrganizations", reflect.TypeOf((*MockIDB)(nil).GetOrganizations), ctx, input)
 }
 
+// GetProjectByID mocks base method.
+func (m *MockIDB) GetProjectByID(ctx context.Context, id string) (*model.Project, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProjectByID", ctx, id)
+	ret0, _ := ret[0].(*model.Project)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProjectByID indicates an expected call of GetProjectByID.
+func (mr *MockIDBMockRecorder) GetProjectByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProjectByID", reflect.TypeOf((*MockIDB)(nil).GetProjectByID), ctx, id)
+}
+
+// GetProjectRoleAssignments mocks base method.
+func (m *MockIDB) GetProjectRoleAssignments(ctx context.Context, input *db.GetProjectRoleAssignmentsInput) ([]model.ProjectRoleAssignmentDetail, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProjectRoleAssignments", ctx, input)
+	ret0, _ := ret[0].([]model.ProjectRoleAssignmentDetail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProjectRoleAssignments indicates an expected call of GetProjectRoleAssignments.
+func (mr *MockIDBMockRecorder) GetProjectRoleAssignments(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProjectRoleAssignments", reflect.TypeOf((*MockIDB)(nil).GetProjectRoleAssignments), ctx, input)
+}
+
 // GetProjects mocks base method.
 func (m *MockIDB) GetProjects(ctx context.Context, input *db.GetProjectsInput) ([]model.Project, error) {
 	m.ctrl.T.Helper()
@@ -350,6 +539,21 @@ func (m *MockIDB) GetProjects(ctx context.Context, input *db.GetProjectsInput) (
 func (mr *MockIDBMockRecorder) GetProjects(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProjects", reflect.TypeOf((*MockIDB)(nil).GetProjects), ctx, input)
+}
+
+// GetRoleByID mocks base method.
+func (m *MockIDB) GetRoleByID(ctx context.Context, id string) (*model.Role, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRoleByID", ctx, id)
+	ret0, _ := ret[0].(*model.Role)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRoleByID indicates an expected call of GetRoleByID.
+func (mr *MockIDBMockRecorder) GetRoleByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRoleByID", reflect.TypeOf((*MockIDB)(nil).GetRoleByID), ctx, id)
 }
 
 // GetRoles mocks base method.
@@ -367,6 +571,36 @@ func (mr *MockIDBMockRecorder) GetRoles(ctx, input interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRoles", reflect.TypeOf((*MockIDB)(nil).GetRoles), ctx, input)
 }
 
+// GetTeamByID mocks base method.
+func (m *MockIDB) GetTeamByID(ctx context.Context, id string) (*model.Team, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTeamByID", ctx, id)
+	ret0, _ := ret[0].(*model.Team)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTeamByID indicates an expected call of GetTeamByID.
+func (mr *MockIDBMockRecorder) GetTeamByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeamByID", reflect.TypeOf((*MockIDB)(nil).GetTeamByID), ctx, id)
+}
+
+// GetTeamRoleAssignments mocks base method.
+func (m *MockIDB) GetTeamRoleAssignments(ctx context.Context, input *db.GetTeamRoleAssignmentsInput) ([]model.TeamRoleAssignmentDetail, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTeamRoleAssignments", ctx, input)
+	ret0, _ := ret[0].([]model.TeamRoleAssignmentDetail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTeamRoleAssignments indicates an expected call of GetTeamRoleAssignments.
+func (mr *MockIDBMockRecorder) GetTeamRoleAssignments(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeamRoleAssignments", reflect.TypeOf((*MockIDB)(nil).GetTeamRoleAssignments), ctx, input)
+}
+
 // GetTeams mocks base method.
 func (m *MockIDB) GetTeams(ctx context.Context, input *db.GetTeamsInput) ([]model.Team, error) {
 	m.ctrl.T.Helper()
@@ -380,6 +614,36 @@ func (m *MockIDB) GetTeams(ctx context.Context, input *db.GetTeamsInput) ([]mode
 func (mr *MockIDBMockRecorder) GetTeams(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeams", reflect.TypeOf((*MockIDB)(nil).GetTeams), ctx, input)
+}
+
+// GetUserByID mocks base method.
+func (m *MockIDB) GetUserByID(ctx context.Context, id string) (*model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserByID", ctx, id)
+	ret0, _ := ret[0].(*model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserByID indicates an expected call of GetUserByID.
+func (mr *MockIDBMockRecorder) GetUserByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockIDB)(nil).GetUserByID), ctx, id)
+}
+
+// GetUsers mocks base method.
+func (m *MockIDB) GetUsers(ctx context.Context, input *db.GetUsersInput) ([]model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUsers", ctx, input)
+	ret0, _ := ret[0].([]model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUsers indicates an expected call of GetUsers.
+func (mr *MockIDBMockRecorder) GetUsers(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUsers", reflect.TypeOf((*MockIDB)(nil).GetUsers), ctx, input)
 }
 
 // MustClose mocks base method.
@@ -456,32 +720,102 @@ func (mr *MockIDBMockRecorder) MustRecreateDatabase(ctx interface{}) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MustRecreateDatabase", reflect.TypeOf((*MockIDB)(nil).MustRecreateDatabase), ctx)
 }
 
-// UnassignRoleFromDomain mocks base method.
-func (m *MockIDB) UnassignRoleFromDomain(ctx context.Context, roleID, userID, domainID string) error {
+// UnassignRoleFromTeamDomain mocks base method.
+func (m *MockIDB) UnassignRoleFromTeamDomain(ctx context.Context, roleID, teamID, domainID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnassignRoleFromDomain", ctx, roleID, userID, domainID)
+	ret := m.ctrl.Call(m, "UnassignRoleFromTeamDomain", ctx, roleID, teamID, domainID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UnassignRoleFromDomain indicates an expected call of UnassignRoleFromDomain.
-func (mr *MockIDBMockRecorder) UnassignRoleFromDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
+// UnassignRoleFromTeamDomain indicates an expected call of UnassignRoleFromTeamDomain.
+func (mr *MockIDBMockRecorder) UnassignRoleFromTeamDomain(ctx, roleID, teamID, domainID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromDomain", reflect.TypeOf((*MockIDB)(nil).UnassignRoleFromDomain), ctx, roleID, userID, domainID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromTeamDomain", reflect.TypeOf((*MockIDB)(nil).UnassignRoleFromTeamDomain), ctx, roleID, teamID, domainID)
 }
 
-// UnassignRoleFromProject mocks base method.
-func (m *MockIDB) UnassignRoleFromProject(ctx context.Context, roleID, userID, projectID string) error {
+// UnassignRoleFromTeamOrganization mocks base method.
+func (m *MockIDB) UnassignRoleFromTeamOrganization(ctx context.Context, roleID, teamID, organizationID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnassignRoleFromProject", ctx, roleID, userID, projectID)
+	ret := m.ctrl.Call(m, "UnassignRoleFromTeamOrganization", ctx, roleID, teamID, organizationID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UnassignRoleFromProject indicates an expected call of UnassignRoleFromProject.
-func (mr *MockIDBMockRecorder) UnassignRoleFromProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+// UnassignRoleFromTeamOrganization indicates an expected call of UnassignRoleFromTeamOrganization.
+func (mr *MockIDBMockRecorder) UnassignRoleFromTeamOrganization(ctx, roleID, teamID, organizationID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromProject", reflect.TypeOf((*MockIDB)(nil).UnassignRoleFromProject), ctx, roleID, userID, projectID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromTeamOrganization", reflect.TypeOf((*MockIDB)(nil).UnassignRoleFromTeamOrganization), ctx, roleID, teamID, organizationID)
+}
+
+// UnassignRoleFromTeamProject mocks base method.
+func (m *MockIDB) UnassignRoleFromTeamProject(ctx context.Context, roleID, teamID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromTeamProject", ctx, roleID, teamID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignRoleFromTeamProject indicates an expected call of UnassignRoleFromTeamProject.
+func (mr *MockIDBMockRecorder) UnassignRoleFromTeamProject(ctx, roleID, teamID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromTeamProject", reflect.TypeOf((*MockIDB)(nil).UnassignRoleFromTeamProject), ctx, roleID, teamID, projectID)
+}
+
+// UnassignRoleFromUserDomain mocks base method.
+func (m *MockIDB) UnassignRoleFromUserDomain(ctx context.Context, roleID, userID, domainID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromUserDomain", ctx, roleID, userID, domainID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignRoleFromUserDomain indicates an expected call of UnassignRoleFromUserDomain.
+func (mr *MockIDBMockRecorder) UnassignRoleFromUserDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromUserDomain", reflect.TypeOf((*MockIDB)(nil).UnassignRoleFromUserDomain), ctx, roleID, userID, domainID)
+}
+
+// UnassignRoleFromUserOrganization mocks base method.
+func (m *MockIDB) UnassignRoleFromUserOrganization(ctx context.Context, roleID, userID, teamID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromUserOrganization", ctx, roleID, userID, teamID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignRoleFromUserOrganization indicates an expected call of UnassignRoleFromUserOrganization.
+func (mr *MockIDBMockRecorder) UnassignRoleFromUserOrganization(ctx, roleID, userID, teamID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromUserOrganization", reflect.TypeOf((*MockIDB)(nil).UnassignRoleFromUserOrganization), ctx, roleID, userID, teamID)
+}
+
+// UnassignRoleFromUserProject mocks base method.
+func (m *MockIDB) UnassignRoleFromUserProject(ctx context.Context, roleID, userID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromUserProject", ctx, roleID, userID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignRoleFromUserProject indicates an expected call of UnassignRoleFromUserProject.
+func (mr *MockIDBMockRecorder) UnassignRoleFromUserProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromUserProject", reflect.TypeOf((*MockIDB)(nil).UnassignRoleFromUserProject), ctx, roleID, userID, projectID)
+}
+
+// UnassignRoleFromUserTeam mocks base method.
+func (m *MockIDB) UnassignRoleFromUserTeam(ctx context.Context, roleID, userID, teamID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromUserTeam", ctx, roleID, userID, teamID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignRoleFromUserTeam indicates an expected call of UnassignRoleFromUserTeam.
+func (mr *MockIDBMockRecorder) UnassignRoleFromUserTeam(ctx, roleID, userID, teamID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromUserTeam", reflect.TypeOf((*MockIDB)(nil).UnassignRoleFromUserTeam), ctx, roleID, userID, teamID)
 }
 
 // UpdateDomainByID mocks base method.
@@ -554,6 +888,20 @@ func (mr *MockIDBMockRecorder) UpdateTeamByID(ctx, id, input interface{}) *gomoc
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTeamByID", reflect.TypeOf((*MockIDB)(nil).UpdateTeamByID), ctx, id, input)
 }
 
+// UpdateUserByID mocks base method.
+func (m *MockIDB) UpdateUserByID(ctx context.Context, id string, input *db.UpdateUserByIDInput) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUserByID", ctx, id, input)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateUserByID indicates an expected call of UpdateUserByID.
+func (mr *MockIDBMockRecorder) UpdateUserByID(ctx, id, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUserByID", reflect.TypeOf((*MockIDB)(nil).UpdateUserByID), ctx, id, input)
+}
+
 // MockIDBDomain is a mock of IDBDomain interface.
 type MockIDBDomain struct {
 	ctrl     *gomock.Controller
@@ -604,6 +952,21 @@ func (m *MockIDBDomain) DeleteDomainByID(ctx context.Context, id string) error {
 func (mr *MockIDBDomainMockRecorder) DeleteDomainByID(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteDomainByID", reflect.TypeOf((*MockIDBDomain)(nil).DeleteDomainByID), ctx, id)
+}
+
+// GetDomainByID mocks base method.
+func (m *MockIDBDomain) GetDomainByID(ctx context.Context, id string) (*model.Domain, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetDomainByID", ctx, id)
+	ret0, _ := ret[0].(*model.Domain)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetDomainByID indicates an expected call of GetDomainByID.
+func (mr *MockIDBDomainMockRecorder) GetDomainByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomainByID", reflect.TypeOf((*MockIDBDomain)(nil).GetDomainByID), ctx, id)
 }
 
 // GetDomains mocks base method.
@@ -658,32 +1021,102 @@ func (m *MockIDBRole) EXPECT() *MockIDBRoleMockRecorder {
 	return m.recorder
 }
 
-// AssignRoleToDomain mocks base method.
-func (m *MockIDBRole) AssignRoleToDomain(ctx context.Context, roleID, userID, domainID string) error {
+// AssignRoleToTeamDomain mocks base method.
+func (m *MockIDBRole) AssignRoleToTeamDomain(ctx context.Context, roleID, teamID, domainID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AssignRoleToDomain", ctx, roleID, userID, domainID)
+	ret := m.ctrl.Call(m, "AssignRoleToTeamDomain", ctx, roleID, teamID, domainID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// AssignRoleToDomain indicates an expected call of AssignRoleToDomain.
-func (mr *MockIDBRoleMockRecorder) AssignRoleToDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
+// AssignRoleToTeamDomain indicates an expected call of AssignRoleToTeamDomain.
+func (mr *MockIDBRoleMockRecorder) AssignRoleToTeamDomain(ctx, roleID, teamID, domainID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToDomain", reflect.TypeOf((*MockIDBRole)(nil).AssignRoleToDomain), ctx, roleID, userID, domainID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToTeamDomain", reflect.TypeOf((*MockIDBRole)(nil).AssignRoleToTeamDomain), ctx, roleID, teamID, domainID)
 }
 
-// AssignRoleToProject mocks base method.
-func (m *MockIDBRole) AssignRoleToProject(ctx context.Context, roleID, userID, projectID string) error {
+// AssignRoleToTeamOrganization mocks base method.
+func (m *MockIDBRole) AssignRoleToTeamOrganization(ctx context.Context, roleID, teamID, organizationID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AssignRoleToProject", ctx, roleID, userID, projectID)
+	ret := m.ctrl.Call(m, "AssignRoleToTeamOrganization", ctx, roleID, teamID, organizationID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// AssignRoleToProject indicates an expected call of AssignRoleToProject.
-func (mr *MockIDBRoleMockRecorder) AssignRoleToProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+// AssignRoleToTeamOrganization indicates an expected call of AssignRoleToTeamOrganization.
+func (mr *MockIDBRoleMockRecorder) AssignRoleToTeamOrganization(ctx, roleID, teamID, organizationID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToProject", reflect.TypeOf((*MockIDBRole)(nil).AssignRoleToProject), ctx, roleID, userID, projectID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToTeamOrganization", reflect.TypeOf((*MockIDBRole)(nil).AssignRoleToTeamOrganization), ctx, roleID, teamID, organizationID)
+}
+
+// AssignRoleToTeamProject mocks base method.
+func (m *MockIDBRole) AssignRoleToTeamProject(ctx context.Context, roleID, teamID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignRoleToTeamProject", ctx, roleID, teamID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignRoleToTeamProject indicates an expected call of AssignRoleToTeamProject.
+func (mr *MockIDBRoleMockRecorder) AssignRoleToTeamProject(ctx, roleID, teamID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToTeamProject", reflect.TypeOf((*MockIDBRole)(nil).AssignRoleToTeamProject), ctx, roleID, teamID, projectID)
+}
+
+// AssignRoleToUserDomain mocks base method.
+func (m *MockIDBRole) AssignRoleToUserDomain(ctx context.Context, roleID, userID, domainID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignRoleToUserDomain", ctx, roleID, userID, domainID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignRoleToUserDomain indicates an expected call of AssignRoleToUserDomain.
+func (mr *MockIDBRoleMockRecorder) AssignRoleToUserDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToUserDomain", reflect.TypeOf((*MockIDBRole)(nil).AssignRoleToUserDomain), ctx, roleID, userID, domainID)
+}
+
+// AssignRoleToUserOrganization mocks base method.
+func (m *MockIDBRole) AssignRoleToUserOrganization(ctx context.Context, roleID, userID, teamID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignRoleToUserOrganization", ctx, roleID, userID, teamID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignRoleToUserOrganization indicates an expected call of AssignRoleToUserOrganization.
+func (mr *MockIDBRoleMockRecorder) AssignRoleToUserOrganization(ctx, roleID, userID, teamID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToUserOrganization", reflect.TypeOf((*MockIDBRole)(nil).AssignRoleToUserOrganization), ctx, roleID, userID, teamID)
+}
+
+// AssignRoleToUserProject mocks base method.
+func (m *MockIDBRole) AssignRoleToUserProject(ctx context.Context, roleID, userID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignRoleToUserProject", ctx, roleID, userID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignRoleToUserProject indicates an expected call of AssignRoleToUserProject.
+func (mr *MockIDBRoleMockRecorder) AssignRoleToUserProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToUserProject", reflect.TypeOf((*MockIDBRole)(nil).AssignRoleToUserProject), ctx, roleID, userID, projectID)
+}
+
+// AssignRoleToUserTeam mocks base method.
+func (m *MockIDBRole) AssignRoleToUserTeam(ctx context.Context, roleID, userID, teamID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AssignRoleToUserTeam", ctx, roleID, userID, teamID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AssignRoleToUserTeam indicates an expected call of AssignRoleToUserTeam.
+func (mr *MockIDBRoleMockRecorder) AssignRoleToUserTeam(ctx, roleID, userID, teamID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignRoleToUserTeam", reflect.TypeOf((*MockIDBRole)(nil).AssignRoleToUserTeam), ctx, roleID, userID, teamID)
 }
 
 // CreateRole mocks base method.
@@ -715,6 +1148,66 @@ func (mr *MockIDBRoleMockRecorder) DeleteRoleByID(ctx, id interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRoleByID", reflect.TypeOf((*MockIDBRole)(nil).DeleteRoleByID), ctx, id)
 }
 
+// GetDomainRoleAssignments mocks base method.
+func (m *MockIDBRole) GetDomainRoleAssignments(ctx context.Context, input *db.GetDomainRoleAssignmentsInput) ([]model.DomainRoleAssignmentDetail, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetDomainRoleAssignments", ctx, input)
+	ret0, _ := ret[0].([]model.DomainRoleAssignmentDetail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetDomainRoleAssignments indicates an expected call of GetDomainRoleAssignments.
+func (mr *MockIDBRoleMockRecorder) GetDomainRoleAssignments(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomainRoleAssignments", reflect.TypeOf((*MockIDBRole)(nil).GetDomainRoleAssignments), ctx, input)
+}
+
+// GetOrganizationRoleAssignments mocks base method.
+func (m *MockIDBRole) GetOrganizationRoleAssignments(ctx context.Context, input *db.GetOrganizationRoleAssignmentsInput) ([]model.OrganizationRoleAssignmentDetail, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetOrganizationRoleAssignments", ctx, input)
+	ret0, _ := ret[0].([]model.OrganizationRoleAssignmentDetail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetOrganizationRoleAssignments indicates an expected call of GetOrganizationRoleAssignments.
+func (mr *MockIDBRoleMockRecorder) GetOrganizationRoleAssignments(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOrganizationRoleAssignments", reflect.TypeOf((*MockIDBRole)(nil).GetOrganizationRoleAssignments), ctx, input)
+}
+
+// GetProjectRoleAssignments mocks base method.
+func (m *MockIDBRole) GetProjectRoleAssignments(ctx context.Context, input *db.GetProjectRoleAssignmentsInput) ([]model.ProjectRoleAssignmentDetail, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProjectRoleAssignments", ctx, input)
+	ret0, _ := ret[0].([]model.ProjectRoleAssignmentDetail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProjectRoleAssignments indicates an expected call of GetProjectRoleAssignments.
+func (mr *MockIDBRoleMockRecorder) GetProjectRoleAssignments(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProjectRoleAssignments", reflect.TypeOf((*MockIDBRole)(nil).GetProjectRoleAssignments), ctx, input)
+}
+
+// GetRoleByID mocks base method.
+func (m *MockIDBRole) GetRoleByID(ctx context.Context, id string) (*model.Role, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRoleByID", ctx, id)
+	ret0, _ := ret[0].(*model.Role)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRoleByID indicates an expected call of GetRoleByID.
+func (mr *MockIDBRoleMockRecorder) GetRoleByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRoleByID", reflect.TypeOf((*MockIDBRole)(nil).GetRoleByID), ctx, id)
+}
+
 // GetRoles mocks base method.
 func (m *MockIDBRole) GetRoles(ctx context.Context, input *db.GetRolesInput) ([]model.Role, error) {
 	m.ctrl.T.Helper()
@@ -730,32 +1223,117 @@ func (mr *MockIDBRoleMockRecorder) GetRoles(ctx, input interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRoles", reflect.TypeOf((*MockIDBRole)(nil).GetRoles), ctx, input)
 }
 
-// UnassignRoleFromDomain mocks base method.
-func (m *MockIDBRole) UnassignRoleFromDomain(ctx context.Context, roleID, userID, domainID string) error {
+// GetTeamRoleAssignments mocks base method.
+func (m *MockIDBRole) GetTeamRoleAssignments(ctx context.Context, input *db.GetTeamRoleAssignmentsInput) ([]model.TeamRoleAssignmentDetail, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnassignRoleFromDomain", ctx, roleID, userID, domainID)
+	ret := m.ctrl.Call(m, "GetTeamRoleAssignments", ctx, input)
+	ret0, _ := ret[0].([]model.TeamRoleAssignmentDetail)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTeamRoleAssignments indicates an expected call of GetTeamRoleAssignments.
+func (mr *MockIDBRoleMockRecorder) GetTeamRoleAssignments(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeamRoleAssignments", reflect.TypeOf((*MockIDBRole)(nil).GetTeamRoleAssignments), ctx, input)
+}
+
+// UnassignRoleFromTeamDomain mocks base method.
+func (m *MockIDBRole) UnassignRoleFromTeamDomain(ctx context.Context, roleID, teamID, domainID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromTeamDomain", ctx, roleID, teamID, domainID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UnassignRoleFromDomain indicates an expected call of UnassignRoleFromDomain.
-func (mr *MockIDBRoleMockRecorder) UnassignRoleFromDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
+// UnassignRoleFromTeamDomain indicates an expected call of UnassignRoleFromTeamDomain.
+func (mr *MockIDBRoleMockRecorder) UnassignRoleFromTeamDomain(ctx, roleID, teamID, domainID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromDomain", reflect.TypeOf((*MockIDBRole)(nil).UnassignRoleFromDomain), ctx, roleID, userID, domainID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromTeamDomain", reflect.TypeOf((*MockIDBRole)(nil).UnassignRoleFromTeamDomain), ctx, roleID, teamID, domainID)
 }
 
-// UnassignRoleFromProject mocks base method.
-func (m *MockIDBRole) UnassignRoleFromProject(ctx context.Context, roleID, userID, projectID string) error {
+// UnassignRoleFromTeamOrganization mocks base method.
+func (m *MockIDBRole) UnassignRoleFromTeamOrganization(ctx context.Context, roleID, teamID, organizationID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnassignRoleFromProject", ctx, roleID, userID, projectID)
+	ret := m.ctrl.Call(m, "UnassignRoleFromTeamOrganization", ctx, roleID, teamID, organizationID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UnassignRoleFromProject indicates an expected call of UnassignRoleFromProject.
-func (mr *MockIDBRoleMockRecorder) UnassignRoleFromProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+// UnassignRoleFromTeamOrganization indicates an expected call of UnassignRoleFromTeamOrganization.
+func (mr *MockIDBRoleMockRecorder) UnassignRoleFromTeamOrganization(ctx, roleID, teamID, organizationID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromProject", reflect.TypeOf((*MockIDBRole)(nil).UnassignRoleFromProject), ctx, roleID, userID, projectID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromTeamOrganization", reflect.TypeOf((*MockIDBRole)(nil).UnassignRoleFromTeamOrganization), ctx, roleID, teamID, organizationID)
+}
+
+// UnassignRoleFromTeamProject mocks base method.
+func (m *MockIDBRole) UnassignRoleFromTeamProject(ctx context.Context, roleID, teamID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromTeamProject", ctx, roleID, teamID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignRoleFromTeamProject indicates an expected call of UnassignRoleFromTeamProject.
+func (mr *MockIDBRoleMockRecorder) UnassignRoleFromTeamProject(ctx, roleID, teamID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromTeamProject", reflect.TypeOf((*MockIDBRole)(nil).UnassignRoleFromTeamProject), ctx, roleID, teamID, projectID)
+}
+
+// UnassignRoleFromUserDomain mocks base method.
+func (m *MockIDBRole) UnassignRoleFromUserDomain(ctx context.Context, roleID, userID, domainID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromUserDomain", ctx, roleID, userID, domainID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignRoleFromUserDomain indicates an expected call of UnassignRoleFromUserDomain.
+func (mr *MockIDBRoleMockRecorder) UnassignRoleFromUserDomain(ctx, roleID, userID, domainID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromUserDomain", reflect.TypeOf((*MockIDBRole)(nil).UnassignRoleFromUserDomain), ctx, roleID, userID, domainID)
+}
+
+// UnassignRoleFromUserOrganization mocks base method.
+func (m *MockIDBRole) UnassignRoleFromUserOrganization(ctx context.Context, roleID, userID, teamID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromUserOrganization", ctx, roleID, userID, teamID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignRoleFromUserOrganization indicates an expected call of UnassignRoleFromUserOrganization.
+func (mr *MockIDBRoleMockRecorder) UnassignRoleFromUserOrganization(ctx, roleID, userID, teamID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromUserOrganization", reflect.TypeOf((*MockIDBRole)(nil).UnassignRoleFromUserOrganization), ctx, roleID, userID, teamID)
+}
+
+// UnassignRoleFromUserProject mocks base method.
+func (m *MockIDBRole) UnassignRoleFromUserProject(ctx context.Context, roleID, userID, projectID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromUserProject", ctx, roleID, userID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignRoleFromUserProject indicates an expected call of UnassignRoleFromUserProject.
+func (mr *MockIDBRoleMockRecorder) UnassignRoleFromUserProject(ctx, roleID, userID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromUserProject", reflect.TypeOf((*MockIDBRole)(nil).UnassignRoleFromUserProject), ctx, roleID, userID, projectID)
+}
+
+// UnassignRoleFromUserTeam mocks base method.
+func (m *MockIDBRole) UnassignRoleFromUserTeam(ctx context.Context, roleID, userID, teamID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UnassignRoleFromUserTeam", ctx, roleID, userID, teamID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UnassignRoleFromUserTeam indicates an expected call of UnassignRoleFromUserTeam.
+func (mr *MockIDBRoleMockRecorder) UnassignRoleFromUserTeam(ctx, roleID, userID, teamID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnassignRoleFromUserTeam", reflect.TypeOf((*MockIDBRole)(nil).UnassignRoleFromUserTeam), ctx, roleID, userID, teamID)
 }
 
 // UpdateRoleByID mocks base method.
@@ -770,6 +1348,102 @@ func (m *MockIDBRole) UpdateRoleByID(ctx context.Context, id string, input *db.U
 func (mr *MockIDBRoleMockRecorder) UpdateRoleByID(ctx, id, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRoleByID", reflect.TypeOf((*MockIDBRole)(nil).UpdateRoleByID), ctx, id, input)
+}
+
+// MockIDBUser is a mock of IDBUser interface.
+type MockIDBUser struct {
+	ctrl     *gomock.Controller
+	recorder *MockIDBUserMockRecorder
+}
+
+// MockIDBUserMockRecorder is the mock recorder for MockIDBUser.
+type MockIDBUserMockRecorder struct {
+	mock *MockIDBUser
+}
+
+// NewMockIDBUser creates a new mock instance.
+func NewMockIDBUser(ctrl *gomock.Controller) *MockIDBUser {
+	mock := &MockIDBUser{ctrl: ctrl}
+	mock.recorder = &MockIDBUserMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockIDBUser) EXPECT() *MockIDBUserMockRecorder {
+	return m.recorder
+}
+
+// CreateUser mocks base method.
+func (m *MockIDBUser) CreateUser(ctx context.Context, input *db.CreateUserInput) (*model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateUser", ctx, input)
+	ret0, _ := ret[0].(*model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateUser indicates an expected call of CreateUser.
+func (mr *MockIDBUserMockRecorder) CreateUser(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockIDBUser)(nil).CreateUser), ctx, input)
+}
+
+// DeleteUserByID mocks base method.
+func (m *MockIDBUser) DeleteUserByID(ctx context.Context, id string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteUserByID", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteUserByID indicates an expected call of DeleteUserByID.
+func (mr *MockIDBUserMockRecorder) DeleteUserByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUserByID", reflect.TypeOf((*MockIDBUser)(nil).DeleteUserByID), ctx, id)
+}
+
+// GetUserByID mocks base method.
+func (m *MockIDBUser) GetUserByID(ctx context.Context, id string) (*model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserByID", ctx, id)
+	ret0, _ := ret[0].(*model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserByID indicates an expected call of GetUserByID.
+func (mr *MockIDBUserMockRecorder) GetUserByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockIDBUser)(nil).GetUserByID), ctx, id)
+}
+
+// GetUsers mocks base method.
+func (m *MockIDBUser) GetUsers(ctx context.Context, input *db.GetUsersInput) ([]model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUsers", ctx, input)
+	ret0, _ := ret[0].([]model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUsers indicates an expected call of GetUsers.
+func (mr *MockIDBUserMockRecorder) GetUsers(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUsers", reflect.TypeOf((*MockIDBUser)(nil).GetUsers), ctx, input)
+}
+
+// UpdateUserByID mocks base method.
+func (m *MockIDBUser) UpdateUserByID(ctx context.Context, id string, input *db.UpdateUserByIDInput) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUserByID", ctx, id, input)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateUserByID indicates an expected call of UpdateUserByID.
+func (mr *MockIDBUserMockRecorder) UpdateUserByID(ctx, id, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUserByID", reflect.TypeOf((*MockIDBUser)(nil).UpdateUserByID), ctx, id, input)
 }
 
 // MockIDBProject is a mock of IDBProject interface.
@@ -822,6 +1496,21 @@ func (m *MockIDBProject) DeleteProjectByID(ctx context.Context, id string) error
 func (mr *MockIDBProjectMockRecorder) DeleteProjectByID(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProjectByID", reflect.TypeOf((*MockIDBProject)(nil).DeleteProjectByID), ctx, id)
+}
+
+// GetProjectByID mocks base method.
+func (m *MockIDBProject) GetProjectByID(ctx context.Context, id string) (*model.Project, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProjectByID", ctx, id)
+	ret0, _ := ret[0].(*model.Project)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProjectByID indicates an expected call of GetProjectByID.
+func (mr *MockIDBProjectMockRecorder) GetProjectByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProjectByID", reflect.TypeOf((*MockIDBProject)(nil).GetProjectByID), ctx, id)
 }
 
 // GetProjects mocks base method.
@@ -905,6 +1594,21 @@ func (mr *MockIDBOrganizationMockRecorder) DeleteOrganizationByID(ctx, id interf
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteOrganizationByID", reflect.TypeOf((*MockIDBOrganization)(nil).DeleteOrganizationByID), ctx, id)
 }
 
+// GetOrganizationByID mocks base method.
+func (m *MockIDBOrganization) GetOrganizationByID(ctx context.Context, id string) (*model.Organization, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetOrganizationByID", ctx, id)
+	ret0, _ := ret[0].(*model.Organization)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetOrganizationByID indicates an expected call of GetOrganizationByID.
+func (mr *MockIDBOrganizationMockRecorder) GetOrganizationByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOrganizationByID", reflect.TypeOf((*MockIDBOrganization)(nil).GetOrganizationByID), ctx, id)
+}
+
 // GetOrganizations mocks base method.
 func (m *MockIDBOrganization) GetOrganizations(ctx context.Context, input *db.GetOrganizationsInput) ([]model.Organization, error) {
 	m.ctrl.T.Helper()
@@ -984,6 +1688,21 @@ func (m *MockIDBTeam) DeleteTeamByID(ctx context.Context, id string) error {
 func (mr *MockIDBTeamMockRecorder) DeleteTeamByID(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTeamByID", reflect.TypeOf((*MockIDBTeam)(nil).DeleteTeamByID), ctx, id)
+}
+
+// GetTeamByID mocks base method.
+func (m *MockIDBTeam) GetTeamByID(ctx context.Context, id string) (*model.Team, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTeamByID", ctx, id)
+	ret0, _ := ret[0].(*model.Team)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTeamByID indicates an expected call of GetTeamByID.
+func (mr *MockIDBTeamMockRecorder) GetTeamByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeamByID", reflect.TypeOf((*MockIDBTeam)(nil).GetTeamByID), ctx, id)
 }
 
 // GetTeams mocks base method.

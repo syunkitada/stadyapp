@@ -2,13 +2,34 @@ package db
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/labstack/echo/v4"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
+
+func (self *DB) GetUserByID(ctx context.Context, id string) (*model.User, error) {
+	dbUsers, err := self.GetUsers(ctx, &db.GetUsersInput{
+		ID: id,
+	})
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	if len(dbUsers) == 0 {
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusNotFound, "user does not found"))
+	}
+
+	if len(dbUsers) > 1 {
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "user is duplicated"))
+	}
+
+	return &dbUsers[0], nil
+}
 
 func (self *DB) GetUsers(ctx context.Context, input *db.GetUsersInput) ([]model.User, error) {
 	query := self.DB.WithContext(ctx).Model(model.User{}).

@@ -424,7 +424,7 @@ paths:
     put:
       summary: Assign a role to a user on a project
       description: Assign a role to a user on a project
-      operationId: assignRoleToProject
+      operationId: assignKeystoneRoleToUserProject
       parameters:
         - name: id
           in: path
@@ -462,7 +462,7 @@ paths:
     delete:
       summary: Unassign a role from a user on a project
       description: Unassign a role to a user on a project
-      operationId: unassignRoleFromProject
+      operationId: unassignKeystoneRoleFromUserProject
       parameters:
         - name: id
           in: path
@@ -497,6 +497,83 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /keystone/v3/projects/{id}/groups/{group_id}/roles/{role_id}:
+    put:
+      summary: Assign a role to a group on a project
+      description: Assign a role to a group on a project
+      operationId: assignKeystoneRoleToGroupProject
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone project to fetch
+          required: true
+          schema:
+            type: string
+        - name: group_id
+          in: path
+          description: ID of keystone group to fetch
+          required: true
+          schema:
+            type: string
+        - name: role_id
+          in: path
+          description: ID of keystone role to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: role assigned to a group on a project
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Unassign a role from a group on a project
+      description: Unassign a role to a group on a project
+      operationId: unassignKeystoneRoleFromGroupProject
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone project to fetch
+          required: true
+          schema:
+            type: string
+        - name: group_id
+          in: path
+          description: ID of keystone group to fetch
+          required: true
+          schema:
+            type: string
+        - name: role_id
+          in: path
+          description: ID of keystone role to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: role unassigned from a group on a project
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /keystone/v3/users:
     get:
       summary: Get keystone users
@@ -505,7 +582,7 @@ paths:
       parameters:
         - name: name
           in: query
-          description: Filters the response by a project name
+          description: Filters the response by a user name
           required: false
           schema:
             type: string
@@ -632,7 +709,69 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KeystoneProjectsResponse'
+                $ref: '#/components/schemas/KeystoneUserResponse'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /keystone/v3/groups:
+    get:
+      summary: Get keystone groups
+      description: Create a new keystone token
+      operationId: getKeystoneGroups
+      parameters:
+        - name: name
+          in: query
+          description: Filters the response by a group name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get keystone groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneGroupsResponse'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /keystone/v3/groups/{id}:
+    get:
+      summary: Get a group by ID
+      description: Get a group by ID
+      operationId: getKeystoneGroupByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of keystone group to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: keystone group response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneGroupResponse'
         4XX:
           description: unexpected error
           content:
@@ -786,6 +925,55 @@ paths:
       responses:
         '204':
           description: role deleted
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /keystone/v3/role_assignments:
+    get:
+      summary: Get keystone role assignments
+      description: Get keystone role assignments
+      operationId: getKeystoneRoleAssignments
+      parameters:
+        - name: role.id
+          in: query
+          description: Filters the response by a role id
+          required: false
+          schema:
+            type: string
+        - name: user.id
+          in: query
+          description: Filters the response by a user id
+          required: false
+          schema:
+            type: string
+        - name: scope.domain.id
+          in: query
+          description: Filters the response by a domain id
+          required: false
+          schema:
+            type: string
+        - name: scope.project.id
+          in: query
+          description: Filters the response by a role assignment id
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get keystone role assignments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneRoleAssignmentsResponse'
         4XX:
           description: unexpected error
           content:
@@ -1330,6 +1518,60 @@ components:
             - password
       required:
         - user
+    KeystoneUserResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/KeystoneUser'
+      required:
+        - user
+    KeystoneGroup:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        domain_id:
+          type: string
+        enabled:
+          type: boolean
+        password_expires_at:
+          type: string
+          format: date-time
+          nullable: true
+        options:
+          type: object
+          additionalProperties: {}
+        links:
+          $ref: '#/components/schemas/KeystoneSelfPagerLinks'
+      required:
+        - id
+        - name
+        - domain_id
+        - enabled
+        - password_expires_at
+        - options
+        - links
+    KeystoneGroupsResponse:
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeystoneGroup'
+        links:
+          $ref: '#/components/schemas/KeystonePagerLinks'
+      required:
+        - groups
+        - links
+    KeystoneGroupResponse:
+      type: object
+      properties:
+        group:
+          $ref: '#/components/schemas/KeystoneGroup'
+      required:
+        - group
     KeystoneRole:
       type: object
       properties:
@@ -1396,3 +1638,118 @@ components:
           additionalProperties: {}
       required:
         - role
+    KeystoneRoleAssignmentProject:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        domain:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+          required:
+            - id
+            - name
+      required:
+        - id
+        - name
+        - domain
+    KeystoneRoleAssignmentDomain:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+    KeystoneRoleAssignmentScope:
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/KeystoneRoleAssignmentProject'
+        domain:
+          $ref: '#/components/schemas/KeystoneRoleAssignmentDomain'
+    KeystoneRoleAssignmentGroup:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        domain:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+          required:
+            - id
+            - name
+      required:
+        - id
+        - name
+        - domain
+    KeystoneRoleAssignmentUser:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        domain:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+          required:
+            - id
+            - name
+      required:
+        - id
+        - name
+        - domain
+    KeystoneRoleAssignmentRole:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+    KeystoneRoleAssignment:
+      type: object
+      properties:
+        scope:
+          $ref: '#/components/schemas/KeystoneRoleAssignmentScope'
+        group:
+          $ref: '#/components/schemas/KeystoneRoleAssignmentGroup'
+        user:
+          $ref: '#/components/schemas/KeystoneRoleAssignmentUser'
+        role:
+          $ref: '#/components/schemas/KeystoneRoleAssignmentRole'
+        links:
+          $ref: '#/components/schemas/KeystoneSelfPagerLinks'
+    KeystoneRoleAssignmentsResponse:
+      type: object
+      properties:
+        role_assignments:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeystoneRoleAssignment'
+        links:
+          $ref: '#/components/schemas/KeystonePagerLinks'
+      required:
+        - role_assignments
+        - links

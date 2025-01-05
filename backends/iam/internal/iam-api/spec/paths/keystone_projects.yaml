@@ -167,7 +167,7 @@ projects_id_users_user_id_roles_role_id:
   put:
     summary: Assign a role to a user on a project
     description: Assign a role to a user on a project
-    operationId: assignRoleToProject
+    operationId: assignKeystoneRoleToUserProject
     parameters:
       - name: id
         in: path
@@ -206,7 +206,7 @@ projects_id_users_user_id_roles_role_id:
   delete:
     summary: Unassign a role from a user on a project
     description: Unassign a role to a user on a project
-    operationId: unassignRoleFromProject
+    operationId: unassignKeystoneRoleFromUserProject
     parameters:
       - name: id
         in: path
@@ -229,6 +229,85 @@ projects_id_users_user_id_roles_role_id:
     responses:
       "204":
         description: role unassigned from a user on a project
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+projects_id_groups_group_id_roles_role_id:
+  put:
+    summary: Assign a role to a group on a project
+    description: Assign a role to a group on a project
+    operationId: assignKeystoneRoleToGroupProject
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone project to fetch
+        required: true
+        schema:
+          type: string
+      - name: group_id
+        in: path
+        description: ID of keystone group to fetch
+        required: true
+        schema:
+          type: string
+      - name: role_id
+        in: path
+        description: ID of keystone role to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: role assigned to a group on a project
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+  delete:
+    summary: Unassign a role from a group on a project
+    description: Unassign a role to a group on a project
+    operationId: unassignKeystoneRoleFromGroupProject
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone project to fetch
+        required: true
+        schema:
+          type: string
+      - name: group_id
+        in: path
+        description: ID of keystone group to fetch
+        required: true
+        schema:
+          type: string
+      - name: role_id
+        in: path
+        description: ID of keystone role to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: role unassigned from a group on a project
       "4XX":
         description: unexpected error
         content:

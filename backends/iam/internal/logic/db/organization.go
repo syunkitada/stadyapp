@@ -3,13 +3,34 @@ package db
 import (
 	"context"
 	"encoding/json"
+	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/labstack/echo/v4"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
+
+func (self *DB) GetOrganizationByID(ctx context.Context, id string) (*model.Organization, error) {
+	dbOrganizations, err := self.GetOrganizations(ctx, &db.GetOrganizationsInput{
+		ID: id,
+	})
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	if len(dbOrganizations) == 0 {
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusNotFound, "organization does not found"))
+	}
+
+	if len(dbOrganizations) > 1 {
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "organization is duplicated"))
+	}
+
+	return &dbOrganizations[0], nil
+}
 
 func (self *DB) GetOrganizations(ctx context.Context, input *db.GetOrganizationsInput) ([]model.Organization, error) {
 	query := self.DB.WithContext(ctx).Model(model.Organization{}).

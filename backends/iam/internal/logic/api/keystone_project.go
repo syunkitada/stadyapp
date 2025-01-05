@@ -18,8 +18,9 @@ import (
 )
 
 const (
-	ProjectTagTeam         = "Team"
-	ProjectTagOrganization = "Organization"
+	ProjectTagTeam         = "team"
+	ProjectTagOrganization = "organization"
+	ProjectTagSeparator    = "@"
 )
 
 func (self *API) CreateKeystoneProject(
@@ -66,12 +67,14 @@ func (self *API) CreateKeystoneProject(
 		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusBadRequest, "organization_id is required"))
 	}
 
+	organizationID := strings.Replace(*input.Project.OrganizationId, ProjectTagOrganization+ProjectTagSeparator, "", 1)
+
 	dbProject, err := self.db.CreateProject(ctx, &db.CreateProjectInput{
 		Name:           input.Project.Name,
 		Description:    input.Project.Description,
 		Extra:          input.Project.AdditionalProperties,
 		DomainID:       input.Project.DomainId,
-		OrganizationID: *input.Project.OrganizationId,
+		OrganizationID: organizationID,
 	})
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
@@ -291,7 +294,7 @@ func (self *API) GetKeystoneTeamProjectByID(ctx context.Context, id string) (*oa
 }
 
 func (self *API) GetKeystoneProjectByID(ctx context.Context, id string) (*oapi.KeystoneProject, error) {
-	splitedID := strings.Split(id, "@")
+	splitedID := strings.Split(id, ProjectTagSeparator)
 	if len(splitedID) == 2 {
 		if splitedID[0] == ProjectTagTeam {
 			if project, err := self.GetKeystoneTeamProjectByID(ctx, splitedID[1]); err != nil {
@@ -332,7 +335,7 @@ func (self *API) GetKeystoneProjectByID(ctx context.Context, id string) (*oapi.K
 }
 
 func (self *API) DeleteKeystoneProject(ctx context.Context, id string) error {
-	splitedID := strings.Split(id, "@")
+	splitedID := strings.Split(id, ProjectTagSeparator)
 	if len(splitedID) == 2 {
 		if splitedID[0] == ProjectTagTeam {
 			if err := self.db.DeleteTeamByID(ctx, splitedID[1]); err != nil {
@@ -379,7 +382,7 @@ func ConvertDBOrganizationToAPIProject(ctx context.Context, dbOrganization *mode
 	}
 
 	return &oapi.KeystoneProject{
-		Id:                   "Organization@" + dbOrganization.ID,
+		Id:                   ProjectTagOrganization + ProjectTagSeparator + dbOrganization.ID,
 		Name:                 dbOrganization.Name,
 		Description:          dbOrganization.Description,
 		AdditionalProperties: additionalProperties,
@@ -394,7 +397,7 @@ func ConvertDBTeamToAPIProject(ctx context.Context, dbTeam *model.Team) (*oapi.K
 	}
 
 	return &oapi.KeystoneProject{
-		Id:                   "Team@" + dbTeam.ID,
+		Id:                   ProjectTagTeam + ProjectTagSeparator + dbTeam.ID,
 		Name:                 dbTeam.Name,
 		Description:          dbTeam.Description,
 		AdditionalProperties: additionalProperties,

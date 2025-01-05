@@ -120,6 +120,7 @@ func (self *DB) Migrate(ctx context.Context) error {
 		"service",
 		"manager",
 		"member",
+		"_group",
 	}
 
 	for _, roleName := range defaultRoles {
