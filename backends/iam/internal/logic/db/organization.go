@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
@@ -74,7 +75,22 @@ func (self *DB) CreateOrganization(ctx context.Context, input *db.CreateOrganiza
 		organization.Description = *input.Description
 	}
 
-	if err := self.DB.WithContext(ctx).Create(&organization).Error; err != nil {
+	if err := self.Transact(func(tx *gorm.DB) error {
+		if err := tx.WithContext(ctx).Create(&organization).Error; err != nil {
+			return tlog.Err(ctx, err)
+		}
+
+		roleAssignment := model.OrganizationRoleAssignment{
+			RoleID:         model.RoleIDManager,
+			UserID:         &input.OwnerUserID,
+			OrganizationID: organization.ID,
+		}
+		if err := tx.WithContext(ctx).Create(&roleAssignment).Error; err != nil {
+			return tlog.Err(ctx, err)
+		}
+
+		return nil
+	}); err != nil {
 		return nil, tlog.Err(ctx, err)
 	}
 

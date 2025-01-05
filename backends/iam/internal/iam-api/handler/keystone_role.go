@@ -133,7 +133,7 @@ func (self *Handler) UnassignKeystoneRoleFromGroupProject(ectx echo.Context, pro
 	return tlog.BindEchoNoContent(ctx, ectx)
 }
 
-func (self *Handler) AssignRoleToDomain(ectx echo.Context, projectID string, userID string, roleID string) error {
+func (self *Handler) AssignKeystoneRoleToUserDomain(ectx echo.Context, projectID string, userID string, roleID string) error {
 	ctx := iam_auth.WithEchoContext(ectx)
 
 	err := self.api.AssignKeystoneRoleToUserDomain(ctx, roleID, userID, projectID)
@@ -144,7 +144,7 @@ func (self *Handler) AssignRoleToDomain(ectx echo.Context, projectID string, use
 	return tlog.BindEchoNoContent(ctx, ectx)
 }
 
-func (self *Handler) UnassignRoleFromDomain(ectx echo.Context, projectID string, userID string, roleID string) error {
+func (self *Handler) UnassignKeystoneRoleFromUserDomain(ectx echo.Context, projectID string, userID string, roleID string) error {
 	ctx := iam_auth.WithEchoContext(ectx)
 
 	err := self.api.UnassignKeystoneRoleFromUserDomain(ctx, roleID, userID, projectID)

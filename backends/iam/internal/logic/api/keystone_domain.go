@@ -10,15 +10,23 @@ import (
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
+	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
 func (self *API) CreateKeystoneDomain(
 	ctx context.Context, input *oapi.CreateKeystoneDomainInput) (*oapi.KeystoneDomain, error) {
+
+	authContext, err := iam_auth.GetAuthContext(ctx)
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
 	dbDomain, err := self.db.CreateDomain(ctx, &db.CreateDomainInput{
 		Name:        input.Domain.Name,
 		Description: input.Domain.Description,
 		Extra:       input.Domain.AdditionalProperties,
+		OwnerUserID: &authContext.UserID,
 	})
 	if err != nil {
 		return nil, tlog.Err(ctx, err)

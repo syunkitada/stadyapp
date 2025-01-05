@@ -38,8 +38,8 @@ paths:
     $ref: "./paths/keystone_domains.yaml#/domains"
   /keystone/v3/domains/{id}:
     $ref: "./paths/keystone_domains.yaml#/domains_id"
-  # /keystone/v3/domains/{id}/users/{user_id}/roles/{role_id}:
-  #   $ref: "./paths/keystone_domains.yaml#/domains_id_users_user_id_roles_role_id"
+  /keystone/v3/domains/{id}/users/{user_id}/roles/{role_id}:
+    $ref: "./paths/keystone_domains.yaml#/domains_id_users_user_id_roles_role_id"
   /keystone/v3/projects:
     $ref: "./paths/keystone_projects.yaml#/projects"
   /keystone/v3/projects/{id}:

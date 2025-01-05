@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
@@ -75,7 +76,22 @@ func (self *DB) CreateProject(ctx context.Context, input *db.CreateProjectInput)
 		project.Description = *input.Description
 	}
 
-	if err := self.DB.WithContext(ctx).Create(&project).Error; err != nil {
+	if err := self.Transact(func(tx *gorm.DB) error {
+		if err := tx.WithContext(ctx).Create(&project).Error; err != nil {
+			return tlog.Err(ctx, err)
+		}
+
+		roleAssignment := model.ProjectRoleAssignment{
+			RoleID:    model.RoleIDManager,
+			UserID:    &input.OwnerUserID,
+			ProjectID: project.ID,
+		}
+		if err := tx.WithContext(ctx).Create(&roleAssignment).Error; err != nil {
+			return tlog.Err(ctx, err)
+		}
+
+		return nil
+	}); err != nil {
 		return nil, tlog.Err(ctx, err)
 	}
 

@@ -2,6 +2,14 @@ package model
 
 import "time"
 
+const (
+	RoleIDAdmin   = "admin"
+	RoleIDService = "service"
+	RoleIDManager = "manager"
+	RoleIDMember  = "member"
+	RoleIDGroup   = "_group"
+)
+
 type Domain struct {
 	ID          string `gorm:"column:id;type:varchar(64);not null;primaryKey;"`
 	Name        string `gorm:"column:name;type:varchar(64);not null;index:idx_name,unique;"`

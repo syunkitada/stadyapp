@@ -45,10 +45,11 @@ type UpdateDomainByIDInput struct {
 }
 
 type CreateDomainInput struct {
-	ID          *string
-	Name        string
-	Description *string
-	Extra       map[string]interface{}
+	ID            *string
+	Name          string
+	Description   *string
+	Extra         map[string]interface{}
+	OwnerUserID *string
 }
 
 type IDBDomain interface {
@@ -169,6 +170,7 @@ type CreateProjectInput struct {
 	Extra          map[string]interface{}
 	DomainID       string
 	OrganizationID string
+	OwnerUserID  string
 }
 
 type IDBProject interface {
@@ -195,11 +197,12 @@ type UpdateOrganizationByIDInput struct {
 }
 
 type CreateOrganizationInput struct {
-	ID          *string
-	Name        string
-	Description *string
-	Extra       map[string]interface{}
-	DomainID    string
+	ID            *string
+	Name          string
+	Description   *string
+	Extra         map[string]interface{}
+	DomainID      string
+	OwnerUserID string
 }
 
 type IDBOrganization interface {
@@ -226,11 +229,12 @@ type UpdateTeamByIDInput struct {
 }
 
 type CreateTeamInput struct {
-	ID          *string
-	Name        string
-	Description *string
-	Extra       map[string]interface{}
-	DomainID    string
+	ID            *string
+	Name          string
+	Description   *string
+	Extra         map[string]interface{}
+	DomainID      string
+	OwnerUserID string
 }
 
 type IDBTeam interface {

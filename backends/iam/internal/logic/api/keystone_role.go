@@ -229,6 +229,50 @@ func (self *API) GetKeystoneRoleAssignments(
 		})
 	}
 
+	domainRoleAssignments, err := self.db.GetDomainRoleAssignments(ctx, &db.GetDomainRoleAssignmentsInput{})
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	for _, roleAssignment := range domainRoleAssignments {
+		keystoneRoleAssignment := oapi.KeystoneRoleAssignment{
+			Scope: &oapi.KeystoneRoleAssignmentScope{
+				Domain: &oapi.KeystoneRoleAssignmentDomain{
+					Name: roleAssignment.DomainName,
+					Id:   roleAssignment.DomainID,
+				},
+			},
+			Role: &oapi.KeystoneRoleAssignmentRole{
+				Id:   roleAssignment.RoleID,
+				Name: roleAssignment.RoleName,
+			},
+		}
+
+		if roleAssignment.UserID != nil {
+			keystoneRoleAssignment.User = &oapi.KeystoneRoleAssignmentUser{
+				Id:   *roleAssignment.UserID,
+				Name: roleAssignment.UserName,
+				Domain: oapi.KeystoneRoleAssignmentDomain{
+					Id:   roleAssignment.DomainID,
+					Name: roleAssignment.DomainName,
+				},
+			}
+		}
+
+		if roleAssignment.TeamID != nil {
+			keystoneRoleAssignment.Group = &oapi.KeystoneRoleAssignmentGroup{
+				Id:   ProjectTagTeam + ProjectTagSeparator + *roleAssignment.TeamID,
+				Name: roleAssignment.TeamName,
+				Domain: oapi.KeystoneRoleAssignmentDomain{
+					Id:   roleAssignment.DomainID,
+					Name: roleAssignment.DomainName,
+				},
+			}
+		}
+
+		roleAssignments = append(roleAssignments, keystoneRoleAssignment)
+	}
+
 	projectRoleAssignments, err := self.db.GetProjectRoleAssignments(ctx, &db.GetProjectRoleAssignmentsInput{})
 	if err != nil {
 		return nil, tlog.Err(ctx, err)

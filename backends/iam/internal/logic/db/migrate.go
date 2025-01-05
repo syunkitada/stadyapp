@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
@@ -35,6 +36,24 @@ func (self *DB) Migrate(ctx context.Context) error {
 	defaultID := "default"
 	adminID := "admin"
 
+	defaultRoles := []string{
+		model.RoleIDAdmin,
+		model.RoleIDService,
+		model.RoleIDManager,
+		model.RoleIDMember,
+		model.RoleIDGroup,
+	}
+
+	for _, roleName := range defaultRoles {
+		_, err := self.CreateRoleIfNotExists(ctx, &db.CreateRoleInput{
+			ID:   &roleName,
+			Name: roleName,
+		})
+		if err != nil {
+			return tlog.Err(ctx, err)
+		}
+	}
+
 	{
 		domains, err := self.GetDomains(ctx, &db.GetDomainsInput{
 			ID: defaultID,
@@ -54,6 +73,15 @@ func (self *DB) Migrate(ctx context.Context) error {
 		}
 	}
 
+	if _, err := self.CreateUserIfNotExists(ctx, &db.CreateUserInput{
+		ID:          &adminID,
+		Name:        adminID,
+		LastLoginAt: time.Now(),
+		DomainID:    defaultID,
+	}); err != nil {
+		return tlog.Err(ctx, err)
+	}
+
 	{
 		organizations, err := self.GetOrganizations(ctx, &db.GetOrganizationsInput{
 			ID: adminID,
@@ -64,9 +92,10 @@ func (self *DB) Migrate(ctx context.Context) error {
 
 		if len(organizations) == 0 {
 			_, err = self.CreateOrganization(ctx, &db.CreateOrganizationInput{
-				DomainID: defaultID,
-				ID:       &adminID,
-				Name:     adminID,
+				DomainID:    defaultID,
+				ID:          &adminID,
+				Name:        adminID,
+				OwnerUserID: adminID,
 			})
 			if err != nil {
 				return tlog.Err(ctx, err)
@@ -88,6 +117,7 @@ func (self *DB) Migrate(ctx context.Context) error {
 				ID:             &adminID,
 				Name:           adminID,
 				OrganizationID: adminID,
+				OwnerUserID:    adminID,
 			})
 			if err != nil {
 				return tlog.Err(ctx, err)
@@ -105,9 +135,10 @@ func (self *DB) Migrate(ctx context.Context) error {
 
 		if len(teams) == 0 {
 			_, err = self.CreateTeam(ctx, &db.CreateTeamInput{
-				DomainID: defaultID,
-				ID:       &adminID,
-				Name:     adminID,
+				DomainID:    defaultID,
+				ID:          &adminID,
+				Name:        adminID,
+				OwnerUserID: adminID,
 			})
 			if err != nil {
 				return tlog.Err(ctx, err)
@@ -115,25 +146,35 @@ func (self *DB) Migrate(ctx context.Context) error {
 		}
 	}
 
-	defaultRoles := []string{
-		"admin",
-		"service",
-		"manager",
-		"member",
-		"_group",
-	}
-
-	for _, roleName := range defaultRoles {
-		_, err := self.CreateRoleIfNotExists(ctx, &db.CreateRoleInput{
-			ID:   &roleName,
-			Name: roleName,
-		})
-		if err != nil {
-			return tlog.Err(ctx, err)
-		}
-	}
-
 	return nil
+}
+
+func (self *DB) CreateUserIfNotExists(ctx context.Context, input *db.CreateUserInput) (*model.User, error) {
+	if input.ID == nil {
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusBadRequest, "id is required"))
+	}
+
+	users, err := self.GetUsers(ctx, &db.GetUsersInput{
+		ID: *input.ID,
+	})
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	if len(users) > 1 {
+		return nil, tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "user is duplicated"))
+	}
+
+	if len(users) == 1 {
+		return &users[0], nil
+	}
+
+	user, err := self.CreateUser(ctx, input)
+	if err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	return user, nil
 }
 
 func (self *DB) CreateRoleIfNotExists(ctx context.Context, input *db.CreateRoleInput) (*model.Role, error) {

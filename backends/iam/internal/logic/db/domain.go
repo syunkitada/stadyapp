@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
@@ -73,7 +74,24 @@ func (self *DB) CreateDomain(ctx context.Context, input *db.CreateDomainInput) (
 		domain.Description = *input.Description
 	}
 
-	if err := self.DB.WithContext(ctx).Create(&domain).Error; err != nil {
+	if err := self.Transact(func(tx *gorm.DB) error {
+		if err := tx.WithContext(ctx).Create(&domain).Error; err != nil {
+			return tlog.Err(ctx, err)
+		}
+
+		if input.OwnerUserID != nil {
+			roleAssignment := model.DomainRoleAssignment{
+				RoleID:   model.RoleIDManager,
+				UserID:   input.OwnerUserID,
+				DomainID: domain.ID,
+			}
+			if err := tx.WithContext(ctx).Create(&roleAssignment).Error; err != nil {
+				return tlog.Err(ctx, err)
+			}
+		}
+
+		return nil
+	}); err != nil {
 		return nil, tlog.Err(ctx, err)
 	}
 
