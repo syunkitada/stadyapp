@@ -34,6 +34,8 @@ paths:
     $ref: "./paths/keystone.yaml#/v3"
   /keystone/v3/auth/tokens:
     $ref: "./paths/keystone_tokens.yaml#/tokens"
+  /keystone/v3/OS-FEDERATION/identity_providers/{provider}/protocols/{protocol}/auth:
+    $ref: "./paths/keystone_tokens.yaml#/federation_auth"
   /keystone/v3/domains:
     $ref: "./paths/keystone_domains.yaml#/domains"
   /keystone/v3/domains/{id}:

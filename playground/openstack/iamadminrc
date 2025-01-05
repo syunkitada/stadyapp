@@ -1,0 +1,11 @@
+export OS_IDENTITY_API_VERSION=3
+export OS_AUTH_URL=http://localhost:11080/api/iam/keystone/v3
+
+export OS_DOMAIN_NAME=default
+
+export OS_PROJECT_NAME=admin
+export OS_REGION_NAME=region1
+export OS_AUTH_TYPE=v3oidcaccesstoken
+export OS_IDENTITY_PROVIDER=github
+export OS_PROTOCOL=oidc
+export OS_ACCESS_TOKEN=dummy

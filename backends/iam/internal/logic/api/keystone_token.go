@@ -76,6 +76,8 @@ func (self *API) CreateKeystoneToken(
 		}
 	}
 
+	fmt.Println("DEBUG Scope", input.Auth.Scope.Project)
+
 	domainID := "default"
 
 	token := oapi.KeystoneToken{

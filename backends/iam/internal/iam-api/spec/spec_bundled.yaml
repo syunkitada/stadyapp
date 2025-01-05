@@ -76,8 +76,6 @@ paths:
                 $ref: '#/components/schemas/Error'
   /keystone/v3/auth/tokens:
     post:
-      security:
-        - XUserIDHeader: []
       summary: Create a new keystone token
       description: Create a new keystone token
       operationId: createKeystoneToken
@@ -87,6 +85,45 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateKeystoneTokenInput'
+      responses:
+        '200':
+          description: token response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneToken'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /keystone/v3/OS-FEDERATION/identity_providers/{provider}/protocols/{protocol}/auth:
+    post:
+      security:
+        - XUserIDHeader: []
+      summary: Create a new keystone token
+      description: Create a new keystone token
+      operationId: createKeystoneFederationAuthToken
+      parameters:
+        - name: provider
+          in: path
+          description: provider for federation
+          required: true
+          schema:
+            type: string
+        - name: protocol
+          in: path
+          description: protocol for federation
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: token response
