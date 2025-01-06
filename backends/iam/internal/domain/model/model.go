@@ -101,6 +101,14 @@ type ProjectRoleAssignmentDetail struct {
 	DomainName string `gorm:"column:domain_name;"`
 }
 
+type UserProjectRole struct {
+	ProjectID string `gorm:"column:project_id;"`
+
+	RoleID string `gorm:"column:role_id;"`
+
+	TeamRoleID string `gorm:"column:team_role_id;"`
+}
+
 type DomainRoleAssignment struct {
 	RoleID string `gorm:"column:role_id;type:varchar(64);not null;uniqueIndex:idx_domain_role;"`
 	Role   Role   `gorm:"foreignkey:RoleID;association_foreignkey:Refer;"`

@@ -12,10 +12,8 @@ import (
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *DB) GetUserByID(ctx context.Context, id string) (*model.User, error) {
-	dbUsers, err := self.GetUsers(ctx, &db.GetUsersInput{
-		ID: id,
-	})
+func (self *DB) GetUser(ctx context.Context, input *db.GetUsersInput) (*model.User, error) {
+	dbUsers, err := self.GetUsers(ctx, input)
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}

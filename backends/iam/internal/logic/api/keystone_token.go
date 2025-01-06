@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/rsa"
 	"crypto/x509"
+	"encoding/json"
 	"encoding/pem"
 	"errors"
 	"fmt"
@@ -13,6 +14,7 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
+	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
 	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
@@ -57,12 +59,23 @@ func (self *API) CreateKeystoneToken(
 		return nil, "", tlog.Err(ctx, echo.NewHTTPError(http.StatusConflict, "user is duplicated"))
 	}
 
+	if authContext.DomainID == "" {
+		return nil, "", tlog.Err(ctx, echo.NewHTTPError(http.StatusNotFound, "domain does not found"))
+	}
+
+	domain, err := self.db.GetDomain(ctx, &db.GetDomainsInput{
+		ID: authContext.DomainID,
+	})
+	if err != nil {
+		return nil, "", tlog.Err(ctx, err)
+	}
+
 	if len(users) == 0 {
 		_, err = self.db.CreateUser(ctx, &db.CreateUserInput{
 			ID:          &authContext.UserID,
 			Name:        authContext.UserID,
 			LastLoginAt: time.Now(),
-			DomainID:    "default",
+			DomainID:    domain.ID,
 		})
 		if err != nil {
 			return nil, "", tlog.Err(ctx, err)
@@ -76,34 +89,83 @@ func (self *API) CreateKeystoneToken(
 		}
 	}
 
-	fmt.Println("DEBUG Scope", input.Auth.Scope.Project)
-
-	domainID := "default"
-
+	tokenRoles := []string{}
 	roles := []oapi.KeystoneTokenRole{}
-	catalog := []oapi.KeystoneCatalog{}
+	catalog := []oapi.KeystoneCatalog{
+		{
+			Type: "identity",
+			Name: "keystone",
+			Endpoints: []oapi.KeystoneEndpoint{
+				{
+					Interface: "public",
+					Region:    "region1",
+					Url:       "http://localhost:11080/api/iam/keystone/v3",
+				},
+			},
+		},
+	}
 
+	projectName := ""
 	var project *oapi.KeystoneTokenProject
 	if input.Auth.Scope != nil {
+		dbProject, err := self.db.GetProject(ctx, &db.GetProjectsInput{
+			Name: input.Auth.Scope.Project.Name,
+		})
+		if err != nil {
+			return nil, "", tlog.Err(ctx, err)
+		}
+
 		project = &oapi.KeystoneTokenProject{
 			Domain: oapi.KeystoneTokenDomain{
-				Id:   "domain_id",
-				Name: "domain_name",
+				Id:   domain.ID,
+				Name: domain.Name,
 			},
-			Id:   "project_id",
-			Name: "project_name",
+			Id:   dbProject.Name,
+			Name: dbProject.Name,
+		}
+		projectName = dbProject.Name
+
+		userProjectRoles, err := self.db.GetUserProjectRoles(ctx, &db.GetUserProjectRolesInput{
+			UserID:    authContext.UserID,
+			ProjectID: dbProject.ID,
+		})
+		if err != nil {
+			return nil, "", tlog.Err(ctx, err)
+		}
+
+		roleSet := map[string]bool{}
+		for _, role := range userProjectRoles {
+			if role.RoleID == model.RoleIDGroup {
+				roleSet[role.TeamRoleID] = true
+			} else {
+				roleSet[role.RoleID] = true
+			}
+		}
+
+		for roleID := range roleSet {
+			roles = append(roles, oapi.KeystoneTokenRole{
+				Id:   roleID,
+				Name: roleID,
+			})
+
+			tokenRoles = append(tokenRoles, roleID)
 		}
 	}
 
+	traceID, err := tlog.GetTraceID(ctx)
+	if err != nil {
+		return nil, "", tlog.Err(ctx, err)
+	}
+
 	token := oapi.KeystoneToken{
-		AuditIds:  []string{"audit_id1", "audit_id2"},
-		Methods:   []string{"password"},
+		AuditIds:  []string{traceID},
+		Methods:   input.Auth.Identity.Methods,
 		ExpiresAt: time.Now(),
 		IssuedAt:  time.Now(),
 		User: oapi.KeystoneTokenUser{
 			Domain: oapi.KeystoneTokenDomain{
-				Id:   domainID,
-				Name: "domain_name",
+				Id:   domain.ID,
+				Name: domain.Name,
 			},
 			Id:                authContext.UserID,
 			Name:              authContext.UserID,
@@ -115,12 +177,18 @@ func (self *API) CreateKeystoneToken(
 	}
 
 	authData := iam_auth.AuthData{
-		Domain:  domainID,
+		Domain:  domain.ID,
 		User:    authContext.UserID,
-		Project: "project",
-		Roles:   "role1,role2",
-		Catalog: "{catalog}",
+		Project: projectName,
+		Catalog: "{catalog}", // TODO
 	}
+
+	tokenRolesJson, err := json.Marshal(tokenRoles)
+	if err != nil {
+		return nil, "", tlog.Err(ctx, err)
+	}
+	authData.Roles = string(tokenRolesJson)
+
 	tokenStr, err := self.iamAuth.NewToken(ctx, authData)
 
 	if err != nil {

@@ -14,10 +14,8 @@ import (
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *DB) GetOrganizationByID(ctx context.Context, id string) (*model.Organization, error) {
-	dbOrganizations, err := self.GetOrganizations(ctx, &db.GetOrganizationsInput{
-		ID: id,
-	})
+func (self *DB) GetOrganization(ctx context.Context, input *db.GetOrganizationsInput) (*model.Organization, error) {
+	dbOrganizations, err := self.GetOrganizations(ctx, input)
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}

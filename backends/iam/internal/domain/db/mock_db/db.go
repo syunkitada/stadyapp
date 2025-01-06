@@ -406,19 +406,19 @@ func (mr *MockIDBMockRecorder) DeleteUserByID(ctx, id interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUserByID", reflect.TypeOf((*MockIDB)(nil).DeleteUserByID), ctx, id)
 }
 
-// GetDomainByID mocks base method.
-func (m *MockIDB) GetDomainByID(ctx context.Context, id string) (*model.Domain, error) {
+// GetDomain mocks base method.
+func (m *MockIDB) GetDomain(ctx context.Context, input *db.GetDomainsInput) (*model.Domain, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDomainByID", ctx, id)
+	ret := m.ctrl.Call(m, "GetDomain", ctx, input)
 	ret0, _ := ret[0].(*model.Domain)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetDomainByID indicates an expected call of GetDomainByID.
-func (mr *MockIDBMockRecorder) GetDomainByID(ctx, id interface{}) *gomock.Call {
+// GetDomain indicates an expected call of GetDomain.
+func (mr *MockIDBMockRecorder) GetDomain(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomainByID", reflect.TypeOf((*MockIDB)(nil).GetDomainByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomain", reflect.TypeOf((*MockIDB)(nil).GetDomain), ctx, input)
 }
 
 // GetDomainRoleAssignments mocks base method.
@@ -451,19 +451,19 @@ func (mr *MockIDBMockRecorder) GetDomains(ctx, input interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomains", reflect.TypeOf((*MockIDB)(nil).GetDomains), ctx, input)
 }
 
-// GetOrganizationByID mocks base method.
-func (m *MockIDB) GetOrganizationByID(ctx context.Context, id string) (*model.Organization, error) {
+// GetOrganization mocks base method.
+func (m *MockIDB) GetOrganization(ctx context.Context, input *db.GetOrganizationsInput) (*model.Organization, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetOrganizationByID", ctx, id)
+	ret := m.ctrl.Call(m, "GetOrganization", ctx, input)
 	ret0, _ := ret[0].(*model.Organization)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetOrganizationByID indicates an expected call of GetOrganizationByID.
-func (mr *MockIDBMockRecorder) GetOrganizationByID(ctx, id interface{}) *gomock.Call {
+// GetOrganization indicates an expected call of GetOrganization.
+func (mr *MockIDBMockRecorder) GetOrganization(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOrganizationByID", reflect.TypeOf((*MockIDB)(nil).GetOrganizationByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOrganization", reflect.TypeOf((*MockIDB)(nil).GetOrganization), ctx, input)
 }
 
 // GetOrganizationRoleAssignments mocks base method.
@@ -496,19 +496,19 @@ func (mr *MockIDBMockRecorder) GetOrganizations(ctx, input interface{}) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOrganizations", reflect.TypeOf((*MockIDB)(nil).GetOrganizations), ctx, input)
 }
 
-// GetProjectByID mocks base method.
-func (m *MockIDB) GetProjectByID(ctx context.Context, id string) (*model.Project, error) {
+// GetProject mocks base method.
+func (m *MockIDB) GetProject(ctx context.Context, input *db.GetProjectsInput) (*model.Project, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetProjectByID", ctx, id)
+	ret := m.ctrl.Call(m, "GetProject", ctx, input)
 	ret0, _ := ret[0].(*model.Project)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetProjectByID indicates an expected call of GetProjectByID.
-func (mr *MockIDBMockRecorder) GetProjectByID(ctx, id interface{}) *gomock.Call {
+// GetProject indicates an expected call of GetProject.
+func (mr *MockIDBMockRecorder) GetProject(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProjectByID", reflect.TypeOf((*MockIDB)(nil).GetProjectByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProject", reflect.TypeOf((*MockIDB)(nil).GetProject), ctx, input)
 }
 
 // GetProjectRoleAssignments mocks base method.
@@ -571,19 +571,19 @@ func (mr *MockIDBMockRecorder) GetRoles(ctx, input interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRoles", reflect.TypeOf((*MockIDB)(nil).GetRoles), ctx, input)
 }
 
-// GetTeamByID mocks base method.
-func (m *MockIDB) GetTeamByID(ctx context.Context, id string) (*model.Team, error) {
+// GetTeam mocks base method.
+func (m *MockIDB) GetTeam(ctx context.Context, input *db.GetTeamsInput) (*model.Team, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTeamByID", ctx, id)
+	ret := m.ctrl.Call(m, "GetTeam", ctx, input)
 	ret0, _ := ret[0].(*model.Team)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetTeamByID indicates an expected call of GetTeamByID.
-func (mr *MockIDBMockRecorder) GetTeamByID(ctx, id interface{}) *gomock.Call {
+// GetTeam indicates an expected call of GetTeam.
+func (mr *MockIDBMockRecorder) GetTeam(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeamByID", reflect.TypeOf((*MockIDB)(nil).GetTeamByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeam", reflect.TypeOf((*MockIDB)(nil).GetTeam), ctx, input)
 }
 
 // GetTeamRoleAssignments mocks base method.
@@ -616,19 +616,19 @@ func (mr *MockIDBMockRecorder) GetTeams(ctx, input interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeams", reflect.TypeOf((*MockIDB)(nil).GetTeams), ctx, input)
 }
 
-// GetUserByID mocks base method.
-func (m *MockIDB) GetUserByID(ctx context.Context, id string) (*model.User, error) {
+// GetUser mocks base method.
+func (m *MockIDB) GetUser(ctx context.Context, input *db.GetUsersInput) (*model.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserByID", ctx, id)
+	ret := m.ctrl.Call(m, "GetUser", ctx, input)
 	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetUserByID indicates an expected call of GetUserByID.
-func (mr *MockIDBMockRecorder) GetUserByID(ctx, id interface{}) *gomock.Call {
+// GetUser indicates an expected call of GetUser.
+func (mr *MockIDBMockRecorder) GetUser(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockIDB)(nil).GetUserByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockIDB)(nil).GetUser), ctx, input)
 }
 
 // GetUsers mocks base method.
@@ -954,19 +954,19 @@ func (mr *MockIDBDomainMockRecorder) DeleteDomainByID(ctx, id interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteDomainByID", reflect.TypeOf((*MockIDBDomain)(nil).DeleteDomainByID), ctx, id)
 }
 
-// GetDomainByID mocks base method.
-func (m *MockIDBDomain) GetDomainByID(ctx context.Context, id string) (*model.Domain, error) {
+// GetDomain mocks base method.
+func (m *MockIDBDomain) GetDomain(ctx context.Context, input *db.GetDomainsInput) (*model.Domain, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDomainByID", ctx, id)
+	ret := m.ctrl.Call(m, "GetDomain", ctx, input)
 	ret0, _ := ret[0].(*model.Domain)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetDomainByID indicates an expected call of GetDomainByID.
-func (mr *MockIDBDomainMockRecorder) GetDomainByID(ctx, id interface{}) *gomock.Call {
+// GetDomain indicates an expected call of GetDomain.
+func (mr *MockIDBDomainMockRecorder) GetDomain(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomainByID", reflect.TypeOf((*MockIDBDomain)(nil).GetDomainByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomain", reflect.TypeOf((*MockIDBDomain)(nil).GetDomain), ctx, input)
 }
 
 // GetDomains mocks base method.
@@ -1402,19 +1402,19 @@ func (mr *MockIDBUserMockRecorder) DeleteUserByID(ctx, id interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUserByID", reflect.TypeOf((*MockIDBUser)(nil).DeleteUserByID), ctx, id)
 }
 
-// GetUserByID mocks base method.
-func (m *MockIDBUser) GetUserByID(ctx context.Context, id string) (*model.User, error) {
+// GetUser mocks base method.
+func (m *MockIDBUser) GetUser(ctx context.Context, input *db.GetUsersInput) (*model.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserByID", ctx, id)
+	ret := m.ctrl.Call(m, "GetUser", ctx, input)
 	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetUserByID indicates an expected call of GetUserByID.
-func (mr *MockIDBUserMockRecorder) GetUserByID(ctx, id interface{}) *gomock.Call {
+// GetUser indicates an expected call of GetUser.
+func (mr *MockIDBUserMockRecorder) GetUser(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockIDBUser)(nil).GetUserByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockIDBUser)(nil).GetUser), ctx, input)
 }
 
 // GetUsers mocks base method.
@@ -1498,19 +1498,19 @@ func (mr *MockIDBProjectMockRecorder) DeleteProjectByID(ctx, id interface{}) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProjectByID", reflect.TypeOf((*MockIDBProject)(nil).DeleteProjectByID), ctx, id)
 }
 
-// GetProjectByID mocks base method.
-func (m *MockIDBProject) GetProjectByID(ctx context.Context, id string) (*model.Project, error) {
+// GetProject mocks base method.
+func (m *MockIDBProject) GetProject(ctx context.Context, input *db.GetProjectsInput) (*model.Project, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetProjectByID", ctx, id)
+	ret := m.ctrl.Call(m, "GetProject", ctx, input)
 	ret0, _ := ret[0].(*model.Project)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetProjectByID indicates an expected call of GetProjectByID.
-func (mr *MockIDBProjectMockRecorder) GetProjectByID(ctx, id interface{}) *gomock.Call {
+// GetProject indicates an expected call of GetProject.
+func (mr *MockIDBProjectMockRecorder) GetProject(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProjectByID", reflect.TypeOf((*MockIDBProject)(nil).GetProjectByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProject", reflect.TypeOf((*MockIDBProject)(nil).GetProject), ctx, input)
 }
 
 // GetProjects mocks base method.
@@ -1594,19 +1594,19 @@ func (mr *MockIDBOrganizationMockRecorder) DeleteOrganizationByID(ctx, id interf
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteOrganizationByID", reflect.TypeOf((*MockIDBOrganization)(nil).DeleteOrganizationByID), ctx, id)
 }
 
-// GetOrganizationByID mocks base method.
-func (m *MockIDBOrganization) GetOrganizationByID(ctx context.Context, id string) (*model.Organization, error) {
+// GetOrganization mocks base method.
+func (m *MockIDBOrganization) GetOrganization(ctx context.Context, input *db.GetOrganizationsInput) (*model.Organization, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetOrganizationByID", ctx, id)
+	ret := m.ctrl.Call(m, "GetOrganization", ctx, input)
 	ret0, _ := ret[0].(*model.Organization)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetOrganizationByID indicates an expected call of GetOrganizationByID.
-func (mr *MockIDBOrganizationMockRecorder) GetOrganizationByID(ctx, id interface{}) *gomock.Call {
+// GetOrganization indicates an expected call of GetOrganization.
+func (mr *MockIDBOrganizationMockRecorder) GetOrganization(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOrganizationByID", reflect.TypeOf((*MockIDBOrganization)(nil).GetOrganizationByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOrganization", reflect.TypeOf((*MockIDBOrganization)(nil).GetOrganization), ctx, input)
 }
 
 // GetOrganizations mocks base method.
@@ -1690,19 +1690,19 @@ func (mr *MockIDBTeamMockRecorder) DeleteTeamByID(ctx, id interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTeamByID", reflect.TypeOf((*MockIDBTeam)(nil).DeleteTeamByID), ctx, id)
 }
 
-// GetTeamByID mocks base method.
-func (m *MockIDBTeam) GetTeamByID(ctx context.Context, id string) (*model.Team, error) {
+// GetTeam mocks base method.
+func (m *MockIDBTeam) GetTeam(ctx context.Context, input *db.GetTeamsInput) (*model.Team, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTeamByID", ctx, id)
+	ret := m.ctrl.Call(m, "GetTeam", ctx, input)
 	ret0, _ := ret[0].(*model.Team)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetTeamByID indicates an expected call of GetTeamByID.
-func (mr *MockIDBTeamMockRecorder) GetTeamByID(ctx, id interface{}) *gomock.Call {
+// GetTeam indicates an expected call of GetTeam.
+func (mr *MockIDBTeamMockRecorder) GetTeam(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeamByID", reflect.TypeOf((*MockIDBTeam)(nil).GetTeamByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeam", reflect.TypeOf((*MockIDBTeam)(nil).GetTeam), ctx, input)
 }
 
 // GetTeams mocks base method.

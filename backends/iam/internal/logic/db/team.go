@@ -14,10 +14,8 @@ import (
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *DB) GetTeamByID(ctx context.Context, id string) (*model.Team, error) {
-	dbTeams, err := self.GetTeams(ctx, &db.GetTeamsInput{
-		ID: id,
-	})
+func (self *DB) GetTeam(ctx context.Context, input *db.GetTeamsInput) (*model.Team, error) {
+	dbTeams, err := self.GetTeams(ctx, input)
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}

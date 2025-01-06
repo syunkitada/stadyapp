@@ -2,6 +2,8 @@ package iam_auth
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -25,8 +27,12 @@ type CustomClaims struct {
 }
 
 type AuthContext struct {
-	UserID    string
-	ProjectID string
+	UserID      string
+	DomainID    string
+	ProjectID   string
+	RolesJSON   string
+	CatalogJSON string
+	Roles       []string
 }
 
 type key int
@@ -36,7 +42,17 @@ const KeyAuthContext key = iota
 func WithEchoContext(ectx echo.Context) context.Context {
 	ctx := tlog.WithEchoContext(ectx)
 	xuser := ectx.Request().Header.Get("x-user-id")
-	AuthContext := AuthContext{UserID: xuser}
+	xdomain := ectx.Request().Header.Get("x-domain-id")
+	xproject := ectx.Request().Header.Get("x-project-id")
+	xroles := ectx.Request().Header.Get("x-roles")
+	xcatalog := ectx.Request().Header.Get("x-catalog")
+	AuthContext := AuthContext{
+		UserID:      xuser,
+		DomainID:    xdomain,
+		ProjectID:   xproject,
+		RolesJSON:   xroles,
+		CatalogJSON: xcatalog,
+	}
 	ctx = context.WithValue(ctx, KeyAuthContext, &AuthContext)
 
 	return ctx
@@ -48,6 +64,16 @@ func GetAuthContext(ctx context.Context) (*AuthContext, error) {
 		return nil, tlog.Err(ctx,
 			echo.NewHTTPError(http.StatusUnauthorized, "auth context is not found"))
 	}
+
+	roles := []string{}
+	if authCtx.RolesJSON != "" {
+		fmt.Println("authCtx.RolesJSON", authCtx.RolesJSON)
+		if err := json.Unmarshal([]byte(authCtx.RolesJSON), &roles); err != nil {
+			return nil, tlog.WrapErr(ctx, err, "failed to unmarshal roles")
+		}
+	}
+
+	authCtx.Roles = roles
 
 	return authCtx, nil
 }

@@ -1193,46 +1193,50 @@ components:
           $ref: '#/components/schemas/KeystoneVersionData'
       required:
         - version
+    CreateKeystoneTokenInputAuthIdentity:
+      type: object
+      properties:
+        methods:
+          type: array
+          items:
+            type: string
+        token:
+          type: object
+          properties:
+            id:
+              type: string
+      required:
+        - methods
+        - token
+    CreateKeystoneTokenInputAuthScope:
+      type: object
+      properties:
+        project:
+          type: object
+          properties:
+            domain:
+              type: object
+              properties:
+                id:
+                  type: string
+            name:
+              type: string
+          required:
+            - name
+    CreateKeystoneTokenInputAuth:
+      type: object
+      properties:
+        identity:
+          $ref: '#/components/schemas/CreateKeystoneTokenInputAuthIdentity'
+        scope:
+          $ref: '#/components/schemas/CreateKeystoneTokenInputAuthScope'
+      required:
+        - identity
     CreateKeystoneTokenInput:
       type: object
       properties:
         auth:
-          type: object
-          properties:
-            identity:
-              type: object
-              properties:
-                methods:
-                  type: array
-                  items:
-                    type: string
-                token:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-              required:
-                - methods
-                - token
-            scope:
-              type: object
-              properties:
-                project:
-                  type: object
-                  properties:
-                    domain:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                      required:
-                        - id
-                    name:
-                      type: string
-                  required:
-                    - name
-          required:
-            - identity
+          $ref: '#/components/schemas/CreateKeystoneTokenInputAuth'
       required:
         - auth
     KeystoneEndpoint:

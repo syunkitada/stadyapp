@@ -14,10 +14,8 @@ import (
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *DB) GetProjectByID(ctx context.Context, id string) (*model.Project, error) {
-	dbProjects, err := self.GetProjects(ctx, &db.GetProjectsInput{
-		ID: id,
-	})
+func (self *DB) GetProject(ctx context.Context, input *db.GetProjectsInput) (*model.Project, error) {
+	dbProjects, err := self.GetProjects(ctx, input)
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}

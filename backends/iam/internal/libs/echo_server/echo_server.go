@@ -26,6 +26,20 @@ func New(ctx context.Context, conf *Config, swagger *openapi3.T, iamAuth *iam_au
 
 	echoServer.Use(middleware.RequestID())
 
+	echoServer.Use(middleware.BodyDumpWithConfig(middleware.BodyDumpConfig{
+		Skipper: func(c echo.Context) bool {
+			return false
+		},
+		Handler: func(c echo.Context, reqBody, resBody []byte) {
+			ctx := tlog.WithEchoContext(c)
+			slog.InfoContext(ctx,
+				"payload",
+				slog.String("req_body", string(reqBody)),
+				slog.String("res_body", string(resBody)),
+			)
+		},
+	}))
+
 	echoServer.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogMethod:       true,
 		LogURI:          true,

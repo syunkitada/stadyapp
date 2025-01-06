@@ -39,7 +39,7 @@ func (self *API) GetKeystoneGroups(
 func (self *API) GetKeystoneGroupByID(ctx context.Context, id string) (*oapi.KeystoneGroup, error) {
 	teamID := strings.Replace(id, ProjectTagTeam+"@", "", 1)
 
-	dbTeam, err := self.db.GetTeamByID(ctx, teamID)
+	dbTeam, err := self.db.GetTeam(ctx, &db.GetTeamsInput{ID: teamID})
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}

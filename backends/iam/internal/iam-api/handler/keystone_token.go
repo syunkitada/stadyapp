@@ -33,7 +33,13 @@ func (self *Handler) CreateKeystoneToken(ectx echo.Context) error {
 func (self *Handler) CreateKeystoneFederationAuthToken(ectx echo.Context, provider, protocol string) error {
 	ctx := iam_auth.WithEchoContext(ectx)
 
-	input := oapi.CreateKeystoneTokenInput{}
+	input := oapi.CreateKeystoneTokenInput{
+		Auth: oapi.CreateKeystoneTokenInputAuth{
+			Identity: oapi.CreateKeystoneTokenInputAuthIdentity{
+				Methods: []string{protocol},
+			},
+		},
+	}
 
 	token, tokenStr, err := self.api.CreateKeystoneToken(ctx, &input)
 	if err != nil {

@@ -138,6 +138,25 @@ func (self *DB) GetProjectRoleAssignments(ctx context.Context, input *db.GetProj
 	return roleAssignments, nil
 }
 
+func (self *DB) GetUserProjectRoles(ctx context.Context, input *db.GetUserProjectRolesInput) ([]model.UserProjectRole, error) {
+	query := self.DB.WithContext(ctx).Table("project_role_assignments").
+		Select("project_role_assignments.project_id, project_role_assignments.role_id, "+
+			"team_role_assignments.role_id AS team_role_id").
+		Joins("LEFT JOIN team_role_assignments ON team_role_assignments.team_id = project_role_assignments.team_id").
+		Where("(project_role_assignments.user_id = ? OR team_role_assignments.user_id = ?)", input.UserID, input.UserID)
+
+	if input.ProjectID != "" {
+		query = query.Where("project_role_assignments.project_id = ?", input.ProjectID)
+	}
+
+	roles := []model.UserProjectRole{}
+	if err := query.Scan(&roles).Error; err != nil {
+		return nil, tlog.Err(ctx, err)
+	}
+
+	return roles, nil
+}
+
 func (self *DB) AssignRoleToUserProject(ctx context.Context, roleID, userID, projectID string) error {
 	roleAssignment := model.ProjectRoleAssignment{
 		RoleID:    roleID,

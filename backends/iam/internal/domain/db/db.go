@@ -45,15 +45,15 @@ type UpdateDomainByIDInput struct {
 }
 
 type CreateDomainInput struct {
-	ID            *string
-	Name          string
-	Description   *string
-	Extra         map[string]interface{}
+	ID          *string
+	Name        string
+	Description *string
+	Extra       map[string]interface{}
 	OwnerUserID *string
 }
 
 type IDBDomain interface {
-	GetDomainByID(ctx context.Context, id string) (*model.Domain, error)
+	GetDomain(ctx context.Context, input *GetDomainsInput) (*model.Domain, error)
 	GetDomains(ctx context.Context, input *GetDomainsInput) ([]model.Domain, error)
 	CreateDomain(ctx context.Context, input *CreateDomainInput) (*model.Domain, error)
 	UpdateDomainByID(ctx context.Context, id string, input *UpdateDomainByIDInput) error
@@ -89,6 +89,11 @@ type GetOrganizationRoleAssignmentsInput struct{}
 
 type GetTeamRoleAssignmentsInput struct{}
 
+type GetUserProjectRolesInput struct {
+	UserID    string
+	ProjectID string
+}
+
 type IDBRole interface {
 	GetRoleByID(ctx context.Context, id string) (*model.Role, error)
 	GetRoles(ctx context.Context, input *GetRolesInput) ([]model.Role, error)
@@ -117,6 +122,8 @@ type IDBRole interface {
 	GetTeamRoleAssignments(ctx context.Context, input *GetTeamRoleAssignmentsInput) ([]model.TeamRoleAssignmentDetail, error)
 	AssignRoleToUserTeam(ctx context.Context, roleID, userID, teamID string) error
 	UnassignRoleFromUserTeam(ctx context.Context, roleID, userID, teamID string) error
+
+	GetUserProjectRoles(ctx context.Context, input *GetUserProjectRolesInput) ([]model.UserProjectRole, error)
 }
 
 // --------------------------------------------------------------------------------
@@ -141,7 +148,7 @@ type CreateUserInput struct {
 }
 
 type IDBUser interface {
-	GetUserByID(ctx context.Context, id string) (*model.User, error)
+	GetUser(ctx context.Context, input *GetUsersInput) (*model.User, error)
 	GetUsers(ctx context.Context, input *GetUsersInput) ([]model.User, error)
 	CreateUser(ctx context.Context, input *CreateUserInput) (*model.User, error)
 	UpdateUserByID(ctx context.Context, id string, input *UpdateUserByIDInput) error
@@ -170,11 +177,11 @@ type CreateProjectInput struct {
 	Extra          map[string]interface{}
 	DomainID       string
 	OrganizationID string
-	OwnerUserID  string
+	OwnerUserID    string
 }
 
 type IDBProject interface {
-	GetProjectByID(ctx context.Context, id string) (*model.Project, error)
+	GetProject(ctx context.Context, input *GetProjectsInput) (*model.Project, error)
 	GetProjects(ctx context.Context, input *GetProjectsInput) ([]model.Project, error)
 	CreateProject(ctx context.Context, input *CreateProjectInput) (*model.Project, error)
 	UpdateProjectByID(ctx context.Context, id string, input *UpdateProjectByIDInput) error
@@ -197,16 +204,16 @@ type UpdateOrganizationByIDInput struct {
 }
 
 type CreateOrganizationInput struct {
-	ID            *string
-	Name          string
-	Description   *string
-	Extra         map[string]interface{}
-	DomainID      string
+	ID          *string
+	Name        string
+	Description *string
+	Extra       map[string]interface{}
+	DomainID    string
 	OwnerUserID string
 }
 
 type IDBOrganization interface {
-	GetOrganizationByID(ctx context.Context, id string) (*model.Organization, error)
+	GetOrganization(ctx context.Context, input *GetOrganizationsInput) (*model.Organization, error)
 	GetOrganizations(ctx context.Context, input *GetOrganizationsInput) ([]model.Organization, error)
 	CreateOrganization(ctx context.Context, input *CreateOrganizationInput) (*model.Organization, error)
 	UpdateOrganizationByID(ctx context.Context, id string, input *UpdateOrganizationByIDInput) error
@@ -229,16 +236,16 @@ type UpdateTeamByIDInput struct {
 }
 
 type CreateTeamInput struct {
-	ID            *string
-	Name          string
-	Description   *string
-	Extra         map[string]interface{}
-	DomainID      string
+	ID          *string
+	Name        string
+	Description *string
+	Extra       map[string]interface{}
+	DomainID    string
 	OwnerUserID string
 }
 
 type IDBTeam interface {
-	GetTeamByID(ctx context.Context, id string) (*model.Team, error)
+	GetTeam(ctx context.Context, input *GetTeamsInput) (*model.Team, error)
 	GetTeams(ctx context.Context, input *GetTeamsInput) ([]model.Team, error)
 	CreateTeam(ctx context.Context, input *CreateTeamInput) (*model.Team, error)
 	UpdateTeamByID(ctx context.Context, id string, input *UpdateTeamByIDInput) error

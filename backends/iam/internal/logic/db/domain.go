@@ -14,10 +14,8 @@ import (
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *DB) GetDomainByID(ctx context.Context, id string) (*model.Domain, error) {
-	dbDomains, err := self.GetDomains(ctx, &db.GetDomainsInput{
-		ID: id,
-	})
+func (self *DB) GetDomain(ctx context.Context, input *db.GetDomainsInput) (*model.Domain, error) {
+	dbDomains, err := self.GetDomains(ctx, input)
 	if err != nil {
 		return nil, tlog.Err(ctx, err)
 	}

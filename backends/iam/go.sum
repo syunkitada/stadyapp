@@ -72,6 +72,8 @@ github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227065346-843dc0e5096e 
 github.com/syunkitada/stadyapp/backends/libs v0.0.0-20241227065346-843dc0e5096e/go.mod h1:eLeXzCXt5RBZOLcOk+0Oz4WZqcxckDtWT2n36QFnIf0=
 github.com/syunkitada/stadyapp/backends/libs v0.0.0-20250103075911-2353d35a564c h1:smHRxEKIf2NiwbTkDg3MYQLEIu9oPPdVOrhjfoAcEh0=
 github.com/syunkitada/stadyapp/backends/libs v0.0.0-20250103075911-2353d35a564c/go.mod h1:eLeXzCXt5RBZOLcOk+0Oz4WZqcxckDtWT2n36QFnIf0=
+github.com/syunkitada/stadyapp/backends/libs v0.0.0-20250106025354-bd15d871f767 h1:BQbz20jCHYd1459Ej/mpqSkgRSNlgzMhsDWPVYE0Hs8=
+github.com/syunkitada/stadyapp/backends/libs v0.0.0-20250106025354-bd15d871f767/go.mod h1:eLeXzCXt5RBZOLcOk+0Oz4WZqcxckDtWT2n36QFnIf0=
 github.com/ugorji/go/codec v1.2.11 h1:BMaWp1Bb6fHwEtbplGBGJ498wD+LKlNSl25MjdZY4dU=
 github.com/ugorji/go/codec v1.2.11/go.mod h1:UNopzCgEMSXjBc6AOMqYvWC1ktqTAfzJZUZgYf6w6lg=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=

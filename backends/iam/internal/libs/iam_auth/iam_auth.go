@@ -41,9 +41,14 @@ func (self *IAMAuth) GetPublicKey(ctx context.Context, key string) (crypto.Publi
 }
 
 func (self *IAMAuth) AuthUserID(ctx context.Context, header http.Header) error {
-	xuserName := header.Get("x-user-id")
-	if xuserName == "" {
+	xuserID := header.Get("x-user-id")
+	if xuserID == "" {
 		return tlog.Err(ctx, echo.NewHTTPError(http.StatusUnauthorized, "x-user-id is not found"))
+	}
+
+	xdomainID := header.Get("x-domain-id")
+	if xdomainID == "" {
+		return tlog.Err(ctx, echo.NewHTTPError(http.StatusUnauthorized, "x-domain-id is not found"))
 	}
 
 	return nil
@@ -61,6 +66,10 @@ func (self *IAMAuth) AuthToken(ctx context.Context, header http.Header) error {
 	}
 
 	header.Set("x-user-id", tokenData.User)
+	header.Set("x-domain-id", tokenData.Domain)
+	header.Set("x-project-id", tokenData.Project)
+	header.Set("x-roles", tokenData.Roles)
+	header.Set("x-catalog", tokenData.Catalog)
 
 	return nil
 }

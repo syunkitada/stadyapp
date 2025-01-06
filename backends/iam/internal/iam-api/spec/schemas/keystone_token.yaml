@@ -141,45 +141,52 @@ KeystoneTokenResponse:
   required:
     - token
 
+CreateKeystoneTokenInputAuthIdentity:
+  type: object
+  properties:
+    methods:
+      type: array
+      items:
+        type: string
+    token:
+      type: object
+      properties:
+        id:
+          type: string
+  required:
+    - methods
+    - token
+
+CreateKeystoneTokenInputAuthScope:
+  type: object
+  properties:
+    project:
+      type: object
+      properties:
+        domain:
+          type: object
+          properties:
+            id:
+              type: string
+        name:
+          type: string
+      required:
+        - name
+
+CreateKeystoneTokenInputAuth:
+  type: object
+  properties:
+    identity:
+      $ref: "#/CreateKeystoneTokenInputAuthIdentity"
+    scope:
+      $ref: "#/CreateKeystoneTokenInputAuthScope"
+  required:
+    - identity
+
 CreateKeystoneTokenInput:
   type: object
   properties:
     auth:
-      type: object
-      properties:
-        identity:
-          type: object
-          properties:
-            methods:
-              type: array
-              items:
-                type: string
-            token:
-              type: object
-              properties:
-                id:
-                  type: string
-          required:
-            - methods
-            - token
-        scope:
-          type: object
-          properties:
-            project:
-              type: object
-              properties:
-                domain:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                  required:
-                    - id
-                name:
-                  type: string
-              required:
-                - name
-      required:
-        - identity
+      $ref: "#/CreateKeystoneTokenInputAuth"
   required:
     - auth
