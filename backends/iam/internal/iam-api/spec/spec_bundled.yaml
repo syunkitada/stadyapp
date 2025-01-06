@@ -91,7 +91,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KeystoneToken'
+                $ref: '#/components/schemas/KeystoneTokenResponse'
         4XX:
           description: unexpected error
           content:
@@ -130,7 +130,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KeystoneToken'
+                $ref: '#/components/schemas/KeystoneTokenResponse'
         4XX:
           description: unexpected error
           content:
@@ -1233,7 +1233,6 @@ components:
                     - name
           required:
             - identity
-            - scope
       required:
         - auth
     KeystoneEndpoint:
@@ -1324,7 +1323,7 @@ components:
         - id
         - name
         - password_expires_at
-    KeystoneTokenData:
+    KeystoneToken:
       type: object
       properties:
         audit_ids:
@@ -1362,14 +1361,13 @@ components:
         - is_domain
         - issued_at
         - methods
-        - project
         - roles
         - user
-    KeystoneToken:
+    KeystoneTokenResponse:
       type: object
       properties:
         token:
-          $ref: '#/components/schemas/KeystoneTokenData'
+          $ref: '#/components/schemas/KeystoneToken'
       required:
         - token
     KeystoneSelfPagerLinks:

@@ -51,6 +51,14 @@ func (h *TLogHandler) Handle(ctx context.Context, record slog.Record) error {
 	return h.Handler.Handle(ctx, record) //nolint:wrapcheck
 }
 
+func GetTraceID(ctx context.Context) (string, error) {
+	if v := ctx.Value(KeyTraceID); v != nil {
+		return v.(string), nil
+	}
+
+	return "", fmt.Errorf("trace_id not found in context")
+}
+
 func Init(conf *Config) {
 	opts := &slog.HandlerOptions{}
 

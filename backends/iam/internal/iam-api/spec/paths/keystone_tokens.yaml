@@ -15,7 +15,7 @@ tokens:
         content:
           application/json:
             schema:
-              $ref: "../schemas/keystone_token.yaml#/KeystoneToken"
+              $ref: "../schemas/keystone_token.yaml#/KeystoneTokenResponse"
       "4XX":
         description: unexpected error
         content:
@@ -55,7 +55,7 @@ federation_auth:
         content:
           application/json:
             schema:
-              $ref: "../schemas/keystone_token.yaml#/KeystoneToken"
+              $ref: "../schemas/keystone_token.yaml#/KeystoneTokenResponse"
       "4XX":
         description: unexpected error
         content:

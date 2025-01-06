@@ -92,7 +92,7 @@ KeystoneTokenUser:
     - name
     - password_expires_at
 
-KeystoneTokenData:
+KeystoneToken:
   type: object
   properties:
     audit_ids:
@@ -130,15 +130,14 @@ KeystoneTokenData:
     - is_domain
     - issued_at
     - methods
-    - project
     - roles
     - user
 
-KeystoneToken:
+KeystoneTokenResponse:
   type: object
   properties:
     token:
-      $ref: "#/KeystoneTokenData"
+      $ref: "#/KeystoneToken"
   required:
     - token
 
@@ -182,6 +181,5 @@ CreateKeystoneTokenInput:
                 - name
       required:
         - identity
-        - scope
   required:
     - auth

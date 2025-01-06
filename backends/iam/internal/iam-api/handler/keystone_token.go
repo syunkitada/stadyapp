@@ -24,17 +24,16 @@ func (self *Handler) CreateKeystoneToken(ectx echo.Context) error {
 
 	ectx.Response().Header().Set("x-subject-token", tokenStr)
 
-	return tlog.BindEchoOK(ctx, ectx, token)
+	resp := oapi.KeystoneTokenResponse{
+		Token: *token,
+	}
+	return tlog.BindEchoOK(ctx, ectx, resp)
 }
 
 func (self *Handler) CreateKeystoneFederationAuthToken(ectx echo.Context, provider, protocol string) error {
 	ctx := iam_auth.WithEchoContext(ectx)
 
-	var input oapi.CreateKeystoneTokenInput
-
-	if err := ectx.Bind(&input); err != nil {
-		return tlog.BindEchoBadRequest(ctx, ectx, err)
-	}
+	input := oapi.CreateKeystoneTokenInput{}
 
 	token, tokenStr, err := self.api.CreateKeystoneToken(ctx, &input)
 	if err != nil {
@@ -43,5 +42,8 @@ func (self *Handler) CreateKeystoneFederationAuthToken(ectx echo.Context, provid
 
 	ectx.Response().Header().Set("x-subject-token", tokenStr)
 
-	return tlog.BindEchoOK(ctx, ectx, token)
+	resp := oapi.KeystoneTokenResponse{
+		Token: *token,
+	}
+	return tlog.BindEchoOK(ctx, ectx, resp)
 }

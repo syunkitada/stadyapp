@@ -80,51 +80,38 @@ func (self *API) CreateKeystoneToken(
 
 	domainID := "default"
 
+	roles := []oapi.KeystoneTokenRole{}
+	catalog := []oapi.KeystoneCatalog{}
+
+	var project *oapi.KeystoneTokenProject
+	if input.Auth.Scope != nil {
+		project = &oapi.KeystoneTokenProject{
+			Domain: oapi.KeystoneTokenDomain{
+				Id:   "domain_id",
+				Name: "domain_name",
+			},
+			Id:   "project_id",
+			Name: "project_name",
+		}
+	}
+
 	token := oapi.KeystoneToken{
-		Token: oapi.KeystoneTokenData{
-			AuditIds:  []string{"audit_id1", "audit_id2"},
-			Methods:   []string{"password"},
-			ExpiresAt: time.Now(),
-			IssuedAt:  time.Now(),
-			User: oapi.KeystoneTokenUser{
-				Domain: oapi.KeystoneTokenDomain{
-					Id:   domainID,
-					Name: "domain_name",
-				},
-				Id:                authContext.UserID,
-				Name:              authContext.UserID,
-				PasswordExpiresAt: time.Now(),
+		AuditIds:  []string{"audit_id1", "audit_id2"},
+		Methods:   []string{"password"},
+		ExpiresAt: time.Now(),
+		IssuedAt:  time.Now(),
+		User: oapi.KeystoneTokenUser{
+			Domain: oapi.KeystoneTokenDomain{
+				Id:   domainID,
+				Name: "domain_name",
 			},
-			Project: oapi.KeystoneTokenProject{
-				Domain: oapi.KeystoneTokenDomain{
-					Id:   "domain_id",
-					Name: "domain_name",
-				},
-				Id:   "project_id",
-				Name: "project_name",
-			},
-			Roles: []oapi.KeystoneTokenRole{
-				{
-					Id:   "role_id",
-					Name: "role_name",
-				},
-			},
-			Catalog: []oapi.KeystoneCatalog{
-				{
-					Id:   "catalog_id",
-					Name: "keystone",
-					Type: "identity",
-					Endpoints: []oapi.KeystoneEndpoint{
-						{
-							Id:        "endpoint_id",
-							Interface: "public",
-							Region:    "region1",
-							Url:       "http://localhost:10080/api/iam/keystone/v3",
-						},
-					},
-				},
-			},
+			Id:                authContext.UserID,
+			Name:              authContext.UserID,
+			PasswordExpiresAt: time.Now(),
 		},
+		Project: project,
+		Roles:   roles,
+		Catalog: catalog,
 	}
 
 	authData := iam_auth.AuthData{
