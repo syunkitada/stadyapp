@@ -1,0 +1,135 @@
+GlanceImageResponse:
+  type: object
+  properties:
+    image:
+      $ref: "#/GlanceImage"
+
+GlanceImagesResponse:
+  type: object
+  properties:
+    images:
+      type: array
+      items:
+        $ref: "#/GlanceImage"
+    first:
+      type: string
+      format: uri
+    schema:
+      type: string
+      format: uri
+
+GlanceImage:
+  type: object
+  properties:
+    owner_specified.openstack.object:
+      type: string
+    owner_specified.openstack.sha256:
+      type: string
+    owner_specified.openstack.md5:
+      type: string
+    name:
+      type: string
+    disk_format:
+      type: string
+    container_format:
+      type: string
+    visibility:
+      type: string
+      enum:
+        - public
+        - private
+    size:
+      type: integer
+      format: int64
+    virtual_size:
+      type: integer
+      format: int64
+    status:
+      type: string
+      enum:
+        - active
+        - saving
+        - queued
+        - killed
+    checksum:
+      type: string
+    protected:
+      type: boolean
+    min_ram:
+      type: integer
+      format: int32
+    min_disk:
+      type: integer
+      format: int32
+    owner:
+      type: string
+    os_hidden:
+      type: boolean
+    os_hash_algo:
+      type: string
+    os_hash_value:
+      type: string
+    id:
+      type: string
+      format: uuid
+    created_at:
+      type: string
+      format: date-time
+    updated_at:
+      type: string
+      format: date-time
+    tags:
+      type: array
+      items:
+        type: string
+    self:
+      type: string
+      format: uri
+    file:
+      type: string
+      format: uri
+    schema:
+      type: string
+      format: uri
+    stores:
+      type: string
+
+CreateGlanceImageInput:
+  type: object
+  properties:
+    container_format:
+      type: string
+      description: The container format of the image
+      example: bare
+    disk_format:
+      type: string
+      description: The disk format of the image
+      example: qcow2
+    visibility:
+      type: string
+      description: Visibility of the image
+      enum:
+        - public
+        - private
+      example: public
+    name:
+      type: string
+      description: The name of the image
+      example: cirros
+    owner_specified.openstack.md5:
+      type: string
+      description: MD5 checksum specified by the owner
+      example: ""
+    owner_specified.openstack.sha256:
+      type: string
+      description: SHA256 checksum specified by the owner
+      example: ""
+    owner_specified.openstack.object:
+      type: string
+      description: Object path specified by the owner
+      example: images/cirros
+  required:
+    - container_format
+    - disk_format
+    - visibility
+    - name

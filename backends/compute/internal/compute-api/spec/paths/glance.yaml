@@ -1,0 +1,25 @@
+glance:
+  get:
+    security: []
+    summary: Get glance version
+    description: Get glance version
+    operationId: getGlanceVersion
+    responses:
+      "200":
+        description: glance version
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance.yaml#/GlanceVersionResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"

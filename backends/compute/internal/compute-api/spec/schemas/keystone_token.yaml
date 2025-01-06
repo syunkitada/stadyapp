@@ -1,0 +1,192 @@
+KeystoneEndpoint:
+  type: object
+  properties:
+    id:
+      type: string
+    interface:
+      type: string
+    region:
+      type: string
+    region_id:
+      type: string
+    url:
+      type: string
+      format: uri
+  required:
+    - id
+    - interface
+    - region
+    - region_id
+    - url
+
+KeystoneCatalog:
+  type: object
+  properties:
+    endpoints:
+      type: array
+      items:
+        $ref: "#/KeystoneEndpoint"
+    type:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+  required:
+    - endpoints
+    - type
+    - id
+    - name
+
+KeystoneTokenProject:
+  type: object
+  properties:
+    domain:
+      $ref: "#/KeystoneTokenDomain"
+    id:
+      type: string
+    name:
+      type: string
+  required:
+    - domain
+    - id
+    - name
+
+KeystoneTokenRole:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+  required:
+    - id
+    - name
+
+KeystoneTokenDomain:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+  required:
+    - id
+    - name
+
+KeystoneTokenUser:
+  type: object
+  properties:
+    domain:
+      $ref: "#/KeystoneTokenDomain"
+    id:
+      type: string
+    name:
+      type: string
+    password_expires_at:
+      type: string
+      format: date-time
+  required:
+    - domain
+    - id
+    - name
+    - password_expires_at
+
+KeystoneToken:
+  type: object
+  properties:
+    audit_ids:
+      type: array
+      items:
+        type: string
+    catalog:
+      type: array
+      items:
+        $ref: "#/KeystoneCatalog"
+    expires_at:
+      type: string
+      format: date-time
+    is_domain:
+      type: boolean
+    issued_at:
+      type: string
+      format: date-time
+    methods:
+      type: array
+      items:
+        type: string
+    project:
+      $ref: "#/KeystoneTokenProject"
+    roles:
+      type: array
+      items:
+        $ref: "#/KeystoneTokenRole"
+    user:
+      $ref: "#/KeystoneTokenUser"
+  required:
+    - audit_ids
+    - catalog
+    - expires_at
+    - is_domain
+    - issued_at
+    - methods
+    - roles
+    - user
+
+KeystoneTokenResponse:
+  type: object
+  properties:
+    token:
+      $ref: "#/KeystoneToken"
+  required:
+    - token
+
+CreateKeystoneTokenInputAuthIdentity:
+  type: object
+  properties:
+    methods:
+      type: array
+      items:
+        type: string
+    token:
+      type: object
+      properties:
+        id:
+          type: string
+  required:
+    - methods
+    - token
+
+CreateKeystoneTokenInputAuthScope:
+  type: object
+  properties:
+    project:
+      type: object
+      properties:
+        domain:
+          type: object
+          properties:
+            id:
+              type: string
+        name:
+          type: string
+      required:
+        - name
+
+CreateKeystoneTokenInputAuth:
+  type: object
+  properties:
+    identity:
+      $ref: "#/CreateKeystoneTokenInputAuthIdentity"
+    scope:
+      $ref: "#/CreateKeystoneTokenInputAuthScope"
+  required:
+    - identity
+
+CreateKeystoneTokenInput:
+  type: object
+  properties:
+    auth:
+      $ref: "#/CreateKeystoneTokenInputAuth"
+  required:
+    - auth

@@ -1,0 +1,314 @@
+domains:
+  get:
+    summary: Get keystone domains
+    description: Get keystone domains
+    operationId: getKeystoneDomains
+    parameters:
+      - name: name
+        in: query
+        description: Filters the response by a domain name
+        required: false
+        schema:
+          type: string
+    responses:
+      "200":
+        description: get keystone domains
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_domain.yaml#/KeystoneDomainsResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+  post:
+    summary: Create a new keystone domain
+    description: Create a new keystone domain
+    operationId: createKeystoneDomain
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/keystone_domain.yaml#/CreateKeystoneDomainInput"
+    responses:
+      "200":
+        description: keystone domain response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_domain.yaml#/KeystoneDomainResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+domains_id:
+  get:
+    summary: Get a domain by ID
+    description: Get a domain by ID
+    operationId: getKeystoneDomainByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone domain to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: keystone domain response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_domain.yaml#/KeystoneDomainResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+  patch:
+    summary: Update a domain by ID
+    description: Update a domain by ID
+    operationId: updateKeystoneDomainByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone domain to fetch
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/keystone_domain.yaml#/UpdateKeystoneDomainInput"
+    responses:
+      "200":
+        description: keystone domain response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_domain.yaml#/KeystoneDomainResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+  delete:
+    summary: Delete a domain by ID
+    description: Delete a domain by ID
+    operationId: deleteKeystoneDomainByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone domain to delete
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: domain deleted
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+domains_id_users_user_id_roles_role_id:
+  put:
+    summary: Assign a role to a user on a domain
+    description: Assign a role to a user on a domain
+    operationId: assignKeystoneRoleToUserDomain
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone domain to fetch
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        description: ID of keystone user to fetch
+        required: true
+        schema:
+          type: string
+      - name: role_id
+        in: path
+        description: ID of keystone role to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: role assigned to a user on a domain
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+  delete:
+    summary: Unassign a role from a user on a domain
+    description: Unassign a role to a user on a domain
+    operationId: unassignKeystoneRoleFromUserDomain
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone domain to fetch
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        description: ID of keystone user to fetch
+        required: true
+        schema:
+          type: string
+      - name: role_id
+        in: path
+        description: ID of keystone role to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: role unassigned from a user on a domain
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+domains_id_groups_group_id_roles_role_id:
+  put:
+    summary: Assign a role to a group on a domain
+    description: Assign a role to a group on a domain
+    operationId: assignKeystoneRoleToGroupDomain
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone domain to fetch
+        required: true
+        schema:
+          type: string
+      - name: group_id
+        in: path
+        description: ID of keystone group to fetch
+        required: true
+        schema:
+          type: string
+      - name: role_id
+        in: path
+        description: ID of keystone role to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: role assigned to a group on a domain
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+  delete:
+    summary: Unassign a role from a group on a domain
+    description: Unassign a role to a group on a domain
+    operationId: unassignKeystoneRoleFromGroupDomain
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone domain to fetch
+        required: true
+        schema:
+          type: string
+      - name: group_id
+        in: path
+        description: ID of keystone group to fetch
+        required: true
+        schema:
+          type: string
+      - name: role_id
+        in: path
+        description: ID of keystone role to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: role unassigned from a group on a domain
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"

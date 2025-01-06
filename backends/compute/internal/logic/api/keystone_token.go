@@ -13,10 +13,10 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/db"
-	"github.com/syunkitada/stadyapp/backends/iam/internal/domain/model"
-	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
-	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_auth"
+	"github.com/syunkitada/stadyapp/backends/compute/internal/domain/db"
+	"github.com/syunkitada/stadyapp/backends/compute/internal/domain/model"
+	"github.com/syunkitada/stadyapp/backends/compute/internal/compute-api/spec/oapi"
+	"github.com/syunkitada/stadyapp/backends/compute/internal/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
@@ -99,18 +99,7 @@ func (self *API) CreateKeystoneToken(
 				{
 					Interface: "public",
 					Region:    "region1",
-					Url:       "http://localhost:11080/api/iam/keystone/v3",
-				},
-			},
-		},
-		{
-			Type: "image",
-			Name: "glance",
-			Endpoints: []oapi.KeystoneEndpoint{
-				{
-					Interface: "public",
-					Region:    "region1",
-					Url:       "http://localhost:11080/api/compute/glance",
+					Url:       "http://localhost:11080/api/compute/keystone/v3",
 				},
 			},
 		},

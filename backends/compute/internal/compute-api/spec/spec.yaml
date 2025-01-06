@@ -1,0 +1,74 @@
+openapi: "3.0.0"
+servers:
+  - url: http://127.0.0.1
+info:
+  version: 1.0.0
+  title: Swagger Projectstore
+  description: A sample API that uses a projectstore as an example to demonstrate features in the OpenAPI 3.0 specification
+  termsOfService: https://swagger.io/terms/
+  contact:
+    name: Swagger API Team
+    email: apiteam@swagger.io
+    url: https://swagger.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+security:
+  - XAuthTokenHeader: []
+components:
+  securitySchemes:
+    XUserIDHeader:
+      type: apiKey
+      name: x-user-id
+      in: header
+      description: "The custom authorization"
+    XAuthTokenHeader:
+      type: apiKey
+      name: x-auth-token
+      in: header
+      description: "The custom authorization"
+paths:
+  /glance:
+    $ref: "./paths/glance.yaml#/glance"
+  /glance/images:
+    $ref: "./paths/glance_images.yaml#/images"
+  /glance/images/{id}:
+    $ref: "./paths/glance_images.yaml#/images_id"
+  # /glance/images/{id}/file:
+  #   $ref: "./paths/glance_images.yaml#/images_id_file"
+  /keystone/v3:
+    $ref: "./paths/keystone.yaml#/v3"
+  /keystone/v3/auth/tokens:
+    $ref: "./paths/keystone_tokens.yaml#/tokens"
+  /keystone/v3/OS-FEDERATION/identity_providers/{provider}/protocols/{protocol}/auth:
+    $ref: "./paths/keystone_tokens.yaml#/federation_auth"
+  /keystone/v3/domains:
+    $ref: "./paths/keystone_domains.yaml#/domains"
+  /keystone/v3/domains/{id}:
+    $ref: "./paths/keystone_domains.yaml#/domains_id"
+  /keystone/v3/domains/{id}/users/{user_id}/roles/{role_id}:
+    $ref: "./paths/keystone_domains.yaml#/domains_id_users_user_id_roles_role_id"
+  /keystone/v3/projects:
+    $ref: "./paths/keystone_projects.yaml#/projects"
+  /keystone/v3/projects/{id}:
+    $ref: "./paths/keystone_projects.yaml#/projects_id"
+  /keystone/v3/projects/{id}/users/{user_id}/roles/{role_id}:
+    $ref: "./paths/keystone_projects.yaml#/projects_id_users_user_id_roles_role_id"
+  /keystone/v3/projects/{id}/groups/{group_id}/roles/{role_id}:
+    $ref: "./paths/keystone_projects.yaml#/projects_id_groups_group_id_roles_role_id"
+  /keystone/v3/users:
+    $ref: "./paths/keystone_users.yaml#/users"
+  /keystone/v3/users/{id}:
+    $ref: "./paths/keystone_users.yaml#/users_id"
+  /keystone/v3/users/{id}/projects:
+    $ref: "./paths/keystone_users.yaml#/users_id_projects"
+  /keystone/v3/groups:
+    $ref: "./paths/keystone_groups.yaml#/groups"
+  /keystone/v3/groups/{id}:
+    $ref: "./paths/keystone_groups.yaml#/groups_id"
+  /keystone/v3/roles:
+    $ref: "./paths/keystone_roles.yaml#/roles"
+  /keystone/v3/roles/{id}:
+    $ref: "./paths/keystone_roles.yaml#/roles_id"
+  /keystone/v3/role_assignments:
+    $ref: "./paths/keystone_role_assignments.yaml#/role_assignments"

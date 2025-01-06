@@ -1,0 +1,37 @@
+GlanceVersionResponse:
+  type: object
+  properties:
+    versions:
+      type: array
+      items:
+        $ref: "#/GlanceVersion"
+  required:
+    - versions
+
+GlanceVersion:
+  type: object
+  properties:
+    id:
+      type: string
+    status:
+      type: string
+    links:
+      type: array
+      items:
+        $ref: "#/GlanceVersionLink"
+  required:
+    - id
+    - status
+    - links
+
+GlanceVersionLink:
+  type: object
+  properties:
+    href:
+      type: string
+      format: uri
+    rel:
+      type: string
+  required:
+    - href
+    - rel

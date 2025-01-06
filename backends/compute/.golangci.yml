@@ -1,0 +1,56 @@
+linters:
+  enable-all: true
+  disable:
+    - gofumpt
+    - exhaustruct
+    - exhaustivestruct # depricated
+    - exportloopref # depricated
+    - dupl
+    - ireturn
+    - canonicalheader
+
+linters-settings:
+  gci:
+    sections:
+      - standard
+      - default
+      - prefix(github.com/syunkitada/stadyapp)
+  depguard:
+    rules:
+      Main:
+        allow:
+          - "$gostd"
+          - github.com/stretchr/testify
+          - github.com/DATA-DOG/go-sqlmock
+          - gorm.io/gorm
+          - github.com/go-sql-driver/mysql
+          - github.com/labstack/echo/v4
+          - github.com/labstack/gommon
+          - github.com/oapi-codegen/echo-middleware
+          - github.com/getkin/kin-openapi
+          - github.com/golang-jwt/jwt
+          - github.com/google/uuid
+          - github.com/syunkitada/stadyapp
+  mnd:
+    ignored-numbers:
+      - "0644"
+  varnamelen:
+    ignore-names:
+      - id
+      - db
+      - tx
+      - ok
+  revive:
+    rules:
+      - name: receiver-naming
+        disabled: true
+  wrapcheck:
+    ignoreSigs:
+      - tlog.Wrap
+      - tlog.Err
+      - tlog.Bind
+  stylecheck:
+    checks:
+      - "all"
+      - "-ST1006"
+      - "-ST1003" # ST1003: should not use underscores in package names

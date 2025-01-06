@@ -1,0 +1,63 @@
+groups:
+  get:
+    summary: Get keystone groups
+    description: Create a new keystone token
+    operationId: getKeystoneGroups
+    parameters:
+      - name: name
+        in: query
+        description: Filters the response by a group name
+        required: false
+        schema:
+          type: string
+    responses:
+      "200":
+        description: get keystone groups
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_group.yaml#/KeystoneGroupsResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+groups_id:
+  get:
+    summary: Get a group by ID
+    description: Get a group by ID
+    operationId: getKeystoneGroupByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone group to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: keystone group response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_group.yaml#/KeystoneGroupResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"

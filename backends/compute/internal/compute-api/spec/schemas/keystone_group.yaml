@@ -1,0 +1,62 @@
+KeystoneGroup:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    domain_id:
+      type: string
+    enabled:
+      type: boolean
+    password_expires_at:
+      type: string
+      format: date-time
+      nullable: true
+    options:
+      type: object
+      additionalProperties: {}
+    links:
+      $ref: "./keystone.yaml#/KeystoneSelfPagerLinks"
+  required:
+    - id
+    - name
+    - domain_id
+    - enabled
+    - password_expires_at
+    - options
+    - links
+
+KeystoneGroups:
+  type: object
+  properties:
+    groups:
+      type: array
+      items:
+        $ref: "#/KeystoneGroup"
+    links:
+      $ref: "./keystone.yaml#/KeystonePagerLinks"
+  required:
+    - groups
+    - links
+
+KeystoneGroupResponse:
+  type: object
+  properties:
+    group:
+      $ref: "#/KeystoneGroup"
+  required:
+    - group
+
+KeystoneGroupsResponse:
+  type: object
+  properties:
+    groups:
+      type: array
+      items:
+        $ref: "#/KeystoneGroup"
+    links:
+      $ref: "./keystone.yaml#/KeystonePagerLinks"
+  required:
+    - groups
+    - links

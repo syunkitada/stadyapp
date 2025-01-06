@@ -1,0 +1,151 @@
+users:
+  get:
+    summary: Get keystone users
+    description: Create a new keystone token
+    operationId: getKeystoneUsers
+    parameters:
+      - name: name
+        in: query
+        description: Filters the response by a user name
+        required: false
+        schema:
+          type: string
+    responses:
+      "200":
+        description: get keystone users
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_user.yaml#/KeystoneUsers"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+  post:
+    summary: Create a new keystone user
+    description: Create a new keystone user
+    operationId: createKeystoneUser
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/keystone_user.yaml#/CreateKeystoneUserInput"
+    responses:
+      "200":
+        description: keystone user response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_user.yaml#/KeystoneUser"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+users_id:
+  get:
+    summary: Get a user by ID
+    description: Get a user by ID
+    operationId: getKeystoneUserByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone user to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: keystone user response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_user.yaml#/KeystoneUser"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+  delete:
+    summary: Delete a user by ID
+    description: Delete a user by ID
+    operationId: deleteKeystoneUserByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone user to delete
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: user deleted
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+users_id_projects:
+  get:
+    summary: Get user's projects
+    description: Get user's projects
+    operationId: getKeystoneUserProjectsByUserID
+    parameters:
+      - name: id
+        in: path
+        description: ID of keystone user to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: keystone user response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/keystone_user.yaml#/KeystoneUserResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"

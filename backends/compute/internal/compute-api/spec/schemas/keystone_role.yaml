@@ -1,0 +1,70 @@
+KeystoneRole:
+  type: object
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    description:
+      type: string
+    links:
+      $ref: "./keystone.yaml#/KeystoneSelfPagerLinks"
+  additionalProperties: {}
+  required:
+    - id
+    - name
+    - description
+    - tags
+    - options
+    - links
+
+KeystoneRoleResponse:
+  type: object
+  properties:
+    role:
+      $ref: "#/KeystoneRole"
+  required:
+    - role
+
+KeystoneRolesResponse:
+  type: object
+  properties:
+    roles:
+      type: array
+      items:
+        $ref: "#/KeystoneRole"
+    links:
+      $ref: "./keystone.yaml#/KeystonePagerLinks"
+  required:
+    - roles
+    - links
+
+CreateKeystoneRoleInput:
+  type: object
+  properties:
+    role:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      additionalProperties: {}
+      required:
+        - name
+  required:
+    - role
+
+UpdateKeystoneRoleInput:
+  type: object
+  properties:
+    role:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      additionalProperties: {}
+  required:
+    - role

@@ -1,0 +1,106 @@
+images:
+  get:
+    summary: Get glance images
+    description: Get glance images
+    operationId: getGlanceImages
+    responses:
+      "200":
+        description: get glance images
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImagesResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+  post:
+    summary: Create a new glance image
+    description: Create a new glance image
+    operationId: createGlanceImage
+    responses:
+      "200":
+        description: glance image response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+images_id:
+  get:
+    summary: Get a image by ID
+    description: Get a image by ID
+    operationId: getGlanceImageByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: glance image response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+
+  delete:
+    summary: Delete a image by ID
+    description: Delete a image by ID
+    operationId: deleteGlanceImageByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to delete
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: image deleted
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
