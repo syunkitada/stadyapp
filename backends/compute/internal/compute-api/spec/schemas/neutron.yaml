@@ -1,0 +1,37 @@
+NeutronVersionResponse:
+  type: object
+  properties:
+    versions:
+      type: array
+      items:
+        $ref: "#/NeutronVersion"
+  required:
+    - versions
+
+NeutronVersion:
+  type: object
+  properties:
+    id:
+      type: string
+    status:
+      type: string
+    links:
+      type: array
+      items:
+        $ref: "#/NeutronVersionLink"
+  required:
+    - id
+    - status
+    - links
+
+NeutronVersionLink:
+  type: object
+  properties:
+    href:
+      type: string
+      format: uri
+    rel:
+      type: string
+  required:
+    - href
+    - rel

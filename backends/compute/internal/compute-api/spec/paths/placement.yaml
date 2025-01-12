@@ -1,16 +1,16 @@
-glance:
+version:
   get:
     security: []
-    summary: Get glance version
-    description: Get glance version
-    operationId: getGlanceVersion
+    summary: Get placement version
+    description: Get placement version
+    operationId: getPlacementVersion
     responses:
       200:
-        description: glance version
+        description: placement version
         content:
           application/json:
             schema:
-              $ref: "../schemas/glance.yaml#/GlanceVersionResponse"
+              $ref: "../schemas/placement.yaml#/PlacementVersionResponse"
       4XX:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:

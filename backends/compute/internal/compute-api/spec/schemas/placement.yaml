@@ -1,0 +1,42 @@
+PlacementVersionResponse:
+  type: object
+  properties:
+    versions:
+      type: array
+      items:
+        $ref: "#/PlacementVersion"
+  required:
+    - versions
+
+PlacementVersion:
+  type: object
+  properties:
+    id:
+      type: string
+    max_version:
+      type: string
+    min_version:
+      type: string
+    status:
+      type: string
+    links:
+      type: array
+      items:
+        $ref: "#/PlacementVersionLink"
+  required:
+    - id
+    - max_version
+    - min_version
+    - status
+    - links
+PlacementVersionLink:
+  type: object
+  properties:
+    href:
+      type: string
+      format: uri
+    rel:
+      type: string
+  required:
+    - href
+    - rel

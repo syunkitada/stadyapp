@@ -1,16 +1,16 @@
-glance:
+version:
   get:
     security: []
-    summary: Get glance version
-    description: Get glance version
-    operationId: getGlanceVersion
+    summary: Get neutron version
+    description: Get neutron version
+    operationId: getNeutronVersion
     responses:
       200:
-        description: glance version
+        description: neutron version
         content:
           application/json:
             schema:
-              $ref: "../schemas/glance.yaml#/GlanceVersionResponse"
+              $ref: "../schemas/neutron.yaml#/NeutronVersionResponse"
       4XX:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:

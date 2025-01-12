@@ -10,6 +10,7 @@ type Config struct {
 	DB      db.Config
 	Logger  tlog.Config
 	IAMAuth iam_auth.Config
+	Compute Compute
 }
 
 func GetDefaultConfig() Config {
@@ -17,5 +18,46 @@ func GetDefaultConfig() Config {
 		DB:      db.GetDefaultConfig(),
 		Logger:  tlog.GetDefaultConfig(),
 		IAMAuth: iam_auth.GetDefaultConfig(),
+		Compute: Compute{
+			ProxyCatalog: ProxyCatalog{
+				Glance: Proxy{
+					URL:         "http://localhost:9292",
+					OldBasePath: "/glance",
+					NewBasePath: "/",
+				},
+				Nova: Proxy{
+					URL:         "http://localhost:8774",
+					OldBasePath: "/nova",
+					NewBasePath: "/",
+				},
+				Neutron: Proxy{
+					URL:         "http://localhost:9696",
+					OldBasePath: "/neutron",
+					NewBasePath: "/",
+				},
+				Placement: Proxy{
+					URL:         "http://localhost:8778",
+					OldBasePath: "/placement",
+					NewBasePath: "/",
+				},
+			},
+		},
 	}
+}
+
+type Compute struct {
+	ProxyCatalog ProxyCatalog
+}
+
+type ProxyCatalog struct {
+	Glance    Proxy
+	Nova      Proxy
+	Neutron   Proxy
+	Placement Proxy
+}
+
+type Proxy struct {
+	URL         string
+	OldBasePath string
+	NewBasePath string
 }

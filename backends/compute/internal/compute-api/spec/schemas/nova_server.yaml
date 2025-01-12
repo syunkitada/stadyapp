@@ -1,0 +1,312 @@
+CreateServerRequest:
+  type: object
+  properties:
+    server:
+      type: object
+      required:
+        - networks
+        - min_count
+        - flavorRef
+        - block_device_mapping_v2
+        - name
+        - imageRef
+        - max_count
+      properties:
+        networks:
+          type: array
+          items:
+            type: object
+            properties:
+              uuid:
+                type: string
+                format: uuid
+                example: "2d7aaea9-6719-4e86-9ac5-c731ef0af9ce"
+        min_count:
+          type: integer
+          example: 1
+        max_count:
+          type: integer
+          example: 1
+        flavorRef:
+          type: string
+          example: "1"
+        block_device_mapping_v2:
+          type: array
+          items:
+            type: object
+            properties:
+              uuid:
+                type: string
+                format: uuid
+                example: "cc5d35c7-1163-4467-b56d-a8979e1bf2c9"
+              boot_index:
+                type: integer
+                example: 0
+              source_type:
+                type: string
+                example: "image"
+              destination_type:
+                type: string
+                example: "local"
+              delete_on_termination:
+                type: boolean
+                example: true
+        name:
+          type: string
+          example: "testvm"
+        imageRef:
+          type: string
+          format: uuid
+          example: "cc5d35c7-1163-4467-b56d-a8979e1bf2c9"
+
+NovaServerResponse:
+  type: object
+  properties:
+    server:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "5f16780a-4f57-4720-ba28-ec1ef5345d8b"
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              rel:
+                type: string
+                example: "self"
+              href:
+                type: string
+                format: uri
+                example: "http://localhost:8774/v2.1/servers/5f16780a-4f57-4720-ba28-ec1ef5345d8b"
+        OS-DCF:diskConfig:
+          type: string
+          example: "MANUAL"
+        security_groups:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "default"
+        adminPass:
+          type: string
+          example: "qcT7eHcJXC5B"
+
+NovaServersDetailResponse:
+  type: object
+  properties:
+    servers:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "5f16780a-4f57-4720-ba28-ec1ef5345d8b"
+          name:
+            type: string
+            example: "testvm"
+          status:
+            type: string
+            example: "ERROR"
+          tenant_id:
+            type: string
+            example: "f11a577948804875b29244e73705cf1a"
+          user_id:
+            type: string
+            example: "5ed3c68037ac408eae1caec8f2ff1cf5"
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+          hostId:
+            type: string
+            example: ""
+          image:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "cc5d35c7-1163-4467-b56d-a8979e1bf2c9"
+              links:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    rel:
+                      type: string
+                      example: "bookmark"
+                    href:
+                      type: string
+                      format: uri
+                      example: "http://localhost:8774/images/cc5d35c7-1163-4467-b56d-a8979e1bf2c9"
+          flavor:
+            type: object
+            properties:
+              vcpus:
+                type: integer
+                example: 1
+              ram:
+                type: integer
+                example: 512
+              disk:
+                type: integer
+                example: 1
+              ephemeral:
+                type: integer
+                example: 0
+              swap:
+                type: integer
+                example: 0
+              original_name:
+                type: string
+                example: "1v-512M-1G"
+              extra_specs:
+                type: object
+                additionalProperties:
+                  type: string
+          created:
+            type: string
+            format: date-time
+            example: "2025-01-11T08:46:51Z"
+          updated:
+            type: string
+            format: date-time
+            example: "2025-01-11T08:46:52Z"
+          addresses:
+            type: object
+            additionalProperties:
+              type: array
+              items:
+                type: object
+                properties:
+                  addr:
+                    type: string
+                    example: "192.168.0.1"
+                  type:
+                    type: string
+                    example: "fixed"
+          accessIPv4:
+            type: string
+            example: ""
+          accessIPv6:
+            type: string
+            example: ""
+          links:
+            type: array
+            items:
+              type: object
+              properties:
+                rel:
+                  type: string
+                  example: "self"
+                href:
+                  type: string
+                  format: uri
+                  example: "http://localhost:8774/v2.1/servers/5f16780a-4f57-4720-ba28-ec1ef5345d8b"
+          OS-DCF:diskConfig:
+            type: string
+            example: "MANUAL"
+          OS-EXT-AZ:availability_zone:
+            type: string
+            example: ""
+          pinned_availability_zone:
+            type: string
+            nullable: true
+            example: null
+          config_drive:
+            type: string
+            example: ""
+          key_name:
+            type: string
+            nullable: true
+            example: null
+          OS-SRV-USG:launched_at:
+            type: string
+            format: date-time
+            nullable: true
+            example: null
+          OS-SRV-USG:terminated_at:
+            type: string
+            format: date-time
+            nullable: true
+            example: null
+          OS-EXT-SRV-ATTR:host:
+            type: string
+            nullable: true
+            example: null
+          OS-EXT-SRV-ATTR:instance_name:
+            type: string
+            example: "instance-00000001"
+          OS-EXT-SRV-ATTR:hypervisor_hostname:
+            type: string
+            nullable: true
+            example: null
+          OS-EXT-SRV-ATTR:reservation_id:
+            type: string
+            example: "r-k0ptw28a"
+          OS-EXT-SRV-ATTR:launch_index:
+            type: integer
+            example: 0
+          OS-EXT-SRV-ATTR:hostname:
+            type: string
+            example: "testvm"
+          OS-EXT-SRV-ATTR:kernel_id:
+            type: string
+            example: ""
+          OS-EXT-SRV-ATTR:ramdisk_id:
+            type: string
+            example: ""
+          OS-EXT-SRV-ATTR:root_device_name:
+            type: string
+            nullable: true
+            example: null
+          OS-EXT-SRV-ATTR:user_data:
+            type: string
+            nullable: true
+            example: null
+          OS-EXT-STS:task_state:
+            type: string
+            nullable: true
+            example: null
+          OS-EXT-STS:vm_state:
+            type: string
+            example: "error"
+          OS-EXT-STS:power_state:
+            type: integer
+            example: 0
+          os-extended-volumes:volumes_attached:
+            type: array
+            items:
+              type: object
+            example: []
+          locked:
+            type: boolean
+            example: false
+          locked_reason:
+            type: string
+            nullable: true
+            example: null
+          description:
+            type: string
+            nullable: true
+            example: null
+          tags:
+            type: array
+            items:
+              type: string
+            example: []
+          trusted_image_certificates:
+            type: array
+            nullable: true
+            items:
+              type: string
+            example: null
+          host_status:
+            type: string
+            example: ""

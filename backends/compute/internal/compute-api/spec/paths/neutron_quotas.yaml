@@ -1,0 +1,23 @@
+quotas_project_id:
+  get:
+    summary: Get detailed information about networks
+    description: Retrieves a detailed list of networks with their attributes.
+    operationId: getNeutronQuotasByProjectID
+    parameters:
+      - name: project_id
+        in: path
+        description: ID of glance image to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: neutron network response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/neutron_network.yaml#/NeutronNetworkResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"

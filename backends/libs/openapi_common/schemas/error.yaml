@@ -1,0 +1,26 @@
+4XX:
+  description: unexpected error
+  content:
+    application/json:
+      schema:
+        $ref: "#/Error"
+
+default:
+  description: unexpected error
+  content:
+    application/json:
+      schema:
+        $ref: "#/Error"
+
+Error:
+  required:
+    - code
+    - message
+  properties:
+    code:
+      type: integer
+      format: int
+      description: Error code
+    message:
+      type: string
+      description: Error message

@@ -91,30 +91,6 @@ func (self *API) CreateKeystoneToken(
 
 	tokenRoles := []string{}
 	roles := []oapi.KeystoneTokenRole{}
-	catalog := []oapi.KeystoneCatalog{
-		{
-			Type: "identity",
-			Name: "keystone",
-			Endpoints: []oapi.KeystoneEndpoint{
-				{
-					Interface: "public",
-					Region:    "region1",
-					Url:       "http://localhost:11080/api/iam/keystone/v3",
-				},
-			},
-		},
-		{
-			Type: "image",
-			Name: "glance",
-			Endpoints: []oapi.KeystoneEndpoint{
-				{
-					Interface: "public",
-					Region:    "region1",
-					Url:       "http://localhost:11080/api/compute/glance",
-				},
-			},
-		},
-	}
 
 	projectName := ""
 	var project *oapi.KeystoneTokenProject
@@ -184,14 +160,14 @@ func (self *API) CreateKeystoneToken(
 		},
 		Project: project,
 		Roles:   roles,
-		Catalog: catalog,
+		Catalog: self.keystoneCatalog,
 	}
 
 	authData := iam_auth.AuthData{
 		Domain:  domain.ID,
 		User:    authContext.UserID,
 		Project: projectName,
-		Catalog: "{catalog}", // TODO
+		Catalog: self.keystoneCatalogStr,
 	}
 
 	tokenRolesJson, err := json.Marshal(tokenRoles)

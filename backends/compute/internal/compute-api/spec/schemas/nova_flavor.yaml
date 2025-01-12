@@ -1,0 +1,69 @@
+NovaFlavorDetail:
+  type: object
+  properties:
+    id:
+      type: string
+      example: "1"
+    name:
+      type: string
+      example: "1v-512M-1G"
+    ram:
+      type: integer
+      example: 512
+    disk:
+      type: integer
+      example: 1
+    swap:
+      type: string
+      example: ""
+    OS-FLV-EXT-DATA:ephemeral:
+      type: integer
+      example: 0
+    OS-FLV-DISABLED:disabled:
+      type: boolean
+      example: false
+    vcpus:
+      type: integer
+      example: 1
+    os-flavor-access:is_public:
+      type: boolean
+      example: true
+    rxtx_factor:
+      type: number
+      format: float
+      example: 1.0
+    links:
+      type: array
+      items:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: "self"
+          href:
+            type: string
+            format: uri
+            example: "http://localhost:8774/v2.1/flavors/1"
+    description:
+      type: string
+      nullable: true
+      example: null
+    extra_specs:
+      type: object
+      additionalProperties:
+        type: string
+        example: ""
+
+NovaFlavorsDetailResponse:
+  type: object
+  properties:
+    flavors:
+      type: array
+      items:
+        $ref: "#/NovaFlavorDetail"
+
+NovaFlavorResponse:
+  type: object
+  properties:
+    flavor:
+      $ref: "#/NovaFlavorDetail"

@@ -1,16 +1,15 @@
-glance:
+image:
   get:
-    security: []
-    summary: Get glance version
-    description: Get glance version
-    operationId: getGlanceVersion
+    summary: Get glance images
+    description: Get glance images
+    operationId: getGlanceSchemasImage
     responses:
       200:
-        description: glance version
+        description: get glance images
         content:
           application/json:
             schema:
-              $ref: "../schemas/glance.yaml#/GlanceVersionResponse"
+              $ref: "../schemas/glance_image.yaml#/GlanceImagesResponse"
       4XX:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:

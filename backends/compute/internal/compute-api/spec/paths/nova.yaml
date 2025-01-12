@@ -1,16 +1,16 @@
-glance:
+version:
   get:
     security: []
-    summary: Get glance version
-    description: Get glance version
-    operationId: getGlanceVersion
+    summary: Get nova version
+    description: Get nova version
+    operationId: getNovaVersion
     responses:
       200:
-        description: glance version
+        description: nova version
         content:
           application/json:
             schema:
-              $ref: "../schemas/glance.yaml#/GlanceVersionResponse"
+              $ref: "../schemas/nova.yaml#/NovaVersionResponse"
       4XX:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:

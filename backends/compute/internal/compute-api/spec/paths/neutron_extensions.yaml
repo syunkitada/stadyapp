@@ -1,0 +1,16 @@
+extensions:
+  get:
+    summary: Get detailed information about networks
+    description: Retrieves a detailed list of networks with their attributes.
+    operationId: getNeutronExtensions
+    responses:
+      200:
+        description: A detailed list of networks.
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/neutron_network.yaml#/NeutronNetworksResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"

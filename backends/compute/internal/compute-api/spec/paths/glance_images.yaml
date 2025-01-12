@@ -4,47 +4,31 @@ images:
     description: Get glance images
     operationId: getGlanceImages
     responses:
-      "200":
+      200:
         description: get glance images
         content:
           application/json:
             schema:
               $ref: "../schemas/glance_image.yaml#/GlanceImagesResponse"
-      "4XX":
-        description: unexpected error
-        content:
-          application/json:
-            schema:
-              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:
-        description: unexpected error
-        content:
-          application/json:
-            schema:
-              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
   post:
     summary: Create a new glance image
     description: Create a new glance image
     operationId: createGlanceImage
     responses:
-      "200":
+      200:
         description: glance image response
         content:
           application/json:
             schema:
               $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
-      "4XX":
-        description: unexpected error
-        content:
-          application/json:
-            schema:
-              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:
-        description: unexpected error
-        content:
-          application/json:
-            schema:
-              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
 
 images_id:
   get:
@@ -59,24 +43,16 @@ images_id:
         schema:
           type: string
     responses:
-      "200":
+      200:
         description: glance image response
         content:
           application/json:
             schema:
               $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
-      "4XX":
-        description: unexpected error
-        content:
-          application/json:
-            schema:
-              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:
-        description: unexpected error
-        content:
-          application/json:
-            schema:
-              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
 
   delete:
     summary: Delete a image by ID
@@ -90,17 +66,9 @@ images_id:
         schema:
           type: string
     responses:
-      "204":
+      204:
         description: image deleted
-      "4XX":
-        description: unexpected error
-        content:
-          application/json:
-            schema:
-              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:
-        description: unexpected error
-        content:
-          application/json:
-            schema:
-              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"

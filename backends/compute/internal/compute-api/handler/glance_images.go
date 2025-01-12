@@ -1,88 +1,76 @@
 package handler
 
 import (
+	"bytes"
 	"io"
+	"net"
 	"net/http"
 	"net/url"
 	"strings"
 
 	"github.com/labstack/echo/v4"
 
+	"github.com/syunkitada/stadyapp/backends/compute/internal/compute-api/config"
 	"github.com/syunkitada/stadyapp/backends/compute/internal/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-// Hop-by-hop headers. These are removed when sent to the backend.
-// http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html
-var hopHeaders = []string{
-	"Connection",
-	"Keep-Alive",
-	"Proxy-Authenticate",
-	"Proxy-Authorization",
-	"Te", // canonicalized version of "TE"
-	"Trailers",
-	"Transfer-Encoding",
-	"Upgrade",
-}
-
-func copyHeader(dst, src http.Header) {
-	for k, vv := range src {
-		for _, v := range vv {
-			dst.Add(k, v)
-		}
-	}
-}
-
-func delHopHeaders(header http.Header) {
-	for _, h := range hopHeaders {
-		header.Del(h)
-	}
-}
+const HeaderXForwardedFor = "x-forwarded-for"
 
 func appendHostToXForwardHeader(header http.Header, host string) {
-	// If we aren't the first proxy retain prior
-	// X-Forwarded-For information as a comma+space
-	// separated list and fold multiple headers into one.
-	if prior, ok := header["X-Forwarded-For"]; ok {
-		host = strings.Join(prior, ", ") + ", " + host
+	forwardedFor := header.Get(HeaderXForwardedFor)
+	if forwardedFor != "" {
+		header.Set(HeaderXForwardedFor, forwardedFor+","+host)
+	} else {
+		header.Set(HeaderXForwardedFor, host)
 	}
-	header.Set("X-Forwarded-For", host)
 }
 
-func proxy(ectx echo.Context) error {
-	targetURL := "http://localhost:9292" // プロキシ先のサーバーURL
+func copyHeader(src http.Header, dst http.Header) {
+	dst.Set("content-type", src.Get("content-type"))
+}
 
-	// リクエストのパスを追加
-	target, err := url.Parse(targetURL)
+func proxy(ectx echo.Context, proxy config.Proxy) error {
+	ctx := iam_auth.WithEchoContext(ectx)
+	authContext, err := iam_auth.GetAuthContext(ctx)
+	if err != nil {
+		return tlog.BindEchoError(ctx, ectx, err)
+	}
+
+	srcReq := ectx.Request()
+
+	// Copy the request body
+	reqBody := []byte{}
+	if srcReq.Body != nil {
+		reqBody, _ = io.ReadAll(srcReq.Body)
+	}
+	srcReq.Body = io.NopCloser(bytes.NewBuffer(reqBody))
+
+	// Copy the request without headers
+	target, err := url.Parse(proxy.URL)
 	if err != nil {
 		return ectx.String(http.StatusInternalServerError, "Invalid target URL")
 	}
-	target.Path = ectx.Request().URL.Path
+	target.Path = strings.Replace(srcReq.URL.Path, proxy.OldBasePath, proxy.NewBasePath, 1)
 	target.RawQuery = ectx.QueryString()
 
-	// 新しいリクエストを作成
-	req, err := http.NewRequest(ectx.Request().Method, "http://localhost:9292/v2/images", ectx.Request().Body)
+	// Create a new request
+	req, err := http.NewRequest(srcReq.Method, target.String(), bytes.NewBuffer(reqBody))
 	if err != nil {
 		return ectx.String(http.StatusInternalServerError, "Failed to create request")
 	}
 
-	// 元のリクエストヘッダーをコピー
-	// for key, values := range ectx.Request().Header {
-	// 	for _, value := range values {
-	// 		req.Header.Add(key, value)
-	// 	}
-	// }
+	if clientIP, _, err := net.SplitHostPort(ectx.Request().RemoteAddr); err == nil {
+		appendHostToXForwardHeader(req.Header, clientIP)
+	}
 
-	// curl http://localhost:9292/v2/images -H "X-Identity-Status: Confirmed" -H "x-user-domain-id: default" -H "x-project-domain-id: default" -H "x-user-id: admin" -H "x-project-id: admin" -H "x-roles: admin" -H "X-IS-ADMIN-PROJECT: true"
-	req.Header.Add("x-identity-status", "Confirmed")
-	req.Header.Add("x-user-domain-id", "default")
-	req.Header.Add("x-project-domain-id", "default")
-	req.Header.Add("x-user-id", "admin")
-	req.Header.Add("x-project-id", "admin")
-	req.Header.Add("x-roles", "admin")
-	req.Header.Add("x-is-admin-project", ectx.Request().Host)
+	req.Header.Set("x-auth-token", srcReq.Header.Get("x-auth-token"))
+	req.Header.Set("x-service-token", srcReq.Header.Get("x-service-token"))
 
-	// HTTPクライアントでリクエストを送信
+	iam_auth.AddAuthHeader(req, authContext)
+	copyHeader(srcReq.Header, req.Header)
+
+	// Send the request
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -90,14 +78,14 @@ func proxy(ectx echo.Context) error {
 	}
 	defer resp.Body.Close()
 
-	// レスポンスヘッダーをコピー
+	// Copy response header
 	for key, values := range resp.Header {
 		for _, value := range values {
 			ectx.Response().Header().Add(key, value)
 		}
 	}
 
-	// ステータスコードとボディを返す
+	// Copy status code and response body
 	ectx.Response().WriteHeader(resp.StatusCode)
 	_, err = io.Copy(ectx.Response(), resp.Body)
 	if err != nil {
@@ -108,29 +96,25 @@ func proxy(ectx echo.Context) error {
 }
 
 func (self *Handler) GetGlanceImages(ectx echo.Context) error {
-	return proxy(ectx)
-	// ctx := iam_auth.WithEchoContext(ectx)
-	// resp := map[string]string{}
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Glance)
 }
 
 func (self *Handler) GetGlanceImageByID(ectx echo.Context, id string) error {
-	ctx := iam_auth.WithEchoContext(ectx)
-	resp := map[string]string{}
-	return tlog.BindEchoOK(ctx, ectx, resp)
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Glance)
 }
 
 func (self *Handler) CreateGlanceImage(ectx echo.Context) error {
-	ctx := iam_auth.WithEchoContext(ectx)
-	resp := map[string]string{}
-	return tlog.BindEchoOK(ctx, ectx, resp)
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Glance)
 }
 
 func (self *Handler) UpdateGlanceImageByID(ectx echo.Context, id string) error {
-	ctx := iam_auth.WithEchoContext(ectx)
-	return tlog.BindEchoNoContent(ctx, ectx)
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Glance)
 }
 
 func (self *Handler) DeleteGlanceImageByID(ectx echo.Context, id string) error {
-	ctx := iam_auth.WithEchoContext(ectx)
-	return tlog.BindEchoNoContent(ctx, ectx)
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Glance)
+}
+
+func (self *Handler) GetGlanceSchemasImage(ectx echo.Context) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Glance)
 }

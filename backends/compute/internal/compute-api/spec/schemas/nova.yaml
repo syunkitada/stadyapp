@@ -1,0 +1,47 @@
+NovaVersionResponse:
+  type: object
+  properties:
+    version:
+      $ref: "#/NovaVersion"
+  required:
+    - version
+
+NovaVersion:
+  type: object
+  properties:
+    id:
+      type: string
+    status:
+      type: string
+    version:
+      type: string
+    min_version:
+      type: string
+    updated:
+      type: string
+    links:
+      type: array
+      items:
+        $ref: "#/NovaVersionLink"
+  required:
+    - id
+    - status
+    - version
+    - min_version
+    - updated
+    - links
+
+NovaVersionLink:
+  type: object
+  properties:
+    href:
+      type: string
+      format: uri
+    type:
+      type: string
+    rel:
+      type: string
+  required:
+    - href
+    - type
+    - rel

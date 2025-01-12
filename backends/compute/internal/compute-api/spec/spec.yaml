@@ -28,47 +28,43 @@ components:
       in: header
       description: "The custom authorization"
 paths:
-  /glance:
+  /glance/v2:
     $ref: "./paths/glance.yaml#/glance"
-  /glance/images:
+  /glance/v2/images:
     $ref: "./paths/glance_images.yaml#/images"
-  /glance/images/{id}:
+  /glance/v2/images/{id}:
     $ref: "./paths/glance_images.yaml#/images_id"
-  # /glance/images/{id}/file:
-  #   $ref: "./paths/glance_images.yaml#/images_id_file"
-  /keystone/v3:
-    $ref: "./paths/keystone.yaml#/v3"
-  /keystone/v3/auth/tokens:
-    $ref: "./paths/keystone_tokens.yaml#/tokens"
-  /keystone/v3/OS-FEDERATION/identity_providers/{provider}/protocols/{protocol}/auth:
-    $ref: "./paths/keystone_tokens.yaml#/federation_auth"
-  /keystone/v3/domains:
-    $ref: "./paths/keystone_domains.yaml#/domains"
-  /keystone/v3/domains/{id}:
-    $ref: "./paths/keystone_domains.yaml#/domains_id"
-  /keystone/v3/domains/{id}/users/{user_id}/roles/{role_id}:
-    $ref: "./paths/keystone_domains.yaml#/domains_id_users_user_id_roles_role_id"
-  /keystone/v3/projects:
-    $ref: "./paths/keystone_projects.yaml#/projects"
-  /keystone/v3/projects/{id}:
-    $ref: "./paths/keystone_projects.yaml#/projects_id"
-  /keystone/v3/projects/{id}/users/{user_id}/roles/{role_id}:
-    $ref: "./paths/keystone_projects.yaml#/projects_id_users_user_id_roles_role_id"
-  /keystone/v3/projects/{id}/groups/{group_id}/roles/{role_id}:
-    $ref: "./paths/keystone_projects.yaml#/projects_id_groups_group_id_roles_role_id"
-  /keystone/v3/users:
-    $ref: "./paths/keystone_users.yaml#/users"
-  /keystone/v3/users/{id}:
-    $ref: "./paths/keystone_users.yaml#/users_id"
-  /keystone/v3/users/{id}/projects:
-    $ref: "./paths/keystone_users.yaml#/users_id_projects"
-  /keystone/v3/groups:
-    $ref: "./paths/keystone_groups.yaml#/groups"
-  /keystone/v3/groups/{id}:
-    $ref: "./paths/keystone_groups.yaml#/groups_id"
-  /keystone/v3/roles:
-    $ref: "./paths/keystone_roles.yaml#/roles"
-  /keystone/v3/roles/{id}:
-    $ref: "./paths/keystone_roles.yaml#/roles_id"
-  /keystone/v3/role_assignments:
-    $ref: "./paths/keystone_role_assignments.yaml#/role_assignments"
+  /glance/v2/schemas/image:
+    $ref: "./paths/glance_schemas.yaml#/image"
+  /nova/v2.1:
+    $ref: "./paths/nova.yaml#/version"
+  /nova/v2.1/os-services:
+    $ref: "./paths/nova_services.yaml#/services"
+  /nova/v2.1/servers:
+    $ref: "./paths/nova_servers.yaml#/servers"
+  /nova/v2.1/servers/{id}:
+    $ref: "./paths/nova_servers.yaml#/servers_id"
+  /nova/v2.1/servers/detail:
+    $ref: "./paths/nova_servers.yaml#/servers_detail"
+  /nova/v2.1/flavors/detail:
+    $ref: "./paths/nova_flavors.yaml#/flavors_detail"
+  /nova/v2.1/flavors/{id}:
+    $ref: "./paths/nova_flavors.yaml#/flavors_id"
+  /neutron/v2.0:
+    $ref: "./paths/neutron.yaml#/version"
+  /neutron/v2.0/networks:
+    $ref: "./paths/neutron_networks.yaml#/networks"
+  /neutron/v2.0/networks/{id}:
+    $ref: "./paths/neutron_networks.yaml#/networks_id"
+  /neutron/v2.0/quotas/{project_id}:
+    $ref: "./paths/neutron_quotas.yaml#/quotas_project_id"
+  /neutron/v2.0/ports:
+    $ref: "./paths/neutron_ports.yaml#/ports"
+  /neutron/v2.0/extensions:
+    $ref: "./paths/neutron_extensions.yaml#/extensions"
+  /placement/:
+    $ref: "./paths/placement.yaml#/version"
+  /placement/resource_providers:
+    $ref: "./paths/placement_resource_providers.yaml#/resource_providers"
+  /placement/resource_providers/{id}/allocations:
+    $ref: "./paths/placement_resource_providers.yaml#/resource_providers_id_allocations"

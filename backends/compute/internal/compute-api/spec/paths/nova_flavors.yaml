@@ -1,0 +1,40 @@
+flavors_detail:
+  get:
+    summary: Get nova flavors
+    description: Get nova flavors
+    operationId: getNovaFlavorsDetail
+    responses:
+      200:
+        description: get nova flavors
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/nova_flavor.yaml#/NovaFlavorsDetailResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+flavors_id:
+  get:
+    summary: Get a flavor by ID
+    description: Get a flavor by ID
+    operationId: getNovaFlavorByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of nova flavor to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: nova flavor response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/nova_flavor.yaml#/NovaFlavorResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
