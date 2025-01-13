@@ -159,8 +159,8 @@ type IDBUser interface {
 // Project Interface
 // --------------------------------------------------------------------------------
 type GetProjectsInput struct {
-	ID   string
-	Name string
+	ID   *string
+	Name *string
 }
 
 type UpdateProjectByIDInput struct {

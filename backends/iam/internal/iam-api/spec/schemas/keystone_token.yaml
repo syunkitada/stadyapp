@@ -161,17 +161,20 @@ CreateKeystoneTokenInputAuthScope:
   type: object
   properties:
     project:
+      $ref: "#/CreateKeystoneTokenInputAuthScopeProject"
+
+CreateKeystoneTokenInputAuthScopeProject:
+  type: object
+  properties:
+    domain:
       type: object
       properties:
-        domain:
-          type: object
-          properties:
-            id:
-              type: string
-        name:
+        id:
           type: string
-      required:
-        - name
+    id:
+      type: string
+    name:
+      type: string
 
 CreateKeystoneTokenInputAuth:
   type: object

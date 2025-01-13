@@ -1100,6 +1100,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /keystone/v3/users/{user_id}/application_credentials:
+    post:
+      summary: Create a new keystone application credential
+      description: Create a new keystone application credential
+      operationId: createKeystoneApplicationCredential
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of keystone user to fetch
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateKeystoneApplicationCredentialInput'
+      responses:
+        '200':
+          description: keystone project response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeystoneApplicationCredentialResponse'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   securitySchemes:
     XUserIDHeader:
@@ -1208,21 +1245,23 @@ components:
       required:
         - methods
         - token
+    CreateKeystoneTokenInputAuthScopeProject:
+      type: object
+      properties:
+        domain:
+          type: object
+          properties:
+            id:
+              type: string
+        id:
+          type: string
+        name:
+          type: string
     CreateKeystoneTokenInputAuthScope:
       type: object
       properties:
         project:
-          type: object
-          properties:
-            domain:
-              type: object
-              properties:
-                id:
-                  type: string
-            name:
-              type: string
-          required:
-            - name
+          $ref: '#/components/schemas/CreateKeystoneTokenInputAuthScopeProject'
     CreateKeystoneTokenInputAuth:
       type: object
       properties:
@@ -1869,3 +1908,109 @@ components:
       required:
         - role_assignments
         - links
+    CreateKeystoneApplicationCredentialInput:
+      type: object
+      required:
+        - application_credential
+      properties:
+        application_credential:
+          type: object
+          properties:
+            roles:
+              type: array
+              items:
+                type: string
+              example: []
+            name:
+              type: string
+              example: service
+            unrestricted:
+              type: boolean
+              example: false
+            secret:
+              type: string
+              nullable: true
+              example: null
+            expires_at:
+              type: string
+              nullable: true
+              example: '2017-07-21T17:32:28'
+            access_rules:
+              type: array
+              items:
+                type: object
+              example: []
+            description:
+              type: string
+              nullable: true
+              example: null
+          required:
+            - name
+    KeystoneApplicationCredential:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 58d61ff8e6e34accb35874016d1dba8b
+        name:
+          type: string
+          example: monitoring
+        description:
+          type: string
+          example: Application credential for monitoring.
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeystoneTokenRole'
+        access_rules:
+          type: array
+          items:
+            type: object
+            properties:
+              path:
+                type: string
+                example: /v2.0/metrics
+              id:
+                type: string
+                format: uuid
+                example: 07d719df00f349ef8de77d542edf010c
+              service:
+                type: string
+                example: monitoring
+              method:
+                type: string
+                example: GET
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              format: uri
+              example: http://example.com/identity/v3/users/fd786d56402c4d1691372e7dee0d00b5/application_credentials/58d61ff8e6e34accb35874016d1dba8b
+        expires_at:
+          type: string
+          format: date-time
+          example: '2018-02-27T18:30:59.000000'
+        unrestricted:
+          type: boolean
+          example: false
+        secret:
+          type: string
+          example: rEaqvJka48mpv
+        project_id:
+          type: string
+          example: 231c62fb0fbd485b995e8b060c3f0d98
+      required:
+        - id
+        - name
+        - roles
+        - expires_at
+        - secret
+        - project_id
+    KeystoneApplicationCredentialResponse:
+      type: object
+      properties:
+        application_credential:
+          $ref: '#/components/schemas/KeystoneApplicationCredential'
+      required:
+        - application_credential

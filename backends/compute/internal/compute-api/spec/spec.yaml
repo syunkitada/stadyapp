@@ -56,15 +56,29 @@ paths:
     $ref: "./paths/neutron_networks.yaml#/networks"
   /neutron/v2.0/networks/{id}:
     $ref: "./paths/neutron_networks.yaml#/networks_id"
+  /neutron/v2.0/subnets:
+    $ref: "./paths/neutron_subnets.yaml#/subnets"
   /neutron/v2.0/quotas/{project_id}:
     $ref: "./paths/neutron_quotas.yaml#/quotas_project_id"
+  /neutron/v2.0/agents:
+    $ref: "./paths/neutron_agents.yaml#/agents"
   /neutron/v2.0/ports:
     $ref: "./paths/neutron_ports.yaml#/ports"
   /neutron/v2.0/extensions:
     $ref: "./paths/neutron_extensions.yaml#/extensions"
-  /placement/:
+  /placement:
     $ref: "./paths/placement.yaml#/version"
+  /placement/:
+    $ref: "./paths/placement.yaml#/version2"
   /placement/resource_providers:
     $ref: "./paths/placement_resource_providers.yaml#/resource_providers"
   /placement/resource_providers/{id}/allocations:
     $ref: "./paths/placement_resource_providers.yaml#/resource_providers_id_allocations"
+  /placement/resource_providers/{id}/inventories:
+    $ref: "./paths/placement_resource_providers.yaml#/resource_providers_id_inventories"
+  /placement/resource_providers/{id}/aggregates:
+    $ref: "./paths/placement_resource_providers.yaml#/resource_providers_id_aggregates"
+  /placement/resource_providers/{id}/traits:
+    $ref: "./paths/placement_resource_providers.yaml#/resource_providers_id_traits"
+  /placement/allocations/{id}:
+    $ref: "./paths/placement_allocations.yaml#/allocations_id"

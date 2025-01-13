@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -65,11 +67,12 @@ func (self *IAMAuth) AuthToken(ctx context.Context, header http.Header) error {
 		return tlog.WrapErr(ctx, err, "failed to verify token")
 	}
 
-	header.Set("x-user-id", tokenData.User)
-	header.Set("x-domain-id", tokenData.Domain)
-	header.Set("x-project-id", tokenData.Project)
+	header.Set("x-user-id", tokenData.UserID)
+	header.Set("x-domain-id", tokenData.DomainID)
+	header.Set("x-project-id", tokenData.ProjectID)
 	header.Set("x-roles", tokenData.Roles)
 	header.Set("x-catalog", tokenData.Catalog)
+	header.Set("x-inherit", strconv.FormatBool(tokenData.Inherit))
 
 	return nil
 }
@@ -98,6 +101,12 @@ func (self *IAMAuth) NewToken(ctx context.Context, authData AuthData) (string, e
 	if err != nil {
 		return "", tlog.WrapErr(ctx, err, "failed to get private key")
 	}
+
+	roles := []string{}
+	for key := range authData.RoleSet {
+		roles = append(roles, key)
+	}
+	authData.Roles = strings.Join(roles, ",")
 
 	claims := CustomClaims{
 		RegisteredClaims: jwt.RegisteredClaims{

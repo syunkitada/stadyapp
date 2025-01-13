@@ -631,6 +631,21 @@ func (mr *MockIDBMockRecorder) GetUser(ctx, input interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockIDB)(nil).GetUser), ctx, input)
 }
 
+// GetUserProjectRoles mocks base method.
+func (m *MockIDB) GetUserProjectRoles(ctx context.Context, input *db.GetUserProjectRolesInput) ([]model.UserProjectRole, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserProjectRoles", ctx, input)
+	ret0, _ := ret[0].([]model.UserProjectRole)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserProjectRoles indicates an expected call of GetUserProjectRoles.
+func (mr *MockIDBMockRecorder) GetUserProjectRoles(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserProjectRoles", reflect.TypeOf((*MockIDB)(nil).GetUserProjectRoles), ctx, input)
+}
+
 // GetUsers mocks base method.
 func (m *MockIDB) GetUsers(ctx context.Context, input *db.GetUsersInput) ([]model.User, error) {
 	m.ctrl.T.Helper()
@@ -1236,6 +1251,21 @@ func (m *MockIDBRole) GetTeamRoleAssignments(ctx context.Context, input *db.GetT
 func (mr *MockIDBRoleMockRecorder) GetTeamRoleAssignments(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTeamRoleAssignments", reflect.TypeOf((*MockIDBRole)(nil).GetTeamRoleAssignments), ctx, input)
+}
+
+// GetUserProjectRoles mocks base method.
+func (m *MockIDBRole) GetUserProjectRoles(ctx context.Context, input *db.GetUserProjectRolesInput) ([]model.UserProjectRole, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserProjectRoles", ctx, input)
+	ret0, _ := ret[0].([]model.UserProjectRole)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserProjectRoles indicates an expected call of GetUserProjectRoles.
+func (mr *MockIDBRoleMockRecorder) GetUserProjectRoles(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserProjectRoles", reflect.TypeOf((*MockIDBRole)(nil).GetUserProjectRoles), ctx, input)
 }
 
 // UnassignRoleFromTeamDomain mocks base method.

@@ -1,0 +1,99 @@
+NeutronPort:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: "2d7aaea9-6719-4e86-9ac5-c731ef0af9ce"
+    name:
+      type: string
+      example: "local-net"
+    tenant_id:
+      type: string
+      example: "f11a577948804875b29244e73705cf1a"
+    admin_state_up:
+      type: boolean
+      example: true
+    mtu:
+      type: integer
+      example: 1500
+    status:
+      type: string
+      example: "ACTIVE"
+    subnets:
+      type: array
+      items:
+        type: string
+      example:
+        - "d7c13117-2404-41f1-a59a-2db4cf820b18"
+    shared:
+      type: boolean
+      example: false
+    availability_zone_hints:
+      type: array
+      items:
+        type: string
+      example: []
+    availability_zones:
+      type: array
+      items:
+        type: string
+      example: []
+    ipv4_address_scope:
+      type: string
+      nullable: true
+      example: null
+    ipv6_address_scope:
+      type: string
+      nullable: true
+      example: null
+    router:external:
+      type: boolean
+      example: false
+    description:
+      type: string
+      example: ""
+    tags:
+      type: array
+      items:
+        type: string
+      example: []
+    created_at:
+      type: string
+      format: date-time
+      example: "2024-12-30T05:40:47Z"
+    updated_at:
+      type: string
+      format: date-time
+      example: "2024-12-30T05:40:48Z"
+    revision_number:
+      type: integer
+      example: 2
+    project_id:
+      type: string
+      example: "f11a577948804875b29244e73705cf1a"
+    provider:network_type:
+      type: string
+      example: "local"
+    provider:physical_network:
+      type: string
+      nullable: true
+      example: null
+    provider:segmentation_id:
+      type: integer
+      nullable: true
+      example: null
+
+NeutronPortsResponse:
+  type: object
+  properties:
+    networks:
+      type: array
+      items:
+        $ref: "#/NeutronPort"
+
+NeutronPortResponse:
+  type: object
+  properties:
+    network:
+      $ref: "#/NeutronPort"

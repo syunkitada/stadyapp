@@ -1,0 +1,23 @@
+allocations_id:
+  get:
+    summary: Get a allocation by ID
+    description: Get a allocation by ID
+    operationId: getPlacementAllocationByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance allocation to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: glance allocation response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/neutron_network.yaml#/NeutronNetworksResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"

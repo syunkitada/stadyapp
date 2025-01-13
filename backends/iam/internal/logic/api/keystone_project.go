@@ -189,10 +189,7 @@ func (self *API) GetKeystoneProjects(
 		}
 	}
 
-	getProjectsInput := db.GetProjectsInput{}
-	if input.Name != nil {
-		getProjectsInput.Name = *input.Name
-	}
+	getProjectsInput := db.GetProjectsInput{Name: input.Name}
 
 	dbProjects, err := self.db.GetProjects(ctx, &getProjectsInput)
 	if err != nil {
@@ -312,7 +309,7 @@ func (self *API) GetKeystoneProjectByID(ctx context.Context, id string) (*oapi.K
 	}
 
 	dbProjects, err := self.db.GetProjects(ctx, &db.GetProjectsInput{
-		ID: id,
+		ID: &id,
 	})
 	if err != nil {
 		return nil, tlog.Err(ctx, err)

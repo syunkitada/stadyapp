@@ -28,6 +28,7 @@ func appendHostToXForwardHeader(header http.Header, host string) {
 
 func copyHeader(src http.Header, dst http.Header) {
 	dst.Set("content-type", src.Get("content-type"))
+	dst.Set("OpenStack-API-Version", src.Get("OpenStack-API-Version"))
 }
 
 func proxy(ectx echo.Context, proxy config.Proxy) error {

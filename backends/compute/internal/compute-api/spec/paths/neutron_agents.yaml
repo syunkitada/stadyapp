@@ -1,8 +1,8 @@
-ports:
+agents:
   get:
     summary: Get detailed information about networks
     description: Retrieves a detailed list of networks with their attributes.
-    operationId: getNeutronPorts
+    operationId: getNeutronAgents
     parameters:
       - name: tenant_id
         in: query

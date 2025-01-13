@@ -105,7 +105,7 @@ func (self *DB) Migrate(ctx context.Context) error {
 
 	{
 		projects, err := self.GetProjects(ctx, &db.GetProjectsInput{
-			ID: adminID,
+			ID: &adminID,
 		})
 		if err != nil {
 			return tlog.Err(ctx, err)
@@ -122,6 +122,12 @@ func (self *DB) Migrate(ctx context.Context) error {
 			if err != nil {
 				return tlog.Err(ctx, err)
 			}
+		}
+	}
+
+	{
+		if err := self.AssignRoleToUserProject(ctx, adminID, adminID, adminID); err != nil {
+			return tlog.Err(ctx, err)
 		}
 	}
 

@@ -1,0 +1,40 @@
+subnets:
+  get:
+    summary: Get detailed information about subnets
+    description: Retrieves a detailed list of subnets with their attributes.
+    operationId: getNeutronSubnets
+    responses:
+      200:
+        description: A detailed list of subnets.
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/neutron_subnet.yaml#/NeutronSubnetsResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+subnets_id:
+  get:
+    summary: Get detailed information about subnets
+    description: Retrieves a detailed list of subnets with their attributes.
+    operationId: getNeutronSubnetByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: neutron subnet response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/neutron_subnet.yaml#/NeutronSubnetResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"

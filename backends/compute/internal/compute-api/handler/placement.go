@@ -29,10 +29,30 @@ func (self *Handler) GetPlacementVersion(ectx echo.Context) error {
 	return tlog.BindEchoOK(ctx, ectx, resp)
 }
 
+func (self *Handler) GetPlacementVersion2(ectx echo.Context) error {
+	return self.GetPlacementVersion(ectx)
+}
+
 func (self *Handler) GetPlacementResourceProviders(ectx echo.Context, params oapi.GetPlacementResourceProvidersParams) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
 }
 
-func (self *Handler) GetPlacementResourceProviderAllocationsByID(ectx echo.Context, id string) error {
+func (self *Handler) GetPlacementResourceProviderAllocations(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
+
+func (self *Handler) GetPlacementResourceProviderInventories(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
+
+func (self *Handler) GetPlacementResourceProviderAggregates(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
+
+func (self *Handler) GetPlacementResourceProviderTraits(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
+
+func (self *Handler) GetPlacementAllocationByID(ectx echo.Context, id string) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
 }

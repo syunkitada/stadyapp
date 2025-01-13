@@ -39,7 +39,15 @@ func (self *Handler) GetNeutronQuotasByProjectID(ectx echo.Context, projectID st
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Neutron)
 }
 
+func (self *Handler) GetNeutronSubnets(ectx echo.Context) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Neutron)
+}
+
 func (self *Handler) GetNeutronPorts(ectx echo.Context, params oapi.GetNeutronPortsParams) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Neutron)
+}
+
+func (self *Handler) GetNeutronAgents(ectx echo.Context, params oapi.GetNeutronAgentsParams) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Neutron)
 }
 

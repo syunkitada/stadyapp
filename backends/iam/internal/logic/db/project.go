@@ -35,12 +35,12 @@ func (self *DB) GetProjects(ctx context.Context, input *db.GetProjectsInput) ([]
 	query := self.DB.WithContext(ctx).Model(model.Project{}).
 		Select("id,name,description,extra")
 
-	if input.ID != "" {
-		query.Where("id = ?", input.ID)
+	if input.ID != nil {
+		query.Where("id = ?", *input.ID)
 	}
 
-	if input.Name != "" {
-		query.Where("name = ?", input.Name)
+	if input.Name != nil {
+		query.Where("name = ?", *input.Name)
 	}
 
 	projects := []model.Project{}

@@ -2,9 +2,10 @@ package iam_auth
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"net/http"
+	"strconv"
+	"strings"
+	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
@@ -13,26 +14,30 @@ import (
 )
 
 type AuthData struct {
-	Domain  string `json:"1"`
-	User    string `json:"2"`
-	Project string `json:"3"`
-	Roles   string `json:"4"`
-	Catalog string `json:"5"`
+	DomainID  string          `json:"domain"`
+	UserID    string          `json:"user"`
+	ProjectID string          `json:"project"`
+	Roles     string          `json:"roles"`
+	Catalog   string          `json:"catalog"`
+	Inherit   bool            `json:"inherit"`
+	RoleSet   map[string]bool `json:"-"`
+	ExpiresAt time.Time       `json:"-"`
 }
 
 type CustomClaims struct {
 	jwt.RegisteredClaims
-	KeyName  string   `json:"1"`
-	AuthData AuthData `json:"2"`
+	KeyName  string   `json:"key"`
+	AuthData AuthData `json:"auth"`
 }
 
 type AuthContext struct {
 	UserID      string
 	DomainID    string
 	ProjectID   string
-	RolesJSON   string
+	RolesStr    string
 	CatalogJSON string
 	Roles       []string
+	Inherit     bool
 }
 
 type key int
@@ -46,12 +51,16 @@ func WithEchoContext(ectx echo.Context) context.Context {
 	xproject := ectx.Request().Header.Get("x-project-id")
 	xroles := ectx.Request().Header.Get("x-roles")
 	xcatalog := ectx.Request().Header.Get("x-catalog")
+	xinherit := ectx.Request().Header.Get("x-inherit")
+	inherit, _ := strconv.ParseBool(xinherit)
+
 	AuthContext := AuthContext{
 		UserID:      xuser,
 		DomainID:    xdomain,
 		ProjectID:   xproject,
-		RolesJSON:   xroles,
+		RolesStr:    xroles,
 		CatalogJSON: xcatalog,
+		Inherit:     inherit,
 	}
 	ctx = context.WithValue(ctx, KeyAuthContext, &AuthContext)
 
@@ -65,13 +74,7 @@ func GetAuthContext(ctx context.Context) (*AuthContext, error) {
 			echo.NewHTTPError(http.StatusUnauthorized, "auth context is not found"))
 	}
 
-	roles := []string{}
-	if authCtx.RolesJSON != "" {
-		fmt.Println("authCtx.RolesJSON", authCtx.RolesJSON)
-		if err := json.Unmarshal([]byte(authCtx.RolesJSON), &roles); err != nil {
-			return nil, tlog.WrapErr(ctx, err, "failed to unmarshal roles")
-		}
-	}
+	roles := strings.Split(authCtx.RolesStr, ",")
 
 	authCtx.Roles = roles
 

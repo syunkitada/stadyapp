@@ -25,7 +25,79 @@ resource_providers_id_allocations:
   get:
     summary: Get a image by ID
     description: Get a image by ID
-    operationId: getPlacementResourceProviderAllocationsByID
+    operationId: getPlacementResourceProviderAllocations
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: glance image response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+resource_providers_id_inventories:
+  get:
+    summary: Get a image by ID
+    description: Get a image by ID
+    operationId: getPlacementResourceProviderInventories
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: glance image response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+resource_providers_id_aggregates:
+  get:
+    summary: Get a image by ID
+    description: Get a image by ID
+    operationId: getPlacementResourceProviderAggregates
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: glance image response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+resource_providers_id_traits:
+  get:
+    summary: Get a image by ID
+    description: Get a image by ID
+    operationId: getPlacementResourceProviderTraits
     parameters:
       - name: id
         in: path

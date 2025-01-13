@@ -15,3 +15,21 @@ version:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+version2:
+  get:
+    security: []
+    summary: Get placement version
+    description: Get placement version
+    operationId: getPlacementVersion2
+    responses:
+      200:
+        description: placement version
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/placement.yaml#/PlacementVersionResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"

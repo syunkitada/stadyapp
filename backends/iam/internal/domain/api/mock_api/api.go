@@ -77,6 +77,21 @@ func (mr *MockIAPIMockRecorder) AssignKeystoneRoleToUserProject(ctx, roleID, use
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AssignKeystoneRoleToUserProject", reflect.TypeOf((*MockIAPI)(nil).AssignKeystoneRoleToUserProject), ctx, roleID, userID, projectID)
 }
 
+// CreateKeystoneApplicationCredential mocks base method.
+func (m *MockIAPI) CreateKeystoneApplicationCredential(ctx context.Context, userID string, input *oapi.CreateKeystoneApplicationCredentialInput) (*oapi.KeystoneApplicationCredential, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateKeystoneApplicationCredential", ctx, userID, input)
+	ret0, _ := ret[0].(*oapi.KeystoneApplicationCredential)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateKeystoneApplicationCredential indicates an expected call of CreateKeystoneApplicationCredential.
+func (mr *MockIAPIMockRecorder) CreateKeystoneApplicationCredential(ctx, userID, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateKeystoneApplicationCredential", reflect.TypeOf((*MockIAPI)(nil).CreateKeystoneApplicationCredential), ctx, userID, input)
+}
+
 // CreateKeystoneDomain mocks base method.
 func (m *MockIAPI) CreateKeystoneDomain(ctx context.Context, input *oapi.CreateKeystoneDomainInput) (*oapi.KeystoneDomain, error) {
 	m.ctrl.T.Helper()
@@ -566,6 +581,44 @@ func (m *MockIAPIKeystoneToken) CreateKeystoneToken(ctx context.Context, input *
 func (mr *MockIAPIKeystoneTokenMockRecorder) CreateKeystoneToken(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateKeystoneToken", reflect.TypeOf((*MockIAPIKeystoneToken)(nil).CreateKeystoneToken), ctx, input)
+}
+
+// MockIAPIApplicationCredential is a mock of IAPIApplicationCredential interface.
+type MockIAPIApplicationCredential struct {
+	ctrl     *gomock.Controller
+	recorder *MockIAPIApplicationCredentialMockRecorder
+}
+
+// MockIAPIApplicationCredentialMockRecorder is the mock recorder for MockIAPIApplicationCredential.
+type MockIAPIApplicationCredentialMockRecorder struct {
+	mock *MockIAPIApplicationCredential
+}
+
+// NewMockIAPIApplicationCredential creates a new mock instance.
+func NewMockIAPIApplicationCredential(ctrl *gomock.Controller) *MockIAPIApplicationCredential {
+	mock := &MockIAPIApplicationCredential{ctrl: ctrl}
+	mock.recorder = &MockIAPIApplicationCredentialMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockIAPIApplicationCredential) EXPECT() *MockIAPIApplicationCredentialMockRecorder {
+	return m.recorder
+}
+
+// CreateKeystoneApplicationCredential mocks base method.
+func (m *MockIAPIApplicationCredential) CreateKeystoneApplicationCredential(ctx context.Context, userID string, input *oapi.CreateKeystoneApplicationCredentialInput) (*oapi.KeystoneApplicationCredential, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateKeystoneApplicationCredential", ctx, userID, input)
+	ret0, _ := ret[0].(*oapi.KeystoneApplicationCredential)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateKeystoneApplicationCredential indicates an expected call of CreateKeystoneApplicationCredential.
+func (mr *MockIAPIApplicationCredentialMockRecorder) CreateKeystoneApplicationCredential(ctx, userID, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateKeystoneApplicationCredential", reflect.TypeOf((*MockIAPIApplicationCredential)(nil).CreateKeystoneApplicationCredential), ctx, userID, input)
 }
 
 // MockIAPIKeystoneDomain is a mock of IAPIKeystoneDomain interface.

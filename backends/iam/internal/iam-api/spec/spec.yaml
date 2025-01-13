@@ -66,3 +66,5 @@ paths:
     $ref: "./paths/keystone_roles.yaml#/roles_id"
   /keystone/v3/role_assignments:
     $ref: "./paths/keystone_role_assignments.yaml#/role_assignments"
+  /keystone/v3/users/{user_id}/application_credentials:
+    $ref: "./paths/keystone_application_credentials.yaml#/application_credentials"

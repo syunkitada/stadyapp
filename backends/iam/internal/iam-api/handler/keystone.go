@@ -21,8 +21,7 @@ func (self *Handler) GetKeystoneVersion(ectx echo.Context) error {
 			Updated: updated,
 			Links: []oapi.KeystoneVersionLink{
 				{
-					Rel:  "self",
-					Href: "http://localhost:5000/v3/",
+					Rel: "self",
 				},
 			},
 			MediaTypes: []oapi.KeystoneVersionMediaType{

@@ -2,9 +2,8 @@ package iam_auth
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
@@ -13,24 +12,24 @@ import (
 )
 
 type AuthData struct {
-	Domain  string `json:"1"`
-	User    string `json:"2"`
-	Project string `json:"3"`
-	Roles   string `json:"4"`
-	Catalog string `json:"5"`
+	Domain  string `json:"domain"`
+	User    string `json:"user"`
+	Project string `json:"project"`
+	Roles   string `json:"roles"`
+	Catalog string `json:"catalog"`
 }
 
 type CustomClaims struct {
 	jwt.RegisteredClaims
-	KeyName  string   `json:"1"`
-	AuthData AuthData `json:"2"`
+	KeyName  string   `json:"key"`
+	AuthData AuthData `json:"auth"`
 }
 
 type AuthContext struct {
 	UserID      string
 	DomainID    string
 	ProjectID   string
-	RolesJSON   string
+	RolesStr    string
 	CatalogJSON string
 	Roles       []string
 }
@@ -51,7 +50,7 @@ func WithEchoContext(ectx echo.Context) context.Context {
 		UserID:      xuser,
 		DomainID:    xdomain,
 		ProjectID:   xproject,
-		RolesJSON:   xroles,
+		RolesStr:    xroles,
 		CatalogJSON: xcatalog,
 	}
 	ctx = context.WithValue(ctx, KeyAuthContext, &AuthContext)
@@ -69,9 +68,8 @@ func AddAuthHeader(req *http.Request, authContext *AuthContext) {
 	req.Header.Add("x-user-id", authContext.UserID)
 	req.Header.Add("x-project-id", authContext.ProjectID)
 	req.Header.Add("x-service-catalog", authContext.CatalogJSON)
-	req.Header.Add("x-roles", "admin")
+	req.Header.Add("x-roles", authContext.RolesStr)
 	req.Header.Add("x-is-admin-project", "true")
-	fmt.Println("req.Header", req.Header)
 }
 
 func GetAuthContext(ctx context.Context) (*AuthContext, error) {
@@ -82,11 +80,8 @@ func GetAuthContext(ctx context.Context) (*AuthContext, error) {
 	}
 
 	roles := []string{}
-	if authCtx.RolesJSON != "" {
-		fmt.Println("authCtx.RolesJSON", authCtx.RolesJSON)
-		if err := json.Unmarshal([]byte(authCtx.RolesJSON), &roles); err != nil {
-			return nil, tlog.WrapErr(ctx, err, "failed to unmarshal roles")
-		}
+	if authCtx.RolesStr != "" {
+		strings.Split(authCtx.RolesStr, ",")
 	}
 
 	authCtx.Roles = roles

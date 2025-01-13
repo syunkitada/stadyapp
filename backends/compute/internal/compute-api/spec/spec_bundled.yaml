@@ -403,6 +403,22 @@ paths:
           $ref: '#/components/responses/4XX'
         default:
           $ref: '#/components/responses/default'
+  /neutron/v2.0/subnets:
+    get:
+      summary: Get detailed information about subnets
+      description: Retrieves a detailed list of subnets with their attributes.
+      operationId: getNeutronSubnets
+      responses:
+        '200':
+          description: A detailed list of subnets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeutronSubnetsResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
   /neutron/v2.0/quotas/{project_id}:
     get:
       summary: Get detailed information about networks
@@ -426,6 +442,35 @@ paths:
           $ref: '#/components/responses/4XX'
         default:
           $ref: '#/components/responses/default'
+  /neutron/v2.0/agents:
+    get:
+      summary: Get detailed information about networks
+      description: Retrieves a detailed list of networks with their attributes.
+      operationId: getNeutronAgents
+      parameters:
+        - name: tenant_id
+          in: query
+          description: ID of glance image to fetch
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Fields to be returned
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: A detailed list of networks.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeutronNetworksResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
   /neutron/v2.0/ports:
     get:
       summary: Get detailed information about networks
@@ -435,15 +480,15 @@ paths:
         - name: tenant_id
           in: query
           description: ID of glance image to fetch
-          required: false
           schema:
             type: string
         - name: fields
           in: query
           description: Fields to be returned
-          required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: A detailed list of networks.
@@ -471,12 +516,29 @@ paths:
           $ref: '#/components/responses/4XX'
         default:
           $ref: '#/components/responses/default'
-  /placement/:
+  /placement:
     get:
       security: []
       summary: Get placement version
       description: Get placement version
       operationId: getPlacementVersion
+      responses:
+        '200':
+          description: placement version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlacementVersionResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+  /placement/:
+    get:
+      security: []
+      summary: Get placement version
+      description: Get placement version
+      operationId: getPlacementVersion2
       responses:
         '200':
           description: placement version
@@ -497,7 +559,6 @@ paths:
         - name: in_tree
           in: query
           description: ID of glance image to fetch
-          required: false
           schema:
             type: string
       responses:
@@ -515,7 +576,7 @@ paths:
     get:
       summary: Get a image by ID
       description: Get a image by ID
-      operationId: getPlacementResourceProviderAllocationsByID
+      operationId: getPlacementResourceProviderAllocations
       parameters:
         - name: id
           in: path
@@ -530,6 +591,98 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GlanceImageResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+  /placement/resource_providers/{id}/inventories:
+    get:
+      summary: Get a image by ID
+      description: Get a image by ID
+      operationId: getPlacementResourceProviderInventories
+      parameters:
+        - name: id
+          in: path
+          description: ID of glance image to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: glance image response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlanceImageResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+  /placement/resource_providers/{id}/aggregates:
+    get:
+      summary: Get a image by ID
+      description: Get a image by ID
+      operationId: getPlacementResourceProviderAggregates
+      parameters:
+        - name: id
+          in: path
+          description: ID of glance image to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: glance image response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlanceImageResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+  /placement/resource_providers/{id}/traits:
+    get:
+      summary: Get a image by ID
+      description: Get a image by ID
+      operationId: getPlacementResourceProviderTraits
+      parameters:
+        - name: id
+          in: path
+          description: ID of glance image to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: glance image response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlanceImageResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+  /placement/allocations/{id}:
+    get:
+      summary: Get a allocation by ID
+      description: Get a allocation by ID
+      operationId: getPlacementAllocationByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of glance allocation to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: glance allocation response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeutronNetworksResponse'
         4XX:
           $ref: '#/components/responses/4XX'
         default:
@@ -1241,6 +1394,98 @@ components:
             $ref: '#/components/schemas/NeutronVersion'
       required:
         - versions
+    NeutronSubnet:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 2d7aaea9-6719-4e86-9ac5-c731ef0af9ce
+        name:
+          type: string
+          example: local-net
+        tenant_id:
+          type: string
+          example: f11a577948804875b29244e73705cf1a
+        admin_state_up:
+          type: boolean
+          example: true
+        mtu:
+          type: integer
+          example: 1500
+        status:
+          type: string
+          example: ACTIVE
+        subnets:
+          type: array
+          items:
+            type: string
+          example:
+            - d7c13117-2404-41f1-a59a-2db4cf820b18
+        shared:
+          type: boolean
+          example: false
+        availability_zone_hints:
+          type: array
+          items:
+            type: string
+          example: []
+        availability_zones:
+          type: array
+          items:
+            type: string
+          example: []
+        ipv4_address_scope:
+          type: string
+          nullable: true
+          example: null
+        ipv6_address_scope:
+          type: string
+          nullable: true
+          example: null
+        router:external:
+          type: boolean
+          example: false
+        description:
+          type: string
+          example: ''
+        tags:
+          type: array
+          items:
+            type: string
+          example: []
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-12-30T05:40:47Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-12-30T05:40:48Z'
+        revision_number:
+          type: integer
+          example: 2
+        project_id:
+          type: string
+          example: f11a577948804875b29244e73705cf1a
+        provider:network_type:
+          type: string
+          example: local
+        provider:physical_network:
+          type: string
+          nullable: true
+          example: null
+        provider:segmentation_id:
+          type: integer
+          nullable: true
+          example: null
+    NeutronSubnetsResponse:
+      type: object
+      properties:
+        networks:
+          type: array
+          items:
+            $ref: '#/components/schemas/NeutronSubnet'
     PlacementVersionLink:
       type: object
       properties:

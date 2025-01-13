@@ -10,6 +10,7 @@ import (
 
 type IAPI interface {
 	IAPIKeystoneToken
+	IAPIApplicationCredential
 	IAPIKeystoneDomain
 	IAPIKeystoneProject
 	IAPIKeystoneUser
@@ -24,6 +25,11 @@ type IAPIOther interface {
 
 type IAPIKeystoneToken interface {
 	CreateKeystoneToken(ctx context.Context, input *oapi.CreateKeystoneTokenInput) (*oapi.KeystoneToken, string, error)
+}
+
+type IAPIApplicationCredential interface {
+	CreateKeystoneApplicationCredential(
+		ctx context.Context, userID string, input *oapi.CreateKeystoneApplicationCredentialInput) (*oapi.KeystoneApplicationCredential, error)
 }
 
 type IAPIKeystoneDomain interface {
