@@ -45,6 +45,25 @@ servers_id:
       default:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
 
+  delete:
+    summary: Delete a server by ID
+    description: Delete a server by ID
+    operationId: deleteNovaServerByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of nova server to delete
+        required: true
+        schema:
+          type: string
+    responses:
+      204:
+        description: image deleted
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
 servers_detail:
   get:
     summary: Get nova servers

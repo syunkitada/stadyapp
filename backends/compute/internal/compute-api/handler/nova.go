@@ -48,6 +48,14 @@ func (self *Handler) CreateNovaServer(ectx echo.Context) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Nova)
 }
 
+func (self *Handler) DeleteNovaServerByID(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Nova)
+}
+
 func (self *Handler) GetNovaServices(ectx echo.Context) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Nova)
+}
+
+func (self *Handler) CreateNovaExternalEvents(ectx echo.Context) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Nova)
 }

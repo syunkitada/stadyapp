@@ -105,6 +105,29 @@ paths:
           $ref: '#/components/responses/4XX'
         default:
           $ref: '#/components/responses/default'
+  /glance/v2/images/{id}/file:
+    get:
+      summary: Get a image by ID
+      description: Get a image by ID
+      operationId: getGlanceImageFileByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of glance image to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: glance image response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlanceImageResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
   /glance/v2/schemas/image:
     get:
       summary: Get glance images
@@ -195,6 +218,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NeutronNetworkResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+    delete:
+      summary: Delete a server by ID
+      description: Delete a server by ID
+      operationId: deleteNovaServerByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of nova server to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: image deleted
         4XX:
           $ref: '#/components/responses/4XX'
         default:
@@ -343,6 +384,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NovaFlavorResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+  /nova/v2.1/os-server-external-events:
+    post:
+      summary: Create a new glance image
+      description: Create a new glance image
+      operationId: createNovaExternalEvents
+      responses:
+        '200':
+          description: glance image response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlanceImageResponse'
         4XX:
           $ref: '#/components/responses/4XX'
         default:
@@ -496,6 +553,100 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NeutronNetworksResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+    post:
+      summary: Create a new glance image
+      description: Create a new glance image
+      operationId: createNeutronPort
+      responses:
+        '200':
+          description: glance image response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlanceImageResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+  /neutron/v2.0/ports/{id}:
+    get:
+      summary: Get a image by ID
+      description: Get a image by ID
+      operationId: getNeutronPortByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of glance image to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: glance image response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlanceImageResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+    put:
+      summary: Get a image by ID
+      description: Get a image by ID
+      operationId: updateNeutronPortByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of glance image to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: glance image response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlanceImageResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+    delete:
+      summary: Delete a image by ID
+      description: Delete a image by ID
+      operationId: deleteNeutronPortByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of glance image to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: image deleted
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+  /neutron/v2.0/security-groups:
+    get:
+      summary: Get glance images
+      description: Get glance images
+      operationId: getNeutronSecurityGroups
+      responses:
+        '200':
+          description: get glance images
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlanceImagesResponse'
         4XX:
           $ref: '#/components/responses/4XX'
         default:
@@ -679,6 +830,68 @@ paths:
       responses:
         '200':
           description: glance allocation response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeutronNetworksResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+    delete:
+      summary: Delete a allocation by ID
+      description: Delete a allocation by ID
+      operationId: deletePlacementAllocationByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of placement allocation to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: image deleted
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+    put:
+      summary: Create a new server
+      description: Creates a new server instance using the specified parameters.
+      operationId: updatePlacementAllocationByID
+      parameters:
+        - name: id
+          in: path
+          description: ID of placement allocation to delete
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateServerRequest'
+      responses:
+        '200':
+          description: nova server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NovaServerResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
+  /placement/allocation_candidates:
+    get:
+      summary: Get detailed information about networks
+      description: Retrieves a detailed list of networks with their attributes.
+      operationId: getPlacementAllocationCandidates
+      responses:
+        '200':
+          description: A detailed list of networks.
           content:
             application/json:
               schema:

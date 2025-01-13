@@ -1,0 +1,16 @@
+security-groups:
+  get:
+    summary: Get glance images
+    description: Get glance images
+    operationId: getNeutronSecurityGroups
+    responses:
+      200:
+        description: get glance images
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImagesResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"

@@ -21,3 +21,51 @@ allocations_id:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+  delete:
+    summary: Delete a allocation by ID
+    description: Delete a allocation by ID
+    operationId: deletePlacementAllocationByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of placement allocation to delete
+        required: true
+        schema:
+          type: string
+    responses:
+      204:
+        description: image deleted
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+  put:
+    summary: Create a new server
+    description: Creates a new server instance using the specified parameters.
+    operationId: updatePlacementAllocationByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of placement allocation to delete
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/nova_server.yaml#/CreateServerRequest"
+    responses:
+      200:
+        description: nova server
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/nova_server.yaml#/NovaServerResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"

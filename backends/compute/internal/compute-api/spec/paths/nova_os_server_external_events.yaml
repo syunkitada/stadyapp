@@ -1,0 +1,16 @@
+os_server_external_events:
+  post:
+    summary: Create a new glance image
+    description: Create a new glance image
+    operationId: createNovaExternalEvents
+    responses:
+      200:
+        description: glance image response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"

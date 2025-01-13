@@ -34,6 +34,8 @@ paths:
     $ref: "./paths/glance_images.yaml#/images"
   /glance/v2/images/{id}:
     $ref: "./paths/glance_images.yaml#/images_id"
+  /glance/v2/images/{id}/file:
+    $ref: "./paths/glance_images.yaml#/images_id_file"
   /glance/v2/schemas/image:
     $ref: "./paths/glance_schemas.yaml#/image"
   /nova/v2.1:
@@ -50,6 +52,8 @@ paths:
     $ref: "./paths/nova_flavors.yaml#/flavors_detail"
   /nova/v2.1/flavors/{id}:
     $ref: "./paths/nova_flavors.yaml#/flavors_id"
+  /nova/v2.1/os-server-external-events:
+    $ref: "./paths/nova_os_server_external_events.yaml#/os_server_external_events"
   /neutron/v2.0:
     $ref: "./paths/neutron.yaml#/version"
   /neutron/v2.0/networks:
@@ -64,6 +68,10 @@ paths:
     $ref: "./paths/neutron_agents.yaml#/agents"
   /neutron/v2.0/ports:
     $ref: "./paths/neutron_ports.yaml#/ports"
+  /neutron/v2.0/ports/{id}:
+    $ref: "./paths/neutron_ports.yaml#/ports_id"
+  /neutron/v2.0/security-groups:
+    $ref: "./paths/neutron_security_groups.yaml#/security-groups"
   /neutron/v2.0/extensions:
     $ref: "./paths/neutron_extensions.yaml#/extensions"
   /placement:
@@ -82,3 +90,5 @@ paths:
     $ref: "./paths/placement_resource_providers.yaml#/resource_providers_id_traits"
   /placement/allocations/{id}:
     $ref: "./paths/placement_allocations.yaml#/allocations_id"
+  /placement/allocation_candidates:
+    $ref: "./paths/placement_allocation_candidates.yaml#/allocation_candidates"

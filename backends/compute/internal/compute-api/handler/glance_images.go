@@ -119,3 +119,7 @@ func (self *Handler) DeleteGlanceImageByID(ectx echo.Context, id string) error {
 func (self *Handler) GetGlanceSchemasImage(ectx echo.Context) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Glance)
 }
+
+func (self *Handler) GetGlanceImageFileByID(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Glance)
+}

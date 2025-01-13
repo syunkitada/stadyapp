@@ -56,3 +56,15 @@ func (self *Handler) GetPlacementResourceProviderTraits(ectx echo.Context, id st
 func (self *Handler) GetPlacementAllocationByID(ectx echo.Context, id string) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
 }
+
+func (self *Handler) DeletePlacementAllocationByID(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
+
+func (self *Handler) UpdatePlacementAllocationByID(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
+
+func (self *Handler) GetPlacementAllocationCandidates(ectx echo.Context) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
