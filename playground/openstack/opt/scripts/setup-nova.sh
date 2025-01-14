@@ -29,7 +29,7 @@ mkdir -p /etc/nova
 mkdir -p /var/log/nova
 mkdir -p /var/lib/nova/instances
 
-cp etc/nova/api-paste.ini /etc/nova/
+cp /opt/openstack/nova/api-paste.ini /etc/nova/api-paste.ini
 
 cp /opt/openstack/nova/rootwrap.conf /etc/nova/rootwrap.conf
 cp /opt/openstack/nova/nova.conf /etc/nova/nova.conf
@@ -56,11 +56,3 @@ systemctl status nova-conductor || systemd-run \
 	--unit nova-conductor -- \
 	/opt/nova/bin/nova-conductor --config-file /etc/nova/nova.conf
 systemctl restart nova-conductor
-
-service_list=$(openstack service list -f value -c 'Type')
-if ! echo "$service_list" | grep -q compute; then
-	openstack service create --name nova --description "OpenStack Compute" compute
-	openstack endpoint create --region region1 compute public http://localhost:8774/v2.1
-	openstack endpoint create --region region1 compute internal http://localhost:8774/v2.1
-	openstack endpoint create --region region1 compute admin http://localhost:8774/v2.1
-fi

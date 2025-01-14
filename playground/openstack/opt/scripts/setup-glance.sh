@@ -28,7 +28,8 @@ fi
 	-r requirements.txt \
 	-r /opt/openstack/glance/requirements.txt
 
-cp etc/glance-api-paste.ini /etc/glance/
+# cp etc/glance-api-paste.ini /etc/glance/
+cp /opt/openstack/glance/glance-api-paste.ini /etc/glance/glance-api-paste.ini
 cp /opt/openstack/glance/glance-api.conf /etc/glance/glance-api.conf
 
 /opt/glance/bin/glance-manage db_sync
@@ -38,11 +39,3 @@ systemctl status glance-api || systemd-run \
 	--unit glance-api -- \
 	/opt/glance/bin/glance-api --config-file /etc/glance/glance-api.conf
 systemctl restart glance-api
-
-service_list=$(openstack service list -f value -c 'Type')
-if ! echo "$service_list" | grep -q image; then
-	openstack service create --name glance --description "OpenStack Image" image
-	openstack endpoint create --region region1 image public http://localhost:9292
-	openstack endpoint create --region region1 image internal http://localhost:9292
-	openstack endpoint create --region region1 image admin http://localhost:9292
-fi

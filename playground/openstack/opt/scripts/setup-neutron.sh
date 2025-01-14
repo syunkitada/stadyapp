@@ -30,7 +30,7 @@ fi
 	-r requirements.txt \
 	-r /opt/openstack/neutron/requirements.txt
 
-cp etc/api-paste.ini /etc/neutron/
+cp /opt/openstack/neutron/api-paste.ini /etc/neutron/api-paste.ini
 
 cp /opt/openstack/neutron/rootwrap.conf /etc/neutron/rootwrap.conf
 cp /opt/openstack/neutron/neutron.conf /etc/neutron/neutron.conf
@@ -46,11 +46,3 @@ systemctl status neutron-server || systemd-run \
 	--config-file /etc/neutron/neutron.conf \
 	--config-file /etc/neutron/plugins/ml2/ml2_conf.ini
 systemctl restart neutron-server
-
-service_list=$(openstack service list -f value -c 'Type')
-if ! echo "$service_list" | grep -q network; then
-	openstack service create --name neutron --description "OpenStack Network" network
-	openstack endpoint create --region region1 network public http://localhost:9696
-	openstack endpoint create --region region1 network internal http://localhost:9696
-	openstack endpoint create --region region1 network admin http://localhost:9696
-fi

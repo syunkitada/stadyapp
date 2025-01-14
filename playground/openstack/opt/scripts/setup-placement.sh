@@ -28,6 +28,7 @@ fi
 	-r requirements.txt \
 	-r /opt/openstack/placement/requirements.txt
 
+cp /opt/openstack/placement/auth.py /opt/placement/lib/python3.9/site-packages/placement/auth.py
 cp /opt/openstack/placement/placement.conf /etc/placement/placement.conf
 
 /opt/placement/bin/placement-manage db sync
@@ -35,13 +36,5 @@ cp /opt/openstack/placement/placement.conf /etc/placement/placement.conf
 systemctl reset-failed placement-api || echo 'ignored'
 systemctl status placement-api || systemd-run \
 	--unit placement-api -- \
-	/opt/placement/bin/placement-api --port 8778
+	/opt/placement/bin/placement-api --host 127.0.0.1 --port 8778
 systemctl restart placement-api
-
-service_list=$(openstack service list -f value -c 'Type')
-if ! echo "$service_list" | grep -q placement; then
-	openstack service create --name placement --description "OpenStack placement" placement
-	openstack endpoint create --region region1 placement public http://localhost:8778
-	openstack endpoint create --region region1 placement internal http://localhost:8778
-	openstack endpoint create --region region1 placement admin http://localhost:8778
-fi
