@@ -33,6 +33,10 @@ func (self *Handler) GetPlacementVersion2(ectx echo.Context) error {
 	return self.GetPlacementVersion(ectx)
 }
 
+func (self *Handler) CreatePlacementResourceProvider(ectx echo.Context) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
+
 func (self *Handler) GetPlacementResourceProviders(ectx echo.Context, params oapi.GetPlacementResourceProvidersParams) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
 }
@@ -53,6 +57,10 @@ func (self *Handler) GetPlacementResourceProviderTraits(ectx echo.Context, id st
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
 }
 
+func (self *Handler) UpdatePlacementResourceProviderTraits(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
+
 func (self *Handler) GetPlacementAllocationByID(ectx echo.Context, id string) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
 }
@@ -66,5 +74,13 @@ func (self *Handler) UpdatePlacementAllocationByID(ectx echo.Context, id string)
 }
 
 func (self *Handler) GetPlacementAllocationCandidates(ectx echo.Context) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
+
+func (self *Handler) UpdatePlacementResourceProviderInventory(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
+}
+
+func (self *Handler) GetPlacementTraits(ectx echo.Context) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Placement)
 }

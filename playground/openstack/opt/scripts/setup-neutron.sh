@@ -36,6 +36,8 @@ cp /opt/openstack/neutron/rootwrap.conf /etc/neutron/rootwrap.conf
 cp /opt/openstack/neutron/neutron.conf /etc/neutron/neutron.conf
 cp /opt/openstack/neutron/ml2_conf.ini /etc/neutron/plugins/ml2/ml2_conf.ini
 
+sed -i "s/@IAM_TOKEN/${IAM_TOKEN}/g" /etc/neutron/neutron.conf
+
 /opt/neutron/bin/neutron-db-manage --config-file /etc/neutron/neutron.conf \
 	--config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head
 

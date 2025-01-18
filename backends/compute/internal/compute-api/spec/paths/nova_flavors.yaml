@@ -1,3 +1,20 @@
+flavors:
+  post:
+    summary: Create nova flavors
+    description: Create nova flavors
+    operationId: createNovaFlavor
+    responses:
+      200:
+        description: create nova flavors
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/nova_flavor.yaml#/NovaFlavorsDetailResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
 flavors_detail:
   get:
     summary: Get nova flavors

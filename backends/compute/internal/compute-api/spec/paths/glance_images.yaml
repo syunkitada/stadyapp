@@ -96,3 +96,26 @@ images_id_file:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+  put:
+    summary: Upload a new glance image
+    description: Upload a new glance image
+    operationId: uploadGlanceImageFile
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to upload
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: glance image response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"

@@ -15,6 +15,22 @@ networks:
       default:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
 
+  post:
+    summary: Create detailed information about networks
+    description: Retrieves a detailed list of networks with their attributes.
+    operationId: createNeutronNetwork
+    responses:
+      200:
+        description: A detailed list of networks.
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/neutron_network.yaml#/NeutronNetworksResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
 networks_id:
   get:
     summary: Get detailed information about networks
@@ -34,6 +50,25 @@ networks_id:
           application/json:
             schema:
               $ref: "../schemas/neutron_network.yaml#/NeutronNetworkResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+  delete:
+    summary: Get detailed information about networks
+    description: Retrieves a detailed list of networks with their attributes.
+    operationId: deleteNeutronNetworkByID
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      204:
+        description: image deleted
       4XX:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
       default:

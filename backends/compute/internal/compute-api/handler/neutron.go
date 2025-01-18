@@ -74,3 +74,23 @@ func (self *Handler) GetNeutronExtensions(ectx echo.Context) error {
 func (self *Handler) CreateNeutronPort(ectx echo.Context) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Neutron)
 }
+
+func (self *Handler) CreateNeutronNetwork(ectx echo.Context) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Neutron)
+}
+
+func (self *Handler) DeleteNeutronNetworkByID(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Neutron)
+}
+
+func (self *Handler) GetNeutronSubnetByID(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Neutron)
+}
+
+func (self *Handler) DeleteNeutronSubnetByID(ectx echo.Context, id string) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Neutron)
+}
+
+func (self *Handler) CreateNeutronSubnet(ectx echo.Context) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Neutron)
+}

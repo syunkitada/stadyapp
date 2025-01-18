@@ -34,6 +34,8 @@ cp /opt/openstack/nova/api-paste.ini /etc/nova/api-paste.ini
 cp /opt/openstack/nova/rootwrap.conf /etc/nova/rootwrap.conf
 cp /opt/openstack/nova/nova.conf /etc/nova/nova.conf
 
+sed -i "s/@IAM_TOKEN/${IAM_TOKEN}/g" /etc/nova/nova.conf
+
 /opt/nova/bin/nova-manage api_db sync
 /opt/nova/bin/nova-manage cell_v2 map_cell0
 /opt/nova/bin/nova-manage cell_v2 list_cells | grep ' cell1 ' || /opt/nova/bin/nova-manage cell_v2 create_cell --name=cell1 --verbose

@@ -48,6 +48,8 @@ paths:
     $ref: "./paths/nova_servers.yaml#/servers_id"
   /nova/v2.1/servers/detail:
     $ref: "./paths/nova_servers.yaml#/servers_detail"
+  /nova/v2.1/flavors:
+    $ref: "./paths/nova_flavors.yaml#/flavors"
   /nova/v2.1/flavors/detail:
     $ref: "./paths/nova_flavors.yaml#/flavors_detail"
   /nova/v2.1/flavors/{id}:
@@ -62,6 +64,8 @@ paths:
     $ref: "./paths/neutron_networks.yaml#/networks_id"
   /neutron/v2.0/subnets:
     $ref: "./paths/neutron_subnets.yaml#/subnets"
+  /neutron/v2.0/subnets/{id}:
+    $ref: "./paths/neutron_subnets.yaml#/subnets_id"
   /neutron/v2.0/quotas/{project_id}:
     $ref: "./paths/neutron_quotas.yaml#/quotas_project_id"
   /neutron/v2.0/agents:
@@ -78,6 +82,8 @@ paths:
     $ref: "./paths/placement.yaml#/version"
   /placement/:
     $ref: "./paths/placement.yaml#/version2"
+  /placement/traits:
+    $ref: "./paths/placement_traits.yaml#/traits"
   /placement/resource_providers:
     $ref: "./paths/placement_resource_providers.yaml#/resource_providers"
   /placement/resource_providers/{id}/allocations:

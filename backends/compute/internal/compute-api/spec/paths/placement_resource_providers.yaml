@@ -21,6 +21,22 @@ resource_providers:
       default:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
 
+  post:
+    summary: Create detailed information about networks
+    description: Retrieves a detailed list of networks with their attributes.
+    operationId: createPlacementResourceProvider
+    responses:
+      200:
+        description: A detailed list of networks.
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/neutron_network.yaml#/NeutronNetworksResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
 resource_providers_id_allocations:
   get:
     summary: Get a image by ID
@@ -69,6 +85,29 @@ resource_providers_id_inventories:
       default:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
 
+  put:
+    summary: Get a image by ID
+    description: Get a image by ID
+    operationId: updatePlacementResourceProviderInventory
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: glance image response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
 resource_providers_id_aggregates:
   get:
     summary: Get a image by ID
@@ -98,6 +137,29 @@ resource_providers_id_traits:
     summary: Get a image by ID
     description: Get a image by ID
     operationId: getPlacementResourceProviderTraits
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to fetch
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: glance image response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/glance_image.yaml#/GlanceImageResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
+  put:
+    summary: Get a image by ID
+    description: Get a image by ID
+    operationId: updatePlacementResourceProviderTraits
     parameters:
       - name: id
         in: path

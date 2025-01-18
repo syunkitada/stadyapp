@@ -59,3 +59,7 @@ func (self *Handler) GetNovaServices(ectx echo.Context) error {
 func (self *Handler) CreateNovaExternalEvents(ectx echo.Context) error {
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Nova)
 }
+
+func (self *Handler) CreateNovaFlavor(ectx echo.Context) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Nova)
+}

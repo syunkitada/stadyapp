@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-source /opt/openstack/envrc
+source ./iamadminrc
 
 image_list=$(openstack image list -f value -c Name)
 if ! echo "$image_list" | grep -q cirros; then
@@ -14,7 +14,7 @@ if ! echo "$flavor_list" | grep -q 1v-512M-1G; then
 fi
 
 network_list=$(openstack network list -f value -c Name)
-if ! echo "$network_list" | grep -q private; then
+if ! echo "$network_list" | grep -q local-net; then
 	openstack network create --provider-network-type local local-net
 	openstack subnet create --network local-net local-net \
 		--subnet-range 192.168.0.0/24 --gateway 192.168.0.1 --allocation-pool start=192.168.0.2,end=192.168.0.254
