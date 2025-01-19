@@ -16,6 +16,33 @@ servers:
 security:
   - XAuthTokenHeader: []
 paths:
+  /v1/web/user:
+    get:
+      operationId: getWebUser
+      security:
+        - XUserIDHeader: []
+      summary: Returns user
+      description: |
+        Returns user
+      responses:
+        '200':
+          description: public key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebUser'
+        4XX:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /v1/pubkeys:
     get:
       security: []
@@ -1162,6 +1189,91 @@ components:
         message:
           type: string
           description: Error message
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+    KeystoneSelfPagerLinks:
+      type: object
+      properties:
+        self:
+          type: string
+          format: uri
+      required:
+        - self
+    KeystoneProject:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        domain_id:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        parent_id:
+          type: string
+        is_domain:
+          type: boolean
+        links:
+          $ref: '#/components/schemas/KeystoneSelfPagerLinks'
+      additionalProperties: {}
+      required:
+        - id
+        - name
+        - domain_id
+        - description
+        - enabled
+        - parent_id
+        - is_domain
+        - tags
+        - options
+        - links
+    Endpoint:
+      type: object
+      properties:
+        id:
+          type: string
+        interface:
+          type: string
+        region:
+          type: string
+        url:
+          type: string
+          format: uri
+      required:
+        - id
+        - interface
+        - region
+        - url
+    Catalog:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Endpoint'
+    WebUser:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeystoneProject'
+        catalog:
+          $ref: '#/components/schemas/Catalog'
+      required:
+        - user
+        - projects
+        - catalog
     Pubkey:
       type: object
       properties:
@@ -1413,14 +1525,6 @@ components:
           $ref: '#/components/schemas/KeystoneToken'
       required:
         - token
-    KeystoneSelfPagerLinks:
-      type: object
-      properties:
-        self:
-          type: string
-          format: uri
-      required:
-        - self
     KeystoneDomain:
       type: object
       properties:
@@ -1511,37 +1615,6 @@ components:
           additionalProperties: {}
       required:
         - domain
-    KeystoneProject:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        domain_id:
-          type: string
-        description:
-          type: string
-        enabled:
-          type: boolean
-        parent_id:
-          type: string
-        is_domain:
-          type: boolean
-        links:
-          $ref: '#/components/schemas/KeystoneSelfPagerLinks'
-      additionalProperties: {}
-      required:
-        - id
-        - name
-        - domain_id
-        - description
-        - enabled
-        - parent_id
-        - is_domain
-        - tags
-        - options
-        - links
     KeystoneProjectsResponse:
       type: object
       properties:

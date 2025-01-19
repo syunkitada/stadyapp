@@ -17,10 +17,15 @@ type IAPI interface {
 	IAPIKeystoneGroup
 	IAPIKeystoneRole
 	IAPIOther
+	IAPIWeb
 }
 
 type IAPIOther interface {
 	GetPubkeys(ctx context.Context, input *oapi.GetPubkeysParams) ([]oapi.Pubkey, error)
+}
+
+type IAPIWeb interface {
+	GetWebUser(ctx context.Context) (*oapi.WebUser, error)
 }
 
 type IAPIKeystoneToken interface {

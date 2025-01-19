@@ -16,16 +16,14 @@ import { client as clientServer } from "./clients/compute/sdk.gen";
 clientIAM.setConfig({
   baseURL: import.meta.env.VITE_IAM_API_URL,
   headers: {
-    "x-user": import.meta.env.VITE_TEST_USER,
-    "x-email": import.meta.env.VITE_TEST_EMAIL,
+    "x-user-id": import.meta.env.VITE_TEST_USER,
   },
 });
 
 clientServer.setConfig({
   baseURL: import.meta.env.VITE_COMPUTE_API_URL,
   headers: {
-    "x-user": import.meta.env.VITE_TEST_USER,
-    "x-email": import.meta.env.VITE_TEST_EMAIL,
+    "x-user-id": import.meta.env.VITE_TEST_USER,
   },
 });
 

@@ -28,6 +28,8 @@ components:
       in: header
       description: "The custom authorization"
 paths:
+  /v1/web/user:
+    $ref: "./paths/web_user.yaml#/user"
   /v1/pubkeys:
     $ref: "./paths/pubkeys.yaml#/pubkeys"
   /keystone/v3:

@@ -1,0 +1,2 @@
+export VITE_IAM_API_URL=https://myapp.localhost.test:11443/api/iam
+export VITE_COMPUTE_API_URL=https://myapp.localhost.test:11443/api/compute

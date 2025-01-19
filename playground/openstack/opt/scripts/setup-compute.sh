@@ -35,6 +35,6 @@ systemctl status nova-compute ||
 		--config-file /etc/nova/nova-compute.conf
 systemctl restart nova-compute
 
-sleep 5
+sleep 15
 
 /opt/nova/bin/nova-manage cell_v2 discover_hosts

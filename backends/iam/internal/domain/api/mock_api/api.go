@@ -419,6 +419,21 @@ func (mr *MockIAPIMockRecorder) GetPubkeys(ctx, input interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPubkeys", reflect.TypeOf((*MockIAPI)(nil).GetPubkeys), ctx, input)
 }
 
+// GetWebUser mocks base method.
+func (m *MockIAPI) GetWebUser(ctx context.Context) (*oapi.WebUser, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWebUser", ctx)
+	ret0, _ := ret[0].(*oapi.WebUser)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWebUser indicates an expected call of GetWebUser.
+func (mr *MockIAPIMockRecorder) GetWebUser(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWebUser", reflect.TypeOf((*MockIAPI)(nil).GetWebUser), ctx)
+}
+
 // UnassignKeystoneRoleFromGroupProject mocks base method.
 func (m *MockIAPI) UnassignKeystoneRoleFromGroupProject(ctx context.Context, roleID, groupID, projectID string) error {
 	m.ctrl.T.Helper()
@@ -542,6 +557,44 @@ func (m *MockIAPIOther) GetPubkeys(ctx context.Context, input *oapi.GetPubkeysPa
 func (mr *MockIAPIOtherMockRecorder) GetPubkeys(ctx, input interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPubkeys", reflect.TypeOf((*MockIAPIOther)(nil).GetPubkeys), ctx, input)
+}
+
+// MockIAPIWeb is a mock of IAPIWeb interface.
+type MockIAPIWeb struct {
+	ctrl     *gomock.Controller
+	recorder *MockIAPIWebMockRecorder
+}
+
+// MockIAPIWebMockRecorder is the mock recorder for MockIAPIWeb.
+type MockIAPIWebMockRecorder struct {
+	mock *MockIAPIWeb
+}
+
+// NewMockIAPIWeb creates a new mock instance.
+func NewMockIAPIWeb(ctrl *gomock.Controller) *MockIAPIWeb {
+	mock := &MockIAPIWeb{ctrl: ctrl}
+	mock.recorder = &MockIAPIWebMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockIAPIWeb) EXPECT() *MockIAPIWebMockRecorder {
+	return m.recorder
+}
+
+// GetWebUser mocks base method.
+func (m *MockIAPIWeb) GetWebUser(ctx context.Context) (*oapi.WebUser, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWebUser", ctx)
+	ret0, _ := ret[0].(*oapi.WebUser)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWebUser indicates an expected call of GetWebUser.
+func (mr *MockIAPIWebMockRecorder) GetWebUser(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWebUser", reflect.TypeOf((*MockIAPIWeb)(nil).GetWebUser), ctx)
 }
 
 // MockIAPIKeystoneToken is a mock of IAPIKeystoneToken interface.

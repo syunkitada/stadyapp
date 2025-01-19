@@ -24,6 +24,13 @@ func New(ctx context.Context, conf *Config, swagger *openapi3.T, iamAuth *iam_au
 	// This is how you set up a basic Echo router
 	echoServer := echo.New()
 
+	echoServer.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins:     []string{"http://myapp.localhost.test:5173"},
+		AllowHeaders:     []string{"*"},
+		AllowMethods:     []string{"*"},
+		AllowCredentials: true,
+	}))
+
 	echoServer.Use(middleware.RequestID())
 
 	echoServer.Use(middleware.BodyDumpWithConfig(middleware.BodyDumpConfig{

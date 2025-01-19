@@ -1,0 +1,27 @@
+user:
+  get:
+    operationId: getWebUser
+    security:
+      - XUserIDHeader: []
+    summary: Returns user
+    description: |
+      Returns user
+    responses:
+      "200":
+        description: public key
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/web_user.yaml#/WebUser"
+      "4XX":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"

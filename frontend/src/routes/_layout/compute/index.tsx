@@ -8,27 +8,29 @@ export const Route = createFileRoute("/_layout/compute/")({
 });
 
 function RouteComponent() {
-  const { isPending, isError, data, error } = useQuery({
-    queryKey: ["servers"],
-    queryFn: readItemsV1ItemsGet,
-  });
+  return <div>Compute</div>;
 
-  console.log("DEBUG", isPending, isError, data, error);
+  // const { isPending, isError, data, error } = useQuery({
+  //   queryKey: ["servers"],
+  //   queryFn: readItemsV1ItemsGet,
+  // });
 
-  if (isPending) {
-    return <div>Pending</div>;
-  }
+  // console.log("DEBUG", isPending, isError, data, error);
 
-  return (
-    <div>
-      <h1>Compute</h1>
-      <ul>
-        {data.data.data.map((item) => (
-          <li key={item.id}>
-            {item.title}: {item.description}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  // if (isPending) {
+  //   return <div>Pending</div>;
+  // }
+
+  // return (
+  //   <div>
+  //     <h1>Compute</h1>
+  //     <ul>
+  //       {data.data.data.map((item) => (
+  //         <li key={item.id}>
+  //           {item.title}: {item.description}
+  //         </li>
+  //       ))}
+  //     </ul>
+  //   </div>
+  // );
 }

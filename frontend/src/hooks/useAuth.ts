@@ -1,4 +1,4 @@
-import { readUserMeV1UsersMeGet } from "../clients/iam/sdk.gen";
+import { getWebUser } from "../clients/iam/sdk.gen";
 import { useQuery } from "@tanstack/react-query";
 
 const useAuth = () => {
@@ -8,8 +8,8 @@ const useAuth = () => {
     data: user,
     error,
   } = useQuery({
-    queryKey: ["currentUser"],
-    queryFn: readUserMeV1UsersMeGet,
+    queryKey: ["getWebUser"],
+    queryFn: getWebUser,
   });
 
   const logout = () => {
