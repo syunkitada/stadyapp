@@ -141,32 +141,30 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Compute",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
+      name: "Monitoring",
       url: "#",
       icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
     },
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function ProjectServicesSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   const { user, logout } = useAuth();
   console.log("user", user.data.user.name);
   console.log("user", user.data.projects);
+  const projects = [{ id: "_", name: "Home" }, ...user.data.projects];
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <ProjectSwitcher teams={data.teams} />
+        <ProjectSwitcher projects={projects} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

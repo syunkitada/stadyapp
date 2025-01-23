@@ -1,18 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { createFileRoute } from "@tanstack/react-router";
-import { Tabs } from "@chakra-ui/react";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_layout/")({
-  component: RouteComponent,
+  beforeLoad: ({ context, location }) => {
+    throw redirect({
+      to: "/services/",
+    });
+  },
 });
-
-function RouteComponent() {
-  return (
-    <>
-      <div>
-        <p>hoge</p>
-        <Button />
-      </div>
-    </>
-  );
-}

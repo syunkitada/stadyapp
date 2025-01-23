@@ -2,12 +2,7 @@ import { getWebUser } from "../clients/iam/sdk.gen";
 import { useQuery } from "@tanstack/react-query";
 
 const useAuth = () => {
-  const {
-    isPending,
-    isError,
-    data: user,
-    error,
-  } = useQuery({
+  const { isPending, isError, data, error } = useQuery({
     queryKey: ["getWebUser"],
     queryFn: getWebUser,
   });
@@ -17,7 +12,7 @@ const useAuth = () => {
   };
 
   return {
-    user,
+    user: data,
     isPending,
     isError,
     error,
