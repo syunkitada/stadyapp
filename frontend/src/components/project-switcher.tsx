@@ -20,8 +20,13 @@ import {
 } from "@/components/ui/sidebar";
 
 export function ProjectSwitcher({
+  selectedProject,
   projects,
 }: {
+  selectedProject: {
+    name: string;
+    id: string;
+  } | null;
   projects: {
     name: string;
     id: string;
@@ -29,6 +34,8 @@ export function ProjectSwitcher({
 }) {
   const { isMobile } = useSidebar();
   const activeTeam = projects[0];
+  console.log("debug", selectedProject);
+  console.log("debug2", projects);
 
   return (
     <SidebarMenu>
@@ -41,7 +48,7 @@ export function ProjectSwitcher({
             >
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">
-                  {activeTeam.name}
+                  {selectedProject ? selectedProject.name : "My Projects"}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto" />
@@ -57,7 +64,7 @@ export function ProjectSwitcher({
               Projects
             </DropdownMenuLabel>
             {projects.map((project, index) => (
-              <DropdownMenuItem key={project.name} className="gap-2 p-2">
+              <DropdownMenuItem key={project.id} className="gap-2 p-2">
                 {project.name}
                 <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
               </DropdownMenuItem>
@@ -67,7 +74,9 @@ export function ProjectSwitcher({
               <div className="flex size-6 items-center justify-center rounded-md border bg-background">
                 <Plus className="size-4" />
               </div>
-              <div className="font-medium text-muted-foreground">Add team</div>
+              <div className="font-medium text-muted-foreground">
+                Add project
+              </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

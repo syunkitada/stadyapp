@@ -46,10 +46,6 @@ type Organization struct {
 	Domain   Domain `gorm:"foreignkey:DomainID;association_foreignkey:Refer;"`
 }
 
-type TagOrganization struct {
-	ID string `gorm:"column:id;type:varchar(64);not null;primaryKey;"`
-}
-
 type Project struct {
 	ID          string `gorm:"column:id;type:varchar(64);not null;primaryKey;"`
 	Name        string `gorm:"column:name;type:varchar(64);not null;index:idx_name_domain,unique;"`

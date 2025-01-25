@@ -25,7 +25,7 @@ func New(ctx context.Context, conf *Config, swagger *openapi3.T, iamAuth *iam_au
 	echoServer := echo.New()
 
 	echoServer.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"http://myapp.localhost.test:5173"},
+		AllowOrigins:     []string{"https://myapp.localhost.test:11443", "http://myapp.localhost.test:5173"},
 		AllowHeaders:     []string{"*"},
 		AllowMethods:     []string{"*"},
 		AllowCredentials: true,

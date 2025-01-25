@@ -2,15 +2,16 @@ package handler
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/labstack/echo/v4"
 
+	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
+	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
 func (self *Handler) GetWebUser(ectx echo.Context) error {
-	ctx := tlog.WithEchoContext(ectx)
+	ctx := iam_auth.WithEchoContext(ectx)
 
 	// input := oapi.CreateKeystoneTokenInput{
 	// 	Auth: oapi.CreateKeystoneTokenInputAuth{
@@ -30,13 +31,27 @@ func (self *Handler) GetWebUser(ectx echo.Context) error {
 		return tlog.BindEchoError(ctx, ectx, err)
 	}
 
+	input := oapi.CreateKeystoneTokenInput{
+		Auth: oapi.CreateKeystoneTokenInputAuth{
+			Identity: oapi.CreateKeystoneTokenInputAuthIdentity{
+				Methods: []string{"web"},
+			},
+		},
+	}
+
+	token, tokenStr, err := self.api.CreateKeystoneToken(ctx, &input)
+	if err != nil {
+		return tlog.BindEchoError(ctx, ectx, err)
+	}
+
 	cookie := http.Cookie{
-		Name:     "auth-token",
-		Value:    "tokenhoge",
+		Name:     "authtoken",
+		Value:    tokenStr,
 		Secure:   true,
 		HttpOnly: true,
-		SameSite: http.SameSiteNoneMode,         // TODO Configurable
-		Expires:  time.Now().Add(1 * time.Hour), // TODO Configurable
+		SameSite: http.SameSiteStrictMode,
+		Expires:  token.ExpiresAt,
+		Path:     "/api",
 	}
 	ectx.SetCookie(&cookie)
 

@@ -159,12 +159,12 @@ export function ProjectServicesSidebar({
   const { user, logout } = useAuth();
   console.log("user", user.data.user.name);
   console.log("user", user.data.projects);
-  const projects = [{ id: "_", name: "Home" }, ...user.data.projects];
+  const projects = user.data.projects;
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <ProjectSwitcher projects={projects} />
+        <ProjectSwitcher selectedProject={null} projects={projects} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
