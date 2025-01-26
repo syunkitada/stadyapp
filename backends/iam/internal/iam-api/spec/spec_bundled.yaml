@@ -22,6 +22,13 @@ paths:
       security:
         - XUserIDHeader: []
       summary: Returns user
+      parameters:
+        - name: project_id
+          in: query
+          description: project id
+          required: false
+          schema:
+            type: string
       description: |
         Returns user
       responses:

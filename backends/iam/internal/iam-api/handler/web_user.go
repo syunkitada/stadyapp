@@ -10,28 +10,15 @@ import (
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
-func (self *Handler) GetWebUser(ectx echo.Context) error {
+func (self *Handler) GetWebUser(ectx echo.Context, input oapi.GetWebUserParams) error {
 	ctx := iam_auth.WithEchoContext(ectx)
-
-	// input := oapi.CreateKeystoneTokenInput{
-	// 	Auth: oapi.CreateKeystoneTokenInputAuth{
-	// 		Identity: oapi.CreateKeystoneTokenInputAuthIdentity{
-	// 			Methods: []string{protocol},
-	// 		},
-	// 	},
-	// }
-
-	// token, tokenStr, err := self.api.CreateKeystoneToken(ctx, &input)
-	// if err != nil {
-	// 	return tlog.BindEchoError(ctx, ectx, err)
-	// }
 
 	webUser, err := self.api.GetWebUser(ctx)
 	if err != nil {
 		return tlog.BindEchoError(ctx, ectx, err)
 	}
 
-	input := oapi.CreateKeystoneTokenInput{
+	createKeystoneTokenInput := oapi.CreateKeystoneTokenInput{
 		Auth: oapi.CreateKeystoneTokenInputAuth{
 			Identity: oapi.CreateKeystoneTokenInputAuthIdentity{
 				Methods: []string{"web"},
@@ -39,7 +26,15 @@ func (self *Handler) GetWebUser(ectx echo.Context) error {
 		},
 	}
 
-	token, tokenStr, err := self.api.CreateKeystoneToken(ctx, &input)
+	if input.ProjectId != nil {
+		createKeystoneTokenInput.Auth.Scope = &oapi.CreateKeystoneTokenInputAuthScope{
+			Project: &oapi.CreateKeystoneTokenInputAuthScopeProject{
+				Id: input.ProjectId,
+			},
+		}
+	}
+
+	token, tokenStr, err := self.api.CreateKeystoneToken(ctx, &createKeystoneTokenInput)
 	if err != nil {
 		return tlog.BindEchoError(ctx, ectx, err)
 	}

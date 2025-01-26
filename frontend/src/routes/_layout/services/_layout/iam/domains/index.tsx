@@ -1,7 +1,8 @@
 import { getKeystoneDomains } from "@/clients/iam/sdk.gen";
 import { useQuery } from "@tanstack/react-query";
-
 import { createFileRoute } from "@tanstack/react-router";
+
+import { DataTable } from "@/components/services/iam/domains/data-table";
 
 export const Route = createFileRoute("/_layout/services/_layout/iam/domains/")({
   component: RouteComponent,
@@ -19,18 +20,7 @@ function RouteComponent() {
     return <div>Pending</div>;
   }
 
-  return <div>hoge</div>;
+  console.log("DEBUG domains", data.data.domains);
 
-  // return (
-  //   <div>
-  //     <h1>IAM</h1>
-  //     <ul>
-  //       {data.data.data.map((item) => (
-  //         <li key={item.id}>
-  //           {item.title}: {item.description}
-  //         </li>
-  //       ))}
-  //     </ul>
-  //   </div>
-  // );
+  return <DataTable data={data.data.domains} />;
 }

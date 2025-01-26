@@ -11,9 +11,42 @@ export type _Error = {
     message: string;
 };
 
-export type WebUser = {
+export type User = {
     id: string;
     name: string;
+};
+
+export type KeystoneSelfPagerLinks = {
+    self: string;
+};
+
+export type KeystoneProject = {
+    id: string;
+    name: string;
+    domain_id: string;
+    description: string;
+    enabled: boolean;
+    parent_id: string;
+    is_domain: boolean;
+    links: KeystoneSelfPagerLinks;
+    [key: string]: unknown | string | boolean | KeystoneSelfPagerLinks;
+};
+
+export type Endpoint = {
+    id: string;
+    interface: string;
+    region: string;
+    url: string;
+};
+
+export type Catalog = {
+    [key: string]: Endpoint;
+};
+
+export type WebUser = {
+    user: User;
+    projects: Array<KeystoneProject>;
+    catalog: Catalog;
 };
 
 export type Pubkey = {
@@ -128,10 +161,6 @@ export type KeystoneTokenResponse = {
     token: KeystoneToken;
 };
 
-export type KeystoneSelfPagerLinks = {
-    self: string;
-};
-
 export type KeystoneDomain = {
     id: string;
     name: string;
@@ -172,18 +201,6 @@ export type UpdateKeystoneDomainInput = {
         enabled?: boolean;
         [key: string]: unknown | string | boolean | undefined;
     };
-};
-
-export type KeystoneProject = {
-    id: string;
-    name: string;
-    domain_id: string;
-    description: string;
-    enabled: boolean;
-    parent_id: string;
-    is_domain: boolean;
-    links: KeystoneSelfPagerLinks;
-    [key: string]: unknown | string | boolean | KeystoneSelfPagerLinks;
 };
 
 export type KeystoneProjectsResponse = {
@@ -395,7 +412,12 @@ export type KeystoneApplicationCredentialResponse = {
 export type GetWebUserData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * project id
+         */
+        project_id?: string;
+    };
     url: '/v1/web/user';
 };
 

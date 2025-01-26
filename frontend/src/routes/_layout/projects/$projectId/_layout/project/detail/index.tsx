@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_layout/projects/$projectId/_layout/")({
+export const Route = createFileRoute(
+  "/_layout/projects/$projectId/_layout/project/detail/",
+)({
   component: RouteComponent,
 });
 
@@ -12,7 +14,9 @@ function RouteComponent() {
         <div className="aspect-video rounded-xl bg-muted/50" />
         <div className="aspect-video rounded-xl bg-muted/50" />
       </div>
-      <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min"></div>
+      <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min">
+        project detail
+      </div>
     </>
   );
 }

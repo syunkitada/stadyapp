@@ -1,5 +1,7 @@
 "use client";
 
+import { Link } from "@tanstack/react-router";
+
 import * as React from "react";
 import { ChevronsUpDown, Plus } from "lucide-react";
 
@@ -20,22 +22,19 @@ import {
 } from "@/components/ui/sidebar";
 
 export function ProjectSwitcher({
-  selectedProject,
+  selectedIndex,
   projects,
 }: {
-  selectedProject: {
-    name: string;
-    id: string;
-  } | null;
+  selectedIndex: int;
   projects: {
     name: string;
     id: string;
   }[];
 }) {
   const { isMobile } = useSidebar();
-  const activeTeam = projects[0];
-  console.log("debug", selectedProject);
-  console.log("debug2", projects);
+
+  console.log("ProjectSwitcher", selectedIndex);
+  console.log("ProjectSwitcher", projects);
 
   return (
     <SidebarMenu>
@@ -48,7 +47,9 @@ export function ProjectSwitcher({
             >
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">
-                  {selectedProject ? selectedProject.name : "My Projects"}
+                  {selectedIndex > -1
+                    ? projects[selectedIndex].name
+                    : "My Projects"}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto" />
@@ -64,10 +65,12 @@ export function ProjectSwitcher({
               Projects
             </DropdownMenuLabel>
             {projects.map((project, index) => (
-              <DropdownMenuItem key={project.id} className="gap-2 p-2">
-                {project.name}
-                <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
-              </DropdownMenuItem>
+              <Link to={`/projects/${project.id}/project/detail`}>
+                <DropdownMenuItem key={project.id} className="gap-2 p-2">
+                  {project.name}
+                  <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </Link>
             ))}
             <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-2 p-2">

@@ -1,13 +1,16 @@
-import { getWebUser } from "../clients/iam/sdk.gen";
+import { useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
-import { client as clientIAM } from "./clients/iam/sdk.gen";
-import { client as clientServer } from "./clients/compute/sdk.gen";
+import { getWebUser } from "@/clients/iam/sdk.gen";
 
 const useAuth = () => {
+  const { projectId } = useParams({ strict: false });
+
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["getWebUser"],
-    queryFn: getWebUser,
+    queryKey: ["getWebUser", { projectId }],
+    queryFn: () => {
+      return getWebUser({ query: { project_id: projectId } });
+    },
   });
 
   const logout = () => {

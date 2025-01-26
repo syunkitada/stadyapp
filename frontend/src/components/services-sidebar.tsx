@@ -82,7 +82,7 @@ export function ServicesSidebar({
         <Logo />
       </SidebarHeader>
       <SidebarHeader>
-        <ProjectSwitcher selectedProject={null} projects={projects} />
+        <ProjectSwitcher selectedIndex={-1} projects={projects} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { CenterLoader } from "@/components/common/loader";
 
 import { AppSidebar } from "@/components/app-sidebar";
 import {
@@ -18,26 +18,10 @@ import {
 
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 
-import useAuth from "../hooks/useAuth";
-
 export const Route = createFileRoute("/_layout")({
   component: Layout,
 });
 
 function Layout() {
-  const { isPending } = useAuth();
-
-  return (
-    <div>
-      {isPending ? (
-        <>
-          <Button>Spinner</Button>
-        </>
-      ) : (
-        <>
-          <Outlet />
-        </>
-      )}
-    </div>
-  );
+  return <Outlet />;
 }

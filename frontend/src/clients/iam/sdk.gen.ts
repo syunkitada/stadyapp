@@ -14,7 +14,7 @@ export const getWebUser = <ThrowOnError extends boolean = false>(options?: Optio
     return (options?.client ?? client).get<GetWebUserResponse, GetWebUserError, ThrowOnError>({
         security: [
             {
-                name: 'x-auth-token',
+                name: 'x-user-id',
                 type: 'apiKey'
             }
         ],

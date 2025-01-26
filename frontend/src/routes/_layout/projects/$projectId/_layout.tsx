@@ -18,11 +18,25 @@ import {
 
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 
+import { CenterLoader } from "@/components/common/loader";
+
+import useAuth from "@/hooks/useAuth";
+
 export const Route = createFileRoute("/_layout/projects/$projectId/_layout")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const { isPending } = useAuth();
+
+  if (isPending) {
+    return (
+      <>
+        <CenterLoader />;
+      </>
+    );
+  }
+
   return (
     <SidebarProvider>
       <ProjectServicesSidebar />
