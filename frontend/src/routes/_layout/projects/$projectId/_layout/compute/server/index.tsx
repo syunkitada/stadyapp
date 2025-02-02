@@ -18,7 +18,7 @@ function RouteComponent() {
     queryFn: getNovaServersDetail,
   });
 
-  console.log("DEBUG dmains", isPending, isError, data, error);
+  console.log("DEBUG servers", isPending, isError, data, error);
 
   if (isPending) {
     return <CenterLoader />;
@@ -28,13 +28,9 @@ function RouteComponent() {
     return <div>Error: {error}</div>;
   }
 
-  console.log("DEBUG servers", data);
-
   if (data.error) {
     return <div>Error</div>;
   }
-
-  console.log("DEBUG servers", data);
 
   return <DataTable data={data.data.servers} />;
 }

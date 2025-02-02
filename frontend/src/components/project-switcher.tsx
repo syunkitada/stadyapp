@@ -65,7 +65,10 @@ export function ProjectSwitcher({
               Projects
             </DropdownMenuLabel>
             {projects.map((project, index) => (
-              <Link to={`/projects/${project.id}/project/detail`}>
+              <Link
+                key={project.id}
+                to={`/projects/${project.id}/project/detail`}
+              >
                 <DropdownMenuItem key={project.id} className="gap-2 p-2">
                   {project.name}
                   <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>

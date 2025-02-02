@@ -4,7 +4,7 @@ gen:
 	npx @hey-api/openapi-ts -i ../backends/compute/internal/compute-api/spec/spec_bundled.yaml -o src/clients/compute -c @hey-api/client-axios
 
 shadcn:
-	npx shadcn@latest add -o sidebar dropdown-menu collapsible avatar breadcrumb table checkbox alert-dialog dialog input button label
+	npx shadcn@latest add -o sidebar dropdown-menu collapsible avatar breadcrumb table checkbox alert-dialog dialog input button label form command popover
 
 run:
 	npm run dev
