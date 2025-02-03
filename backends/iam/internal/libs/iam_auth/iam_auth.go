@@ -3,6 +3,7 @@ package iam_auth
 import (
 	"context"
 	"crypto"
+	"fmt"
 	"net/http"
 	"os"
 	"path"
@@ -17,14 +18,12 @@ import (
 )
 
 type IAMAuth struct {
-	conf    *Config
-	Expires time.Duration
+	conf *Config
 }
 
 func New(conf *Config) *IAMAuth {
 	return &IAMAuth{
-		conf:    conf,
-		Expires: time.Duration(conf.ExpiresSec) * time.Second,
+		conf: conf,
 	}
 }
 
@@ -61,6 +60,8 @@ func (self *IAMAuth) AuthToken(ctx context.Context, header http.Header) error {
 	if xauthToken == "" {
 		return tlog.Err(ctx, echo.NewHTTPError(http.StatusUnauthorized, "x-auth-token is not found"))
 	}
+
+	fmt.Println("x-auth-token", xauthToken)
 
 	tokenData, err := self.VerifyToken(ctx, xauthToken, header)
 	if err != nil {
@@ -110,7 +111,7 @@ func (self *IAMAuth) NewToken(ctx context.Context, authData AuthData) (string, e
 
 	claims := CustomClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(self.Expires)),
+			ExpiresAt: jwt.NewNumericDate(authData.ExpiresAt),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			Issuer:    "test",

@@ -1,10 +1,8 @@
-import { CenterLoader } from "@/components/common/loader";
-
 import { getNovaServersDetail } from "@/clients/compute/sdk.gen";
+import { CenterLoader } from "@/components/common/loader";
+import { DataTable } from "@/components/project_services/compute/server/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-
-import { DataTable } from "@/components/project_services/compute/server/data-table";
 
 export const Route = createFileRoute(
   "/_layout/projects/$projectId/_layout/compute/server/",
@@ -14,8 +12,9 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["servers"],
+    queryKey: ["getNovaServersDetail"],
     queryFn: getNovaServersDetail,
+    refetchInterval: 5000,
   });
 
   console.log("DEBUG servers", isPending, isError, data, error);

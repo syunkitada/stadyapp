@@ -4,16 +4,6 @@ import * as React from "react";
 
 import { CreateServerDialog } from "./create-server-dialog";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 
 import {
   ColumnDef,
@@ -49,7 +39,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<any>[] = [
   {
     id: "select",
     header: ({ table }) => (

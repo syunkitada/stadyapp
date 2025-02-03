@@ -119,10 +119,12 @@ func (self *API) CreateKeystoneApplicationCredential(
 
 	expiresAt := time.Now().Add(time.Hour * 24)
 	if input.ApplicationCredential.ExpiresAt != nil {
+		fmt.Println("input.ApplicationCredential.ExpiresAt", *input.ApplicationCredential.ExpiresAt)
 		expiresAt, err = time.Parse("2006-01-02T15:04:05", *input.ApplicationCredential.ExpiresAt)
 		if err != nil {
 			return nil, tlog.Err(ctx, err)
 		}
+		fmt.Println("input.ApplicationCredential.ExpiresAt", expiresAt)
 	}
 
 	authData := iam_auth.AuthData{

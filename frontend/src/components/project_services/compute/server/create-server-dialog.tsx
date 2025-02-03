@@ -4,6 +4,10 @@ import { FormServerFlavorField } from "./form-server-flavor-field";
 import { FormServerImageField } from "./form-server-image-field";
 import { FormServerNameField } from "./form-server-name-field";
 import { FormServerNetworkField } from "./form-server-network-field";
+import {
+  createNovaServer,
+  CreateServerRequest,
+} from "@/clients/compute/sdk.gen";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,6 +20,8 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import * as React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -35,6 +41,10 @@ const formSchema = z.object({
 });
 
 export function CreateServerDialog() {
+  const [open, setOpen] = React.useState(false);
+
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,12 +55,49 @@ export function CreateServerDialog() {
     },
   });
 
+  const mutation = useMutation({
+    mutationFn: (data: CreateServerRequest) => createNovaServer({ body: data }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getNovaServersDetail"],
+      });
+      setOpen(false);
+    },
+    onError: (err: any) => {
+      console.log("error", err);
+    },
+  });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const req: CreateServerRequest = {
+      server: {
+        name: values.name,
+        min_count: 1,
+        max_count: 1,
+        networks: [{ uuid: values.network }],
+        flavorRef: values.flavor,
+        imageRef: values.image,
+        block_device_mapping_v2: [
+          {
+            uuid: values.image,
+            boot_index: 0,
+            source_type: "image",
+            destination_type: "local",
+            delete_on_termination: true,
+          },
+        ],
+      },
+    };
+    mutation.mutate(req);
     console.log("dialog onSubmit", values);
+    console.log(values.name);
+    console.log(values.image);
+    console.log(values.flavor);
+    console.log(values.network);
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Create Server</Button>
       </DialogTrigger>
