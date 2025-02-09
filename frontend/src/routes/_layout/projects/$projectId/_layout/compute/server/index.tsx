@@ -14,7 +14,7 @@ function RouteComponent() {
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["getNovaServersDetail"],
     queryFn: getNovaServersDetail,
-    refetchInterval: 5000,
+    refetchInterval: 10000,
   });
 
   console.log("DEBUG servers", isPending, isError, data, error);
