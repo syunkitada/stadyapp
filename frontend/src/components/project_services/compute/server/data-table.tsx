@@ -2,11 +2,12 @@
 
 import { CreateServerDialog } from "./create-server-dialog";
 import { DeleteServerDialog } from "./delete-server-dialog";
+import { StartServerDialog } from "./start-server-dialog";
+import { StopServerDialog } from "./stop-server-dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -22,7 +23,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -35,111 +35,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import * as React from "react";
 
-const columns: ColumnDef<any>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name
-          <ArrowUpDown />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  },
-  {
-    accessorKey: "addresses",
-    header: () => <div className="text-left">Network</div>,
-    cell: ({ row }) => {
-      const addresses = row.getValue("addresses");
-      const addrs = [];
-      for (const [networkName, ports] of Object.entries(addresses)) {
-        const ips = [];
-        for (const [i, port] of ports.entries()) {
-          ips.push(port.addr);
-        }
-        addrs.push(`${networkName}: ${ips.join(",")}`);
-      }
-
-      return <div className="text-left">{addrs.join(",")}</div>;
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    header: () => <div className="text-left">Action</div>,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => {
-                console.log("delete", payment.id);
-              }}
-            >
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
 export function DataTable({ data }: { data: any[] }) {
+  const [openStartDialog, setOpenStartDialog] = React.useState(false);
+  const [openStopDialog, setOpenStopDialog] = React.useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const [actionTargetInstances, setActionTargetInstances] = React.useState([]);
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -147,6 +51,120 @@ export function DataTable({ data }: { data: any[] }) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+
+  const columns: ColumnDef<any>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Name
+            <ArrowUpDown />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("name")}</div>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("status")}</div>
+      ),
+    },
+    {
+      accessorKey: "addresses",
+      header: () => <div className="text-left">Network</div>,
+      cell: ({ row }) => {
+        const addresses = row.getValue("addresses");
+        const addrs = [];
+        for (const [networkName, ports] of Object.entries(addresses)) {
+          const ips = [];
+          for (const [i, port] of ports.entries()) {
+            ips.push(port.addr);
+          }
+          addrs.push(`${networkName}: ${ips.join(",")}`);
+        }
+        return <div className="text-left">{addrs.join(",")}</div>;
+      },
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      header: () => <div className="text-left">Action</div>,
+      cell: ({ row }) => {
+        const instance = row.original;
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => {
+                  setActionTargetInstances([instance]);
+                  setOpenStartDialog(true);
+                }}
+              >
+                Start
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  console.log("stop", instance.id);
+                  setActionTargetInstances([instance]);
+                  setOpenStopDialog(true);
+                }}
+              >
+                Stop
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  console.log("delete", instance.id);
+                  setActionTargetInstances([instance]);
+                  setOpenDeleteDialog(true);
+                }}
+              >
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
 
   const table = useReactTable({
     data,
@@ -169,6 +187,22 @@ export function DataTable({ data }: { data: any[] }) {
 
   return (
     <div className="w-full">
+      <StartServerDialog
+        open={openStartDialog}
+        setOpen={setOpenStartDialog}
+        targets={actionTargetInstances}
+      />
+      <StopServerDialog
+        open={openStopDialog}
+        setOpen={setOpenStopDialog}
+        targets={actionTargetInstances}
+      />
+      <DeleteServerDialog
+        open={openDeleteDialog}
+        setOpen={setOpenDeleteDialog}
+        targets={actionTargetInstances}
+      />
+
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter names..."

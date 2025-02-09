@@ -9,7 +9,7 @@ import { z } from "zod";
 
 const formSchema = z.object({});
 
-export function DeleteServerDialog({
+export function StartServerDialog({
   open,
   setOpen,
   targets,
@@ -38,6 +38,8 @@ export function DeleteServerDialog({
     },
   });
 
+  console.log("StartServerDialog", targets);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("delete onSubmit", values);
     mutation.mutate(targets[0].id);
@@ -45,9 +47,9 @@ export function DeleteServerDialog({
 
   return (
     <ActionServerDialog
-      title="Delete"
-      description="Delete Server"
-      submitName="Delete"
+      title="Start"
+      description="Start Server"
+      submitName="Start"
       open={open}
       setOpen={setOpen}
       targets={targets}
