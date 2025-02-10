@@ -5,6 +5,7 @@ import { deleteNovaServerById } from "@/clients/compute/sdk.gen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({});
@@ -31,6 +32,7 @@ export function DeleteServerDialog({
       queryClient.invalidateQueries({
         queryKey: ["getNovaServersDetail"],
       });
+      toast.success("Requested to delete server");
       setOpen(false);
     },
     onError: (err: any) => {
@@ -53,6 +55,7 @@ export function DeleteServerDialog({
       targets={targets}
       onSubmit={onSubmit}
       form={form}
+      mutation={mutation}
     />
   );
 }

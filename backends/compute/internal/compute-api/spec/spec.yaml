@@ -46,6 +46,8 @@ paths:
     $ref: "./paths/nova_servers.yaml#/servers"
   /nova/v2.1/servers/{id}:
     $ref: "./paths/nova_servers.yaml#/servers_id"
+  /nova/v2.1/servers/{id}/action:
+    $ref: "./paths/nova_servers.yaml#/servers_id_action"
   /nova/v2.1/servers/detail:
     $ref: "./paths/nova_servers.yaml#/servers_detail"
   /nova/v2.1/flavors:

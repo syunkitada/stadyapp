@@ -109,6 +109,7 @@ export function FormServerFlavorField({ form }: { form: any }) {
                         value={flavor.id}
                         key={flavor.id}
                         onSelect={() => {
+                          console.log("DEBUG flavor", flavor.id);
                           form.setValue("flavor", flavor.id);
                           setOpen(false);
                         }}

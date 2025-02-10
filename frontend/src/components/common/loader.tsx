@@ -1,19 +1,11 @@
 "use client";
 
-import reactLogo from "../../assets/react.svg";
-
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-
+import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import PuffLoader from "react-spinners/PuffLoader";
+
+export function ButtonLoader() {
+  return <PuffLoader color="#05bcf6" size={20} />;
+}
 
 export function Loader() {
   return <PuffLoader color="#05bcf6" size={80} />;

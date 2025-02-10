@@ -1,0 +1,56 @@
+# Note
+
+## コア知識
+
+- frontend
+  - HTML/CSS/JavaScriptのコア知識
+    - これらを直接使うことは少ないと思うが、知識として必要である
+    - [MDN: HTML](https://developer.mozilla.org/ja/docs/Web/HTML)
+    - [MDN: CSS](https://developer.mozilla.org/ja/docs/Web/CSS)
+    - [MDN: JavaScript](https://developer.mozilla.org/ja/docs/Web/JavaScript)
+  - TypeScript/Reactを始めるためのプロジェクトのビルド管理ツール
+    - [Vite](https://vite.dev/guide/)
+  - TypeScript/Reactのコア知識
+    - TypeScript
+      - TODO
+    - React
+      - [Recruit: React研修](https://speakerdeck.com/recruitengineers/react-yan-xiu-2024)
+  - ディレクトリ構成
+    - [full-stack-fastapi-template/frontend](https://github.com/fastapi/full-stack-fastapi-template/tree/master/frontend)
+  - React UI フレームワーク
+    - [shadcn](https://ui.shadcn.com/docs)
+      - RadixuiとTailwindCSSを用いて開発されたコンポーネント集
+    - shadcnで使われている関連ライブラリ
+      - [Radixui](https://www.radix-ui.com/primitives/docs/overview/introduction)
+        - headless UIコンポーネント
+      - [TailwindCSS](https://tailwindcss.com/docs)
+        - CSSフレームワーク
+  - Routerライブラリ
+    - [tanstack/router](https://tanstack.com/router/latest)
+      - 参考
+        - [TanStack Router（& Query）はSPA開発で求めていたものだった: 【Reactのルーティングとデータ取得】](https://zenn.dev/aishift/articles/ad1744836509dd)
+  - Query関連
+    - [tanstack/query](https://tanstack.com/query/latest/docs/framework/react/overview)
+      - 参考
+        - [TanStack Query　〜プロダクトで採用するための勘所〜](https://zenn.dev/taisei_13046/books/133e9995b6aadf)
+    - [@hey-api/openapi-ts](https://heyapi.dev/openapi-ts/get-started)
+      - OpenAPI to TypeScript codegenerator
+  - Form関連
+    - [React Hook Form](https://react-hook-form.com/get-started)
+      - フォームの状態管理
+    - [zod](https://zod.dev/)
+      - フォームバリデーション用のライブラリ
+  - Table関連
+    - [tanstack/table](https://tanstack.com/table/latest/docs/introduction)
+      - 参考
+        - [実装例から見る Tanstack Table の使い方](https://zenn.dev/counterworks/articles/tanstack-table-design-pattern)
+    - [Design better data tables](https://coyleandrew.medium.com/design-better-data-tables-4ecc99d23356)
+- backend
+  - Golangのコア知識
+    - [Go Tour](https://go.dev/tour/list)
+  - OpenStackのコア知識
+    - [OpenStack Installation Guide](https://docs.openstack.org/install-guide/)
+  - セキュリティまわり
+    - [安全なウェブサイトの作り方](https://www.ipa.go.jp/security/vuln/websecurity/about.html)
+    - [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy)
+    - [golang-jwt](https://github.com/golang-jwt/jwt)

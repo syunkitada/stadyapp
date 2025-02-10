@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"time"
+
 	"github.com/labstack/echo/v4"
 
 	"github.com/syunkitada/stadyapp/backends/compute/internal/compute-api/spec/oapi"
@@ -61,5 +63,10 @@ func (self *Handler) CreateNovaExternalEvents(ectx echo.Context) error {
 }
 
 func (self *Handler) CreateNovaFlavor(ectx echo.Context) error {
+	return proxy(ectx, self.conf.Compute.ProxyCatalog.Nova)
+}
+
+func (self *Handler) ActionNovaServer(ectx echo.Context, id string) error {
+	time.Sleep(10 * time.Second)
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Nova)
 }

@@ -4,10 +4,8 @@ import { FormServerFlavorField } from "./form-server-flavor-field";
 import { FormServerImageField } from "./form-server-image-field";
 import { FormServerNameField } from "./form-server-name-field";
 import { FormServerNetworkField } from "./form-server-network-field";
-import {
-  createNovaServer,
-  CreateServerRequest,
-} from "@/clients/compute/sdk.gen";
+import { createNovaServer } from "@/clients/compute/sdk.gen";
+import { CreateServerRequest } from "@/clients/compute/types.gen";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

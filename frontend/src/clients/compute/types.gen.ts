@@ -152,6 +152,15 @@ export type NeutronNetworkResponse = {
     network?: NeutronNetwork;
 };
 
+export type ActionServerRequest = {
+    'os-stop'?: {
+        [key: string]: unknown;
+    } | null;
+    'os-start'?: {
+        [key: string]: unknown;
+    } | null;
+};
+
 export type NovaServersDetailResponse = {
     servers?: Array<{
         id?: string;
@@ -727,6 +736,40 @@ export type GetNovaServerByIdResponses = {
 };
 
 export type GetNovaServerByIdResponse = GetNovaServerByIdResponses[keyof GetNovaServerByIdResponses];
+
+export type ActionNovaServerData = {
+    body: ActionServerRequest;
+    path: {
+        /**
+         * ID of glance image to fetch
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/nova/v2.1/servers/{id}/action';
+};
+
+export type ActionNovaServerErrors = {
+    /**
+     * unexpected error
+     */
+    '4XX': _Error;
+    /**
+     * unexpected error
+     */
+    default: _Error;
+};
+
+export type ActionNovaServerError = ActionNovaServerErrors[keyof ActionNovaServerErrors];
+
+export type ActionNovaServerResponses = {
+    /**
+     * neutron network response
+     */
+    200: NeutronNetworkResponse;
+};
+
+export type ActionNovaServerResponse = ActionNovaServerResponses[keyof ActionNovaServerResponses];
 
 export type GetNovaServersDetailData = {
     body?: never;
@@ -1995,3 +2038,7 @@ export type GetPlacementAllocationCandidatesResponses = {
 };
 
 export type GetPlacementAllocationCandidatesResponse = GetPlacementAllocationCandidatesResponses[keyof GetPlacementAllocationCandidatesResponses];
+
+export type ClientOptions = {
+    baseURL: 'http://127.0.0.1' | (string & {});
+};

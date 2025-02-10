@@ -64,6 +64,36 @@ servers_id:
       default:
         $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
 
+servers_id_action:
+  post:
+    summary: Get detailed information about networks
+    description: Retrieves a detailed list of networks with their attributes.
+    operationId: actionNovaServer
+    parameters:
+      - name: id
+        in: path
+        description: ID of glance image to fetch
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/nova_server.yaml#/ActionServerRequest"
+    responses:
+      200:
+        description: neutron network response
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/neutron_network.yaml#/NeutronNetworkResponse"
+      4XX:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/4XX"
+      default:
+        $ref: "../../../../../libs/openapi_common/schemas/error.yaml#/default"
+
 servers_detail:
   get:
     summary: Get nova servers

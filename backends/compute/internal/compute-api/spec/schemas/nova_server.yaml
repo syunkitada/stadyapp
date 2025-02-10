@@ -310,3 +310,15 @@ NovaServersDetailResponse:
           host_status:
             type: string
             example: ""
+
+ActionServerRequest:
+  type: object
+  properties:
+    os-stop:
+      type: object
+      nullable: true
+      example: null
+    os-start:
+      type: object
+      nullable: true
+      example: null

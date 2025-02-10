@@ -1636,3 +1636,7 @@ export type CreateKeystoneApplicationCredentialResponses = {
 };
 
 export type CreateKeystoneApplicationCredentialResponse = CreateKeystoneApplicationCredentialResponses[keyof CreateKeystoneApplicationCredentialResponses];
+
+export type ClientOptions = {
+    baseURL: 'http://127.0.0.1' | (string & {});
+};

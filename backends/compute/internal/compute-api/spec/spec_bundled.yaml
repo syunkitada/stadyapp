@@ -262,6 +262,35 @@ paths:
           $ref: '#/components/responses/4XX'
         default:
           $ref: '#/components/responses/default'
+  /nova/v2.1/servers/{id}/action:
+    post:
+      summary: Get detailed information about networks
+      description: Retrieves a detailed list of networks with their attributes.
+      operationId: actionNovaServer
+      parameters:
+        - name: id
+          in: path
+          description: ID of glance image to fetch
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionServerRequest'
+      responses:
+        '200':
+          description: neutron network response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NeutronNetworkResponse'
+        4XX:
+          $ref: '#/components/responses/4XX'
+        default:
+          $ref: '#/components/responses/default'
   /nova/v2.1/servers/detail:
     get:
       summary: Get nova servers
@@ -1493,6 +1522,17 @@ components:
       properties:
         network:
           $ref: '#/components/schemas/NeutronNetwork'
+    ActionServerRequest:
+      type: object
+      properties:
+        os-stop:
+          type: object
+          nullable: true
+          example: null
+        os-start:
+          type: object
+          nullable: true
+          example: null
     NovaServersDetailResponse:
       type: object
       properties:
