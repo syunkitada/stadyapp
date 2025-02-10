@@ -185,22 +185,30 @@ export function DataTable({ data }: { data: any[] }) {
     },
   });
 
+  const actionTargets: any[] = [];
+  for (const [i, entry] of Object.entries(rowSelection)) {
+    actionTargets.push(data[i]);
+  }
+
   return (
     <div className="w-full">
       <StartServerDialog
         open={openStartDialog}
         setOpen={setOpenStartDialog}
         targets={actionTargetInstances}
+        setTargets={setActionTargetInstances}
       />
       <StopServerDialog
         open={openStopDialog}
         setOpen={setOpenStopDialog}
         targets={actionTargetInstances}
+        setTargets={setActionTargetInstances}
       />
       <DeleteServerDialog
         open={openDeleteDialog}
         setOpen={setOpenDeleteDialog}
         targets={actionTargetInstances}
+        setTargets={setActionTargetInstances}
       />
 
       <div className="flex items-center py-4">
@@ -213,6 +221,44 @@ export function DataTable({ data }: { data: any[] }) {
           className="max-w-sm"
         />
         <CreateServerDialog />
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" disabled={actionTargets.length == 0}>
+              <span>Selected Actions</span>
+              <MoreHorizontal />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => {
+                setActionTargetInstances(actionTargets);
+                setOpenStartDialog(true);
+              }}
+            >
+              Start
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                setActionTargetInstances(actionTargets);
+                setOpenStopDialog(true);
+              }}
+            >
+              Stop
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                setActionTargetInstances(actionTargets);
+                setOpenDeleteDialog(true);
+              }}
+            >
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="rounded-md border">
         <Table>

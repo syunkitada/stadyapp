@@ -52,11 +52,12 @@ export function DialogDataTable({ data }: { data: any[] }) {
       ),
     },
     {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("status")}</div>
-      ),
+      accessorKey: "actionStatus",
+      header: "Action Status",
+      cell: ({ row }) => {
+        console.log("DEBUG DialogDataTable row", row.original.actionStatus);
+        return <div className="capitalize">{row.original.actionStatus}</div>;
+      },
     },
   ];
 

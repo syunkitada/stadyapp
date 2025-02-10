@@ -4,6 +4,7 @@ import { ActionServerDialog } from "./action-server-dialog";
 import { actionNovaServer } from "@/clients/compute/sdk.gen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import * as React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -14,11 +15,15 @@ export function StartServerDialog({
   open,
   setOpen,
   targets,
+  setTargets,
 }: {
   open: any;
   setOpen: any;
   targets: any[];
+  setTargets: any;
 }) {
+  console.log("DEBUG StartServerDialog", targets);
+
   const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -27,32 +32,41 @@ export function StartServerDialog({
   });
 
   const mutation = useMutation({
-    mutationFn: (id: string) =>
+    mutationFn: ({ index, id }: { index: number; id: string }) =>
       actionNovaServer({ path: { id }, body: { "os-start": null } }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["getNovaServersDetail"],
-      });
-
-      const targetStrs = targets.map((target) => {
-        return target.name;
-      });
-
-      toast.success("Requested to start server", {
-        description: `Servers: ${targetStrs.join(",")}`,
-      });
-      setOpen(false);
+    onSuccess: (data, variables, context) => {
+      targets[variables.index].actionStatus = "Processed";
+      setTargets(targets);
     },
     onError: (err: any) => {
-      console.log("error", err);
+      console.log("start onerror", err);
     },
   });
 
-  console.log("StartServerDialog", targets);
-
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("delete onSubmit", values);
-    mutation.mutate(targets[0].id);
+    for (const [index, target] of targets.entries()) {
+      targets[index].actionStatus = "Requesting";
+    }
+    setTargets(targets);
+
+    for (const [index, target] of targets.entries()) {
+      console.log("DEBUG start index", index);
+      mutation.mutate(
+        { index: index, id: target.id },
+        {
+          onSuccess: (data, variables, context) => {
+            queryClient.invalidateQueries({
+              queryKey: ["getNovaServersDetail"],
+            });
+            toast.success("Requested to start server");
+          },
+          onError: (error, variables, context) => {
+            console.log("DEBUG start onError", index, target.id);
+          },
+        },
+      );
+    }
+    console.log("delete onSubmit2", values);
   }
 
   return (

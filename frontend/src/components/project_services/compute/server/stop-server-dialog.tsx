@@ -4,6 +4,7 @@ import { ActionServerDialog } from "./action-server-dialog";
 import { actionNovaServer } from "@/clients/compute/sdk.gen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import * as React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -14,10 +15,12 @@ export function StopServerDialog({
   open,
   setOpen,
   targets,
+  setTargets,
 }: {
   open: any;
   setOpen: any;
   targets: any[];
+  setTargets: any;
 }) {
   const queryClient = useQueryClient();
 
@@ -27,21 +30,11 @@ export function StopServerDialog({
   });
 
   const mutation = useMutation({
-    mutationFn: (id: string) =>
+    mutationFn: ({ index, id }: { index: number; id: string }) =>
       actionNovaServer({ path: { id }, body: { "os-stop": null } }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["getNovaServersDetail"],
-      });
-
-      const targetStrs = targets.map((target) => {
-        return target.name;
-      });
-
-      toast.success("Requested to stop server", {
-        description: `Servers: ${targetStrs.join(",")}`,
-      });
-      setOpen(false);
+    onSuccess: (data, variables, context) => {
+      targets[variables.index].actionStatus = "Processed";
+      setTargets(targets);
     },
     onError: (err: any) => {
       console.log("error", err);
@@ -51,8 +44,29 @@ export function StopServerDialog({
   console.log("StopServerDialog", targets);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("delete onSubmit", values);
-    mutation.mutate(targets[0].id);
+    for (const [index, target] of targets.entries()) {
+      targets[index].actionStatus = "Requesting";
+    }
+    setTargets(targets);
+
+    for (const [index, target] of targets.entries()) {
+      console.log("DEBUG stop index", index);
+      mutation.mutate(
+        { index: index, id: target.id },
+        {
+          onSuccess: (data, variables, context) => {
+            queryClient.invalidateQueries({
+              queryKey: ["getNovaServersDetail"],
+            });
+            toast.success("Requested to stop server");
+          },
+          onError: () => {
+            console.log("DEBUG stop onError", index, target.id);
+          },
+        },
+      );
+    }
+    console.log("delete onSubmit2", values);
   }
 
   return (

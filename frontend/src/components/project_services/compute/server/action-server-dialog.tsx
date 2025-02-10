@@ -55,7 +55,15 @@ export function ActionServerDialog({
                   </Button>
                 </>
               ) : (
-                <Button type="submit">{submitName}</Button>
+                <>
+                  {mutation.isSuccess ? (
+                    <Button type="submit" disabled>
+                      Successed
+                    </Button>
+                  ) : (
+                    <Button type="submit">{submitName}</Button>
+                  )}
+                </>
               )}
             </DialogFooter>
           </form>

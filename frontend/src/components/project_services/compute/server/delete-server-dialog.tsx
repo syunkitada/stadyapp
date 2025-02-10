@@ -14,10 +14,12 @@ export function DeleteServerDialog({
   open,
   setOpen,
   targets,
+  setTargets,
 }: {
   open: any;
   setOpen: any;
   targets: any[];
+  setTargets: any;
 }) {
   const queryClient = useQueryClient();
 
