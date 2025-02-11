@@ -1,6 +1,5 @@
 "use client";
 
-import {Link} from "@tanstack/react-router";
 import { CreateServerDialog } from "./create-server-dialog";
 import { DeleteServerDialog } from "./delete-server-dialog";
 import { StartServerDialog } from "./start-server-dialog";
@@ -25,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useActionTargets, ACTION_STATUS } from "@/hooks/useCompute";
+import { Link } from "@tanstack/react-router";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -96,7 +96,9 @@ export function DataTable({ data }: { data: any[] }) {
         );
       },
       cell: ({ row }) => (
-        <Link to={`/projects/$projectId/compute/server/${row.original.id}`}>
+        <Link
+          to={`/projects/$projectId/compute/server/${row.original.id}/detail`}
+        >
           <div className="lowercase">{row.getValue("name")}</div>
         </Link>
       ),
