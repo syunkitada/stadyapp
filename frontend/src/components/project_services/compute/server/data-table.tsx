@@ -43,8 +43,12 @@ export function DataTable({ data }: { data: any[] }) {
   const [openStartDialog, setOpenStartDialog] = React.useState(false);
   const [openStopDialog, setOpenStopDialog] = React.useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-  const [actionTargets, setInitActionTargets, setActionTargets, setActionTargetStatus] =
-    useActionTargets();
+  const [
+    actionTargets,
+    setInitActionTargets,
+    setActionTargets,
+    setActionTargetStatus,
+  ] = useActionTargets();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -123,6 +127,7 @@ export function DataTable({ data }: { data: any[] }) {
       header: () => <div className="text-left">Action</div>,
       cell: ({ row }) => {
         const instance = row.original;
+        console.log("DEBUG instance action", instance);
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -135,7 +140,7 @@ export function DataTable({ data }: { data: any[] }) {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => {
-                  setInitActionTargets([instance]);
+                  setInitActionTargets([row]);
                   setOpenStartDialog(true);
                 }}
               >
@@ -144,8 +149,7 @@ export function DataTable({ data }: { data: any[] }) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  console.log("stop", instance.id);
-                  setInitActionTargets([instance]);
+                  setInitActionTargets([row]);
                   setOpenStopDialog(true);
                 }}
               >
@@ -154,8 +158,7 @@ export function DataTable({ data }: { data: any[] }) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  console.log("delete", instance.id);
-                  setInitActionTargets([instance]);
+                  setInitActionTargets([row]);
                   setOpenDeleteDialog(true);
                 }}
               >
@@ -224,7 +227,12 @@ export function DataTable({ data }: { data: any[] }) {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" disabled={!table.getIsSomeRowsSelected()}>
+            <Button
+              variant="outline"
+              disabled={
+                !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
+              }
+            >
               <span>Selected Actions</span>
               <MoreHorizontal />
             </Button>
