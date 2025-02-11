@@ -1,5 +1,6 @@
 "use client";
 
+import { ButtonLoader } from "@/components/common/loader";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -56,7 +57,18 @@ export function DialogDataTable({ data }: { data: any[] }) {
       header: "Action Status",
       cell: ({ row }) => {
         console.log("DEBUG DialogDataTable row", row.original.actionStatus);
-        return <div className="capitalize">{row.original.actionStatus}</div>;
+        return (
+          <div className="capitalize">
+            {row.original.actionStatus}
+            {row.original.actionStatus == "Processing" ? (
+              <span>
+                <ButtonLoader />
+              </span>
+            ) : (
+              <></>
+            )}
+          </div>
+        );
       },
     },
   ];

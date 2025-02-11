@@ -24,8 +24,6 @@ export function StartServerDialog({
 }) {
   console.log("DEBUG StartServerDialog", targets);
 
-  const queryClient = useQueryClient();
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {},
@@ -45,7 +43,7 @@ export function StartServerDialog({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     for (const [index, target] of targets.entries()) {
-      targets[index].actionStatus = "Requesting";
+      targets[index].actionStatus = "Processing";
     }
     setTargets(targets);
 
@@ -79,7 +77,6 @@ export function StartServerDialog({
       targets={targets}
       onSubmit={onSubmit}
       form={form}
-      mutation={mutation}
     />
   );
 }

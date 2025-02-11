@@ -185,11 +185,6 @@ export function DataTable({ data }: { data: any[] }) {
     },
   });
 
-  const actionTargets: any[] = [];
-  for (const [i, entry] of Object.entries(rowSelection)) {
-    actionTargets.push(data[i]);
-  }
-
   return (
     <div className="w-full">
       <StartServerDialog
@@ -224,7 +219,7 @@ export function DataTable({ data }: { data: any[] }) {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" disabled={actionTargets.length == 0}>
+            <Button variant="outline" disabled={!table.getIsSomeRowsSelected()}>
               <span>Selected Actions</span>
               <MoreHorizontal />
             </Button>
@@ -233,6 +228,12 @@ export function DataTable({ data }: { data: any[] }) {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => {
+                const actionTargets: any[] = [];
+                for (const [i, entry] of Object.entries(rowSelection)) {
+                  const tmpData = data[i];
+                  tmpData.actionStatus = "";
+                  actionTargets.push(tmpData);
+                }
                 setActionTargetInstances(actionTargets);
                 setOpenStartDialog(true);
               }}
@@ -242,6 +243,12 @@ export function DataTable({ data }: { data: any[] }) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
+                const actionTargets: any[] = [];
+                for (const [i, entry] of Object.entries(rowSelection)) {
+                  const tmpData = data[i];
+                  tmpData.actionStatus = "";
+                  actionTargets.push(tmpData);
+                }
                 setActionTargetInstances(actionTargets);
                 setOpenStopDialog(true);
               }}
@@ -251,6 +258,12 @@ export function DataTable({ data }: { data: any[] }) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
+                const actionTargets: any[] = [];
+                for (const [i, entry] of Object.entries(rowSelection)) {
+                  const tmpData = data[i];
+                  tmpData.actionStatus = "";
+                  actionTargets.push(tmpData);
+                }
                 setActionTargetInstances(actionTargets);
                 setOpenDeleteDialog(true);
               }}

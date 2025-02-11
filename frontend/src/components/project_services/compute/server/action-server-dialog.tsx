@@ -22,7 +22,6 @@ export function ActionServerDialog({
   targets,
   onSubmit,
   form,
-  mutation,
 }: {
   title: string;
   description: string;
@@ -34,6 +33,23 @@ export function ActionServerDialog({
   onSubmit: any;
   mutation: any;
 }) {
+  let isProcessing = false;
+  let isProcessed = false;
+  let processed = 0;
+
+  for (const [_, target] of targets.entries()) {
+    if (target.actionStatus == "Processing") {
+      isProcessing = true;
+      break;
+    } else if (target.actionStatus == "Processed") {
+      processed += 1;
+    }
+  }
+
+  if (processed == targets.length) {
+    isProcessed = true;
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[800px]">
@@ -47,18 +63,20 @@ export function ActionServerDialog({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <DialogFooter>
-              {mutation.isPending ? (
+              {isProcessing ? (
                 <>
                   <Button type="submit" disabled>
-                    <ButtonLoader />
                     Processing
+                    <span>
+                      <ButtonLoader />
+                    </span>
                   </Button>
                 </>
               ) : (
                 <>
-                  {mutation.isSuccess ? (
+                  {isProcessed ? (
                     <Button type="submit" disabled>
-                      Successed
+                      Processed
                     </Button>
                   ) : (
                     <Button type="submit">{submitName}</Button>

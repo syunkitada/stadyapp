@@ -57,7 +57,6 @@ export function DeleteServerDialog({
       targets={targets}
       onSubmit={onSubmit}
       form={form}
-      mutation={mutation}
     />
   );
 }
