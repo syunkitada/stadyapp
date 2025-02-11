@@ -67,6 +67,6 @@ func (self *Handler) CreateNovaFlavor(ectx echo.Context) error {
 }
 
 func (self *Handler) ActionNovaServer(ectx echo.Context, id string) error {
-	time.Sleep(3 * time.Second)
+	time.Sleep(1 * time.Second)
 	return proxy(ectx, self.conf.Compute.ProxyCatalog.Nova)
 }

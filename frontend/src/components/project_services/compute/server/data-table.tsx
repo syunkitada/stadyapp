@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useActionTargets, ACTION_STATUS } from "@/hooks/useCompute";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -42,7 +43,8 @@ export function DataTable({ data }: { data: any[] }) {
   const [openStartDialog, setOpenStartDialog] = React.useState(false);
   const [openStopDialog, setOpenStopDialog] = React.useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-  const [actionTargetInstances, setActionTargetInstances] = React.useState([]);
+  const [actionTargets, setInitActionTargets, setActionTargets, setActionTargetStatus] =
+    useActionTargets();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -133,7 +135,7 @@ export function DataTable({ data }: { data: any[] }) {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => {
-                  setActionTargetInstances([instance]);
+                  setInitActionTargets([instance]);
                   setOpenStartDialog(true);
                 }}
               >
@@ -143,7 +145,7 @@ export function DataTable({ data }: { data: any[] }) {
               <DropdownMenuItem
                 onClick={() => {
                   console.log("stop", instance.id);
-                  setActionTargetInstances([instance]);
+                  setInitActionTargets([instance]);
                   setOpenStopDialog(true);
                 }}
               >
@@ -153,7 +155,7 @@ export function DataTable({ data }: { data: any[] }) {
               <DropdownMenuItem
                 onClick={() => {
                   console.log("delete", instance.id);
-                  setActionTargetInstances([instance]);
+                  setInitActionTargets([instance]);
                   setOpenDeleteDialog(true);
                 }}
               >
@@ -190,20 +192,23 @@ export function DataTable({ data }: { data: any[] }) {
       <StartServerDialog
         open={openStartDialog}
         setOpen={setOpenStartDialog}
-        targets={actionTargetInstances}
-        setTargets={setActionTargetInstances}
+        actionTargets={actionTargets}
+        setActionTargets={setActionTargets}
+        setActionTargetStatus={setActionTargetStatus}
       />
       <StopServerDialog
         open={openStopDialog}
         setOpen={setOpenStopDialog}
-        targets={actionTargetInstances}
-        setTargets={setActionTargetInstances}
+        actionTargets={actionTargets}
+        setActionTargets={setActionTargets}
+        setActionTargetStatus={setActionTargetStatus}
       />
       <DeleteServerDialog
         open={openDeleteDialog}
         setOpen={setOpenDeleteDialog}
-        targets={actionTargetInstances}
-        setTargets={setActionTargetInstances}
+        actionTargets={actionTargets}
+        setActionTargets={setActionTargets}
+        setActionTargetStatus={setActionTargetStatus}
       />
 
       <div className="flex items-center py-4">
@@ -228,13 +233,7 @@ export function DataTable({ data }: { data: any[] }) {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => {
-                const actionTargets: any[] = [];
-                for (const [i, entry] of Object.entries(rowSelection)) {
-                  const tmpData = data[i];
-                  tmpData.actionStatus = "";
-                  actionTargets.push(tmpData);
-                }
-                setActionTargetInstances(actionTargets);
+                setInitActionTargets(table.getSelectedRowModel().rows);
                 setOpenStartDialog(true);
               }}
             >
@@ -243,13 +242,7 @@ export function DataTable({ data }: { data: any[] }) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
-                const actionTargets: any[] = [];
-                for (const [i, entry] of Object.entries(rowSelection)) {
-                  const tmpData = data[i];
-                  tmpData.actionStatus = "";
-                  actionTargets.push(tmpData);
-                }
-                setActionTargetInstances(actionTargets);
+                setInitActionTargets(table.getSelectedRowModel().rows);
                 setOpenStopDialog(true);
               }}
             >
@@ -258,13 +251,7 @@ export function DataTable({ data }: { data: any[] }) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
-                const actionTargets: any[] = [];
-                for (const [i, entry] of Object.entries(rowSelection)) {
-                  const tmpData = data[i];
-                  tmpData.actionStatus = "";
-                  actionTargets.push(tmpData);
-                }
-                setActionTargetInstances(actionTargets);
+                setInitActionTargets(table.getSelectedRowModel().rows);
                 setOpenDeleteDialog(true);
               }}
             >

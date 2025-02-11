@@ -2,9 +2,9 @@
 
 import { ActionServerDialog } from "./action-server-dialog";
 import { actionNovaServer } from "@/clients/compute/sdk.gen";
+import { ACTION_STATUS, useReloadServers } from "@/hooks/useCompute";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import * as React from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -14,15 +14,17 @@ const formSchema = z.object({});
 export function StartServerDialog({
   open,
   setOpen,
-  targets,
-  setTargets,
+  actionTargets,
+  setActionTargets,
+  setActionTargetStatus,
 }: {
   open: any;
   setOpen: any;
-  targets: any[];
-  setTargets: any;
+  actionTargets: any[];
+  setActionTargets: any;
+  setActionTargetStatus: any;
 }) {
-  console.log("DEBUG StartServerDialog", targets);
+  const {reloadServers} = useReloadServers();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,38 +35,40 @@ export function StartServerDialog({
     mutationFn: ({ index, id }: { index: number; id: string }) =>
       actionNovaServer({ path: { id }, body: { "os-start": null } }),
     onSuccess: (data, variables, context) => {
-      targets[variables.index].actionStatus = "Processed";
-      setTargets(targets);
+      if (data.error) {
+        setActionTargetStatus(
+          variables.index,
+          ACTION_STATUS.ERROR,
+          data.message,
+        );
+      } else {
+        setActionTargetStatus(variables.index, ACTION_STATUS.PROCESSED, "");
+      }
     },
-    onError: (err: any) => {
-      console.log("start onerror", err);
+    onError: (error, variables, context) => {
+      console.error(error, variables, context);
+      setActionTargetStatus(variables.index, ACTION_STATUS.ERROR, "");
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    for (const [index, target] of targets.entries()) {
-      targets[index].actionStatus = "Processing";
-    }
-    setTargets(targets);
+    setActionTargets(actionTargets, ACTION_STATUS.PROCESSING);
 
-    for (const [index, target] of targets.entries()) {
-      console.log("DEBUG start index", index);
+    for (const [index, target] of actionTargets.entries()) {
       mutation.mutate(
         { index: index, id: target.id },
         {
           onSuccess: (data, variables, context) => {
-            queryClient.invalidateQueries({
-              queryKey: ["getNovaServersDetail"],
-            });
+            reloadServers();
             toast.success("Requested to start server");
           },
           onError: (error, variables, context) => {
-            console.log("DEBUG start onError", index, target.id);
+            console.error(error, variables, context);
+            toast.error("Failed to start server");
           },
         },
       );
     }
-    console.log("delete onSubmit2", values);
   }
 
   return (
@@ -74,7 +78,7 @@ export function StartServerDialog({
       submitName="Start"
       open={open}
       setOpen={setOpen}
-      targets={targets}
+      actionTargets={actionTargets}
       onSubmit={onSubmit}
       form={form}
     />

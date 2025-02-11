@@ -6,12 +6,14 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
+import { ACTION_STATUS } from "@/hooks/useCompute";
 
 export function ActionServerDialog({
   title,
@@ -19,7 +21,7 @@ export function ActionServerDialog({
   submitName,
   open,
   setOpen,
-  targets,
+  actionTargets,
   onSubmit,
   form,
 }: {
@@ -28,7 +30,7 @@ export function ActionServerDialog({
   submitName: string;
   open: any;
   setOpen: any;
-  targets: any[];
+  actionTargets: any[];
   form: any;
   onSubmit: any;
   mutation: any;
@@ -37,16 +39,18 @@ export function ActionServerDialog({
   let isProcessed = false;
   let processed = 0;
 
-  for (const [_, target] of targets.entries()) {
-    if (target.actionStatus == "Processing") {
+  for (const [_, target] of actionTargets.entries()) {
+    if (target.status == ACTION_STATUS.PROCESSING) {
       isProcessing = true;
       break;
-    } else if (target.actionStatus == "Processed") {
+    } else if (target.status == ACTION_STATUS.PROCESSED) {
+      processed += 1;
+    } else if (target.status == ACTION_STATUS.ERROR) {
       processed += 1;
     }
   }
 
-  if (processed == targets.length) {
+  if (processed == actionTargets.length) {
     isProcessed = true;
   }
 
@@ -58,15 +62,21 @@ export function ActionServerDialog({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
 
-        <DialogDataTable data={targets} />
+        <DialogDataTable data={actionTargets} />
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <DialogFooter>
+            <DialogFooter className="sm:justify-between">
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Close
+                </Button>
+              </DialogClose>
+
               {isProcessing ? (
                 <>
                   <Button type="submit" disabled>
-                    Processing
+                    {ACTION_STATUS.PROCESSING}
                     <span>
                       <ButtonLoader />
                     </span>
@@ -76,7 +86,7 @@ export function ActionServerDialog({
                 <>
                   {isProcessed ? (
                     <Button type="submit" disabled>
-                      Processed
+                      {ACTION_STATUS.PROCESSED}
                     </Button>
                   ) : (
                     <Button type="submit">{submitName}</Button>

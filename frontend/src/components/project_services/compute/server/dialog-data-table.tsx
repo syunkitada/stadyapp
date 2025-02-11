@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ACTION_STATUS } from "@/hooks/useCompute";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -56,11 +57,23 @@ export function DialogDataTable({ data }: { data: any[] }) {
       accessorKey: "actionStatus",
       header: "Action Status",
       cell: ({ row }) => {
-        console.log("DEBUG DialogDataTable row", row.original.actionStatus);
+        let statusClassName = "";
+        let status = row.original.status;
+        if (status == ACTION_STATUS.ERROR) {
+          statusClassName = "text-red-500";
+          let statusMessage = row.original.statusMessage;
+          if (statusMessage == "") {
+            statusMessage = "Unknown";
+          }
+          status = `${status}: ${statusMessage}`;
+        }
+        if (status == ACTION_STATUS.PROCESSED) {
+          statusClassName = "text-green-500";
+        }
         return (
           <div className="capitalize">
-            {row.original.actionStatus}
-            {row.original.actionStatus == "Processing" ? (
+            <span className={statusClassName}>{status}</span>
+            {row.original.status == ACTION_STATUS.PROCESSING ? (
               <span>
                 <ButtonLoader />
               </span>
