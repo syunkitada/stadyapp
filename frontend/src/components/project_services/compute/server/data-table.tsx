@@ -1,5 +1,6 @@
 "use client";
 
+import {Link} from "@tanstack/react-router";
 import { CreateServerDialog } from "./create-server-dialog";
 import { DeleteServerDialog } from "./delete-server-dialog";
 import { StartServerDialog } from "./start-server-dialog";
@@ -95,7 +96,9 @@ export function DataTable({ data }: { data: any[] }) {
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("name")}</div>
+        <Link to={`/projects/$projectId/compute/server/${row.original.id}`}>
+          <div className="lowercase">{row.getValue("name")}</div>
+        </Link>
       ),
     },
     {

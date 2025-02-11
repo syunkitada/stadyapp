@@ -33,7 +33,6 @@ export function ActionServerDialog({
   actionTargets: any[];
   form: any;
   onSubmit: any;
-  mutation: any;
 }) {
   let isProcessing = false;
   let isProcessed = false;

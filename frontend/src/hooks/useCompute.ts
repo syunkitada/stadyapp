@@ -1,6 +1,9 @@
 "use client";
 
-import { getNovaServersDetail } from "@/clients/compute/sdk.gen";
+import {
+  getNovaServersDetail,
+  getNovaServerById,
+} from "@/clients/compute/sdk.gen";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -73,5 +76,26 @@ export function useReloadServers() {
 
   return {
     reloadServers,
+  };
+}
+
+export function useServer({
+  id,
+  refreshInterval,
+}: {
+  id: string;
+  refreshInterval: number;
+}) {
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["getNovaServerById", { id }],
+    queryFn: () => getNovaServerById({ path: { id } }),
+    refetchInterval: refreshInterval,
+  });
+
+  return {
+    isPending,
+    isError,
+    data,
+    error,
   };
 }
