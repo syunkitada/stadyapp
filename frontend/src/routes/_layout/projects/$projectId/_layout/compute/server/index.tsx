@@ -7,6 +7,9 @@ export const Route = createFileRoute(
   "/_layout/projects/$projectId/_layout/compute/server/",
 )({
   component: RouteComponent,
+  loader: () => ({
+    crumb: "Server",
+  }),
 });
 
 function RouteComponent() {

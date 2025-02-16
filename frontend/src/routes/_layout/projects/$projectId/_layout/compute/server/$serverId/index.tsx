@@ -17,6 +17,9 @@ export const Route = createFileRoute(
 )({
   component: RouteComponent,
   validateSearch: searchSchema,
+  loader: () => ({
+    crumb: "Detail",
+  }),
 });
 
 function RouteComponent() {

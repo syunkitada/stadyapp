@@ -1,29 +1,28 @@
-import { Button } from "@/components/ui/button";
-
+import { Breadcrumbs } from "@/components/common/breadcrumbs";
+import { CenterLoader } from "@/components/common/loader";
 import { ProjectServicesSidebar } from "@/components/project-services-sidebar";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
-
-import { CenterLoader } from "@/components/common/loader";
-
 import useAuth from "@/hooks/useAuth";
+import {
+  useMatches,
+  isMatch,
+  Link,
+  Outlet,
+  createFileRoute,
+  redirect,
+} from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_layout/projects/$projectId/_layout")({
   component: RouteComponent,
+  loader: () => ({
+    crumb: "Project",
+  }),
 });
 
 function RouteComponent() {
@@ -45,19 +44,7 @@ function RouteComponent() {
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            <Breadcrumbs />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
