@@ -97,7 +97,7 @@ export function DataTable({ data }: { data: any[] }) {
       },
       cell: ({ row }) => (
         <Link
-          to={`/projects/$projectId/compute/server/${row.original.id}/detail`}
+          to={`/projects/$projectId/compute/server/${row.original.id}`}
         >
           <div className="lowercase">{row.getValue("name")}</div>
         </Link>
