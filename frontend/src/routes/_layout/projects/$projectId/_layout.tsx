@@ -20,9 +20,6 @@ import {
 
 export const Route = createFileRoute("/_layout/projects/$projectId/_layout")({
   component: RouteComponent,
-  loader: () => ({
-    crumb: "Project",
-  }),
 });
 
 function RouteComponent() {

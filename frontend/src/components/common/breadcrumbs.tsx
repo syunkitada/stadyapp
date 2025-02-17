@@ -20,21 +20,23 @@ export const Breadcrumbs = () => {
   );
 
   console.log("DEBUG matchesWithCrumbs", matchesWithCrumbs);
+  const breadcrumbs = [];
+  for (const [index, match] of matchesWithCrumbs.entries()) {
+    breadcrumbs.push(
+      <BreadcrumbItem key={index}>
+        <BreadcrumbLink asChild>
+          <Link from={match.fullPath}>{match.loaderData?.crumb}</Link>
+        </BreadcrumbLink>
+      </BreadcrumbItem>,
+    );
+    if (index + 1 < matchesWithCrumbs.length) {
+      breadcrumbs.push(<BreadcrumbSeparator key={`${index}_`} />);
+    }
+  }
 
   return (
     <Breadcrumb>
-      <BreadcrumbList>
-        {matchesWithCrumbs.map((match, i) => (
-          <>
-            <BreadcrumbItem key={i}>
-              <BreadcrumbLink href="#">
-                <Link from={match.fullPath}>{match.loaderData?.crumb}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            {i + 1 < matchesWithCrumbs.length ? <BreadcrumbSeparator /> : null}
-          </>
-        ))}
-      </BreadcrumbList>
+      <BreadcrumbList>{breadcrumbs}</BreadcrumbList>
     </Breadcrumb>
   );
 };

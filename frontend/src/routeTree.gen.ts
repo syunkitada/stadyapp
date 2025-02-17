@@ -23,14 +23,18 @@ import { Route as LayoutServicesLayoutIamProjectsIndexImport } from './routes/_l
 import { Route as LayoutServicesLayoutIamDomainsIndexImport } from './routes/_layout/services/_layout/iam/domains/index'
 import { Route as LayoutProjectsProjectIdLayoutComputeIndexImport } from './routes/_layout/projects/$projectId/_layout/compute/index'
 import { Route as LayoutProjectsProjectIdLayoutProjectDetailIndexImport } from './routes/_layout/projects/$projectId/_layout/project/detail/index'
-import { Route as LayoutProjectsProjectIdLayoutComputeServerIndexImport } from './routes/_layout/projects/$projectId/_layout/compute/server/index'
-import { Route as LayoutProjectsProjectIdLayoutComputeServerServerIdIndexImport } from './routes/_layout/projects/$projectId/_layout/compute/server/$serverId/index'
+import { Route as LayoutProjectsProjectIdLayoutComputeServerLayoutImport } from './routes/_layout/projects/$projectId/_layout/compute/server/_layout'
+import { Route as LayoutProjectsProjectIdLayoutComputeServerLayoutIndexImport } from './routes/_layout/projects/$projectId/_layout/compute/server/_layout/index'
+import { Route as LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexImport } from './routes/_layout/projects/$projectId/_layout/compute/server/_layout/$serverId/index'
 
 // Create Virtual Routes
 
 const LayoutServicesImport = createFileRoute('/_layout/services')()
 const LayoutProjectsProjectIdImport = createFileRoute(
   '/_layout/projects/$projectId',
+)()
+const LayoutProjectsProjectIdLayoutComputeServerImport = createFileRoute(
+  '/_layout/projects/$projectId/_layout/compute/server',
 )()
 
 // Create/Update Routes
@@ -82,6 +86,13 @@ const LayoutServicesLayoutIamIndexRoute =
     getParentRoute: () => LayoutServicesLayoutRoute,
   } as any)
 
+const LayoutProjectsProjectIdLayoutComputeServerRoute =
+  LayoutProjectsProjectIdLayoutComputeServerImport.update({
+    id: '/compute/server',
+    path: '/compute/server',
+    getParentRoute: () => LayoutProjectsProjectIdLayoutRoute,
+  } as any)
+
 const LayoutServicesLayoutIamProjectsIndexRoute =
   LayoutServicesLayoutIamProjectsIndexImport.update({
     id: '/iam/projects/',
@@ -110,18 +121,24 @@ const LayoutProjectsProjectIdLayoutProjectDetailIndexRoute =
     getParentRoute: () => LayoutProjectsProjectIdLayoutRoute,
   } as any)
 
-const LayoutProjectsProjectIdLayoutComputeServerIndexRoute =
-  LayoutProjectsProjectIdLayoutComputeServerIndexImport.update({
-    id: '/compute/server/',
-    path: '/compute/server/',
-    getParentRoute: () => LayoutProjectsProjectIdLayoutRoute,
+const LayoutProjectsProjectIdLayoutComputeServerLayoutRoute =
+  LayoutProjectsProjectIdLayoutComputeServerLayoutImport.update({
+    id: '/_layout',
+    getParentRoute: () => LayoutProjectsProjectIdLayoutComputeServerRoute,
   } as any)
 
-const LayoutProjectsProjectIdLayoutComputeServerServerIdIndexRoute =
-  LayoutProjectsProjectIdLayoutComputeServerServerIdIndexImport.update({
-    id: '/compute/server/$serverId/',
-    path: '/compute/server/$serverId/',
-    getParentRoute: () => LayoutProjectsProjectIdLayoutRoute,
+const LayoutProjectsProjectIdLayoutComputeServerLayoutIndexRoute =
+  LayoutProjectsProjectIdLayoutComputeServerLayoutIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => LayoutProjectsProjectIdLayoutComputeServerLayoutRoute,
+  } as any)
+
+const LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexRoute =
+  LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexImport.update({
+    id: '/$serverId/',
+    path: '/$serverId/',
+    getParentRoute: () => LayoutProjectsProjectIdLayoutComputeServerLayoutRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -205,12 +222,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutServicesLayoutIamProjectsIndexImport
       parentRoute: typeof LayoutServicesLayoutImport
     }
-    '/_layout/projects/$projectId/_layout/compute/server/': {
-      id: '/_layout/projects/$projectId/_layout/compute/server/'
+    '/_layout/projects/$projectId/_layout/compute/server': {
+      id: '/_layout/projects/$projectId/_layout/compute/server'
       path: '/compute/server'
       fullPath: '/projects/$projectId/compute/server'
-      preLoaderRoute: typeof LayoutProjectsProjectIdLayoutComputeServerIndexImport
+      preLoaderRoute: typeof LayoutProjectsProjectIdLayoutComputeServerImport
       parentRoute: typeof LayoutProjectsProjectIdLayoutImport
+    }
+    '/_layout/projects/$projectId/_layout/compute/server/_layout': {
+      id: '/_layout/projects/$projectId/_layout/compute/server/_layout'
+      path: '/compute/server'
+      fullPath: '/projects/$projectId/compute/server'
+      preLoaderRoute: typeof LayoutProjectsProjectIdLayoutComputeServerLayoutImport
+      parentRoute: typeof LayoutProjectsProjectIdLayoutComputeServerRoute
     }
     '/_layout/projects/$projectId/_layout/project/detail/': {
       id: '/_layout/projects/$projectId/_layout/project/detail/'
@@ -219,12 +243,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutProjectsProjectIdLayoutProjectDetailIndexImport
       parentRoute: typeof LayoutProjectsProjectIdLayoutImport
     }
-    '/_layout/projects/$projectId/_layout/compute/server/$serverId/': {
-      id: '/_layout/projects/$projectId/_layout/compute/server/$serverId/'
-      path: '/compute/server/$serverId'
+    '/_layout/projects/$projectId/_layout/compute/server/_layout/': {
+      id: '/_layout/projects/$projectId/_layout/compute/server/_layout/'
+      path: '/'
+      fullPath: '/projects/$projectId/compute/server/'
+      preLoaderRoute: typeof LayoutProjectsProjectIdLayoutComputeServerLayoutIndexImport
+      parentRoute: typeof LayoutProjectsProjectIdLayoutComputeServerLayoutImport
+    }
+    '/_layout/projects/$projectId/_layout/compute/server/_layout/$serverId/': {
+      id: '/_layout/projects/$projectId/_layout/compute/server/_layout/$serverId/'
+      path: '/$serverId'
       fullPath: '/projects/$projectId/compute/server/$serverId'
-      preLoaderRoute: typeof LayoutProjectsProjectIdLayoutComputeServerServerIdIndexImport
-      parentRoute: typeof LayoutProjectsProjectIdLayoutImport
+      preLoaderRoute: typeof LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexImport
+      parentRoute: typeof LayoutProjectsProjectIdLayoutComputeServerLayoutImport
     }
   }
 }
@@ -262,23 +293,53 @@ const LayoutServicesRouteWithChildren = LayoutServicesRoute._addFileChildren(
   LayoutServicesRouteChildren,
 )
 
+interface LayoutProjectsProjectIdLayoutComputeServerLayoutRouteChildren {
+  LayoutProjectsProjectIdLayoutComputeServerLayoutIndexRoute: typeof LayoutProjectsProjectIdLayoutComputeServerLayoutIndexRoute
+  LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexRoute: typeof LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexRoute
+}
+
+const LayoutProjectsProjectIdLayoutComputeServerLayoutRouteChildren: LayoutProjectsProjectIdLayoutComputeServerLayoutRouteChildren =
+  {
+    LayoutProjectsProjectIdLayoutComputeServerLayoutIndexRoute:
+      LayoutProjectsProjectIdLayoutComputeServerLayoutIndexRoute,
+    LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexRoute:
+      LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexRoute,
+  }
+
+const LayoutProjectsProjectIdLayoutComputeServerLayoutRouteWithChildren =
+  LayoutProjectsProjectIdLayoutComputeServerLayoutRoute._addFileChildren(
+    LayoutProjectsProjectIdLayoutComputeServerLayoutRouteChildren,
+  )
+
+interface LayoutProjectsProjectIdLayoutComputeServerRouteChildren {
+  LayoutProjectsProjectIdLayoutComputeServerLayoutRoute: typeof LayoutProjectsProjectIdLayoutComputeServerLayoutRouteWithChildren
+}
+
+const LayoutProjectsProjectIdLayoutComputeServerRouteChildren: LayoutProjectsProjectIdLayoutComputeServerRouteChildren =
+  {
+    LayoutProjectsProjectIdLayoutComputeServerLayoutRoute:
+      LayoutProjectsProjectIdLayoutComputeServerLayoutRouteWithChildren,
+  }
+
+const LayoutProjectsProjectIdLayoutComputeServerRouteWithChildren =
+  LayoutProjectsProjectIdLayoutComputeServerRoute._addFileChildren(
+    LayoutProjectsProjectIdLayoutComputeServerRouteChildren,
+  )
+
 interface LayoutProjectsProjectIdLayoutRouteChildren {
   LayoutProjectsProjectIdLayoutComputeIndexRoute: typeof LayoutProjectsProjectIdLayoutComputeIndexRoute
-  LayoutProjectsProjectIdLayoutComputeServerIndexRoute: typeof LayoutProjectsProjectIdLayoutComputeServerIndexRoute
+  LayoutProjectsProjectIdLayoutComputeServerRoute: typeof LayoutProjectsProjectIdLayoutComputeServerRouteWithChildren
   LayoutProjectsProjectIdLayoutProjectDetailIndexRoute: typeof LayoutProjectsProjectIdLayoutProjectDetailIndexRoute
-  LayoutProjectsProjectIdLayoutComputeServerServerIdIndexRoute: typeof LayoutProjectsProjectIdLayoutComputeServerServerIdIndexRoute
 }
 
 const LayoutProjectsProjectIdLayoutRouteChildren: LayoutProjectsProjectIdLayoutRouteChildren =
   {
     LayoutProjectsProjectIdLayoutComputeIndexRoute:
       LayoutProjectsProjectIdLayoutComputeIndexRoute,
-    LayoutProjectsProjectIdLayoutComputeServerIndexRoute:
-      LayoutProjectsProjectIdLayoutComputeServerIndexRoute,
+    LayoutProjectsProjectIdLayoutComputeServerRoute:
+      LayoutProjectsProjectIdLayoutComputeServerRouteWithChildren,
     LayoutProjectsProjectIdLayoutProjectDetailIndexRoute:
       LayoutProjectsProjectIdLayoutProjectDetailIndexRoute,
-    LayoutProjectsProjectIdLayoutComputeServerServerIdIndexRoute:
-      LayoutProjectsProjectIdLayoutComputeServerServerIdIndexRoute,
   }
 
 const LayoutProjectsProjectIdLayoutRouteWithChildren =
@@ -326,9 +387,10 @@ export interface FileRoutesByFullPath {
   '/projects/$projectId/compute': typeof LayoutProjectsProjectIdLayoutComputeIndexRoute
   '/services/iam/domains': typeof LayoutServicesLayoutIamDomainsIndexRoute
   '/services/iam/projects': typeof LayoutServicesLayoutIamProjectsIndexRoute
-  '/projects/$projectId/compute/server': typeof LayoutProjectsProjectIdLayoutComputeServerIndexRoute
+  '/projects/$projectId/compute/server': typeof LayoutProjectsProjectIdLayoutComputeServerLayoutRouteWithChildren
   '/projects/$projectId/project/detail': typeof LayoutProjectsProjectIdLayoutProjectDetailIndexRoute
-  '/projects/$projectId/compute/server/$serverId': typeof LayoutProjectsProjectIdLayoutComputeServerServerIdIndexRoute
+  '/projects/$projectId/compute/server/': typeof LayoutProjectsProjectIdLayoutComputeServerLayoutIndexRoute
+  '/projects/$projectId/compute/server/$serverId': typeof LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -339,9 +401,9 @@ export interface FileRoutesByTo {
   '/projects/$projectId/compute': typeof LayoutProjectsProjectIdLayoutComputeIndexRoute
   '/services/iam/domains': typeof LayoutServicesLayoutIamDomainsIndexRoute
   '/services/iam/projects': typeof LayoutServicesLayoutIamProjectsIndexRoute
-  '/projects/$projectId/compute/server': typeof LayoutProjectsProjectIdLayoutComputeServerIndexRoute
+  '/projects/$projectId/compute/server': typeof LayoutProjectsProjectIdLayoutComputeServerLayoutIndexRoute
   '/projects/$projectId/project/detail': typeof LayoutProjectsProjectIdLayoutProjectDetailIndexRoute
-  '/projects/$projectId/compute/server/$serverId': typeof LayoutProjectsProjectIdLayoutComputeServerServerIdIndexRoute
+  '/projects/$projectId/compute/server/$serverId': typeof LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -357,9 +419,11 @@ export interface FileRoutesById {
   '/_layout/projects/$projectId/_layout/compute/': typeof LayoutProjectsProjectIdLayoutComputeIndexRoute
   '/_layout/services/_layout/iam/domains/': typeof LayoutServicesLayoutIamDomainsIndexRoute
   '/_layout/services/_layout/iam/projects/': typeof LayoutServicesLayoutIamProjectsIndexRoute
-  '/_layout/projects/$projectId/_layout/compute/server/': typeof LayoutProjectsProjectIdLayoutComputeServerIndexRoute
+  '/_layout/projects/$projectId/_layout/compute/server': typeof LayoutProjectsProjectIdLayoutComputeServerRouteWithChildren
+  '/_layout/projects/$projectId/_layout/compute/server/_layout': typeof LayoutProjectsProjectIdLayoutComputeServerLayoutRouteWithChildren
   '/_layout/projects/$projectId/_layout/project/detail/': typeof LayoutProjectsProjectIdLayoutProjectDetailIndexRoute
-  '/_layout/projects/$projectId/_layout/compute/server/$serverId/': typeof LayoutProjectsProjectIdLayoutComputeServerServerIdIndexRoute
+  '/_layout/projects/$projectId/_layout/compute/server/_layout/': typeof LayoutProjectsProjectIdLayoutComputeServerLayoutIndexRoute
+  '/_layout/projects/$projectId/_layout/compute/server/_layout/$serverId/': typeof LayoutProjectsProjectIdLayoutComputeServerLayoutServerIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -376,6 +440,7 @@ export interface FileRouteTypes {
     | '/services/iam/projects'
     | '/projects/$projectId/compute/server'
     | '/projects/$projectId/project/detail'
+    | '/projects/$projectId/compute/server/'
     | '/projects/$projectId/compute/server/$serverId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -402,9 +467,11 @@ export interface FileRouteTypes {
     | '/_layout/projects/$projectId/_layout/compute/'
     | '/_layout/services/_layout/iam/domains/'
     | '/_layout/services/_layout/iam/projects/'
-    | '/_layout/projects/$projectId/_layout/compute/server/'
+    | '/_layout/projects/$projectId/_layout/compute/server'
+    | '/_layout/projects/$projectId/_layout/compute/server/_layout'
     | '/_layout/projects/$projectId/_layout/project/detail/'
-    | '/_layout/projects/$projectId/_layout/compute/server/$serverId/'
+    | '/_layout/projects/$projectId/_layout/compute/server/_layout/'
+    | '/_layout/projects/$projectId/_layout/compute/server/_layout/$serverId/'
   fileRoutesById: FileRoutesById
 }
 
@@ -470,9 +537,8 @@ export const routeTree = rootRoute
       "parent": "/_layout/projects/$projectId",
       "children": [
         "/_layout/projects/$projectId/_layout/compute/",
-        "/_layout/projects/$projectId/_layout/compute/server/",
-        "/_layout/projects/$projectId/_layout/project/detail/",
-        "/_layout/projects/$projectId/_layout/compute/server/$serverId/"
+        "/_layout/projects/$projectId/_layout/compute/server",
+        "/_layout/projects/$projectId/_layout/project/detail/"
       ]
     },
     "/_layout/services/_layout/": {
@@ -495,17 +561,32 @@ export const routeTree = rootRoute
       "filePath": "_layout/services/_layout/iam/projects/index.tsx",
       "parent": "/_layout/services/_layout"
     },
-    "/_layout/projects/$projectId/_layout/compute/server/": {
-      "filePath": "_layout/projects/$projectId/_layout/compute/server/index.tsx",
-      "parent": "/_layout/projects/$projectId/_layout"
+    "/_layout/projects/$projectId/_layout/compute/server": {
+      "filePath": "_layout/projects/$projectId/_layout/compute/server",
+      "parent": "/_layout/projects/$projectId/_layout",
+      "children": [
+        "/_layout/projects/$projectId/_layout/compute/server/_layout"
+      ]
+    },
+    "/_layout/projects/$projectId/_layout/compute/server/_layout": {
+      "filePath": "_layout/projects/$projectId/_layout/compute/server/_layout.tsx",
+      "parent": "/_layout/projects/$projectId/_layout/compute/server",
+      "children": [
+        "/_layout/projects/$projectId/_layout/compute/server/_layout/",
+        "/_layout/projects/$projectId/_layout/compute/server/_layout/$serverId/"
+      ]
     },
     "/_layout/projects/$projectId/_layout/project/detail/": {
       "filePath": "_layout/projects/$projectId/_layout/project/detail/index.tsx",
       "parent": "/_layout/projects/$projectId/_layout"
     },
-    "/_layout/projects/$projectId/_layout/compute/server/$serverId/": {
-      "filePath": "_layout/projects/$projectId/_layout/compute/server/$serverId/index.tsx",
-      "parent": "/_layout/projects/$projectId/_layout"
+    "/_layout/projects/$projectId/_layout/compute/server/_layout/": {
+      "filePath": "_layout/projects/$projectId/_layout/compute/server/_layout/index.tsx",
+      "parent": "/_layout/projects/$projectId/_layout/compute/server/_layout"
+    },
+    "/_layout/projects/$projectId/_layout/compute/server/_layout/$serverId/": {
+      "filePath": "_layout/projects/$projectId/_layout/compute/server/_layout/$serverId/index.tsx",
+      "parent": "/_layout/projects/$projectId/_layout/compute/server/_layout"
     }
   }
 }
