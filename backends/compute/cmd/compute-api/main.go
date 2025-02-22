@@ -9,10 +9,10 @@ import (
 	"github.com/syunkitada/stadyapp/backends/compute/internal/compute-api/config"
 	"github.com/syunkitada/stadyapp/backends/compute/internal/compute-api/handler"
 	"github.com/syunkitada/stadyapp/backends/compute/internal/compute-api/spec/oapi"
-	"github.com/syunkitada/stadyapp/backends/compute/internal/libs/iam_auth"
-	"github.com/syunkitada/stadyapp/backends/compute/internal/libs/echo_server"
 	"github.com/syunkitada/stadyapp/backends/compute/internal/logic/api"
 	"github.com/syunkitada/stadyapp/backends/compute/internal/logic/db"
+	"github.com/syunkitada/stadyapp/backends/iam/pkg/libs/echo_server"
+	"github.com/syunkitada/stadyapp/backends/iam/pkg/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
@@ -45,7 +45,7 @@ func main() {
 	apiHandler := handler.NewHandler(&conf, api)
 
 	// This is how you set up a basic Echo router
-	echoServer := echo_server.New(ctx, nil, swagger, iamAuth)
+	echoServer := echo_server.New(ctx, &conf.Server, swagger, iamAuth)
 
 	// Use our validation middleware to check all requests against the
 	// OpenAPI schema.

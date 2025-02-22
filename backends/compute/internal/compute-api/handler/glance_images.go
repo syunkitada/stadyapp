@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"github.com/syunkitada/stadyapp/backends/compute/internal/compute-api/config"
-	"github.com/syunkitada/stadyapp/backends/compute/internal/libs/iam_auth"
+	"github.com/syunkitada/stadyapp/backends/iam/pkg/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 

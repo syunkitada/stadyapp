@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/syunkitada/stadyapp/backends/compute/internal/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/compute/internal/logic/db"
+	"github.com/syunkitada/stadyapp/backends/iam/pkg/libs/echo_server"
+	"github.com/syunkitada/stadyapp/backends/iam/pkg/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
@@ -11,6 +12,7 @@ type Config struct {
 	Logger  tlog.Config
 	IAMAuth iam_auth.Config
 	Compute Compute
+	Server  echo_server.Config
 }
 
 func GetDefaultConfig() Config {
@@ -18,6 +20,10 @@ func GetDefaultConfig() Config {
 		DB:      db.GetDefaultConfig(),
 		Logger:  tlog.GetDefaultConfig(),
 		IAMAuth: iam_auth.GetDefaultConfig(),
+		Server: echo_server.Config{
+			Port:         10082,
+			AllowOrigins: []string{"http://myapp.localhost.test:5173"},
+		},
 		Compute: Compute{
 			ProxyCatalog: ProxyCatalog{
 				Glance: Proxy{

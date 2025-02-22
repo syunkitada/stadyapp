@@ -1,10 +1,10 @@
 package api
 
 import (
+	"github.com/syunkitada/stadyapp/backends/compute/internal/compute-api/config"
 	"github.com/syunkitada/stadyapp/backends/compute/internal/domain/api"
 	"github.com/syunkitada/stadyapp/backends/compute/internal/domain/db"
-	"github.com/syunkitada/stadyapp/backends/compute/internal/compute-api/config"
-	"github.com/syunkitada/stadyapp/backends/compute/internal/libs/iam_auth"
+	"github.com/syunkitada/stadyapp/backends/iam/pkg/libs/iam_auth"
 )
 
 type API struct {
