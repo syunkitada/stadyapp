@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"github.com/syunkitada/stadyapp/backends/iam/internal/iam-api/spec/oapi"
-	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_auth"
+	"github.com/syunkitada/stadyapp/backends/iam/pkg/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 

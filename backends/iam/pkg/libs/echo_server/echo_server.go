@@ -12,12 +12,13 @@ import (
 	"github.com/labstack/gommon/log"
 	oapi_echo_middleware "github.com/oapi-codegen/echo-middleware"
 
-	"github.com/syunkitada/stadyapp/backends/iam/internal/libs/iam_auth"
+	"github.com/syunkitada/stadyapp/backends/iam/pkg/libs/iam_auth"
 	"github.com/syunkitada/stadyapp/backends/libs/pkg/tlog"
 )
 
 type Config struct {
-	Port int
+	Port         int
+	AllowOrigins []string
 }
 
 func New(ctx context.Context, conf *Config, swagger *openapi3.T, iamAuth *iam_auth.IAMAuth) *echo.Echo {
@@ -25,7 +26,7 @@ func New(ctx context.Context, conf *Config, swagger *openapi3.T, iamAuth *iam_au
 	echoServer := echo.New()
 
 	echoServer.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"https://myapp.localhost.test:11443", "http://myapp.localhost.test:5173"},
+		AllowOrigins:     conf.AllowOrigins,
 		AllowHeaders:     []string{"*"},
 		AllowMethods:     []string{"*"},
 		AllowCredentials: true,
