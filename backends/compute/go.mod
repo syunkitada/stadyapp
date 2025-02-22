@@ -12,7 +12,7 @@ require (
 	github.com/labstack/echo/v4 v4.13.3
 	github.com/oapi-codegen/runtime v1.1.1
 	github.com/stretchr/testify v1.10.0
-	github.com/syunkitada/stadyapp/backends/iam v0.0.0-20250222075820-452e1cc12e42
+	github.com/syunkitada/stadyapp/backends/iam v0.0.0-20250222081907-2f47cd1ef94c
 	github.com/syunkitada/stadyapp/backends/libs v0.0.0-20250222081907-2f47cd1ef94c
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12

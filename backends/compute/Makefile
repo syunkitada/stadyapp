@@ -31,5 +31,3 @@ mysql:
 
 mod:
 	go mod tidy
-	go get -v -u github.com/syunkitada/stadyapp/backends/libs@main
-	go get -v -u github.com/syunkitada/stadyapp/backends/iam@main
