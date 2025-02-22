@@ -67,6 +67,20 @@ func WithEchoContext(ectx echo.Context) context.Context {
 	return ctx
 }
 
+const HeaderXIdentityStatus = "x-identity-status"
+const HeaderXIdentityStatusConfirmed = "Confirmed"
+
+func AddAuthHeader(req *http.Request, authContext *AuthContext) {
+	req.Header.Add(HeaderXIdentityStatus, HeaderXIdentityStatusConfirmed)
+	req.Header.Add("x-user-domain-id", authContext.DomainID)
+	req.Header.Add("x-project-domain-id", authContext.DomainID)
+	req.Header.Add("x-user-id", authContext.UserID)
+	req.Header.Add("x-project-id", authContext.ProjectID)
+	req.Header.Add("x-service-catalog", authContext.CatalogJSON)
+	req.Header.Add("x-roles", authContext.RolesStr)
+	req.Header.Add("x-is-admin-project", "true")
+}
+
 func GetAuthContext(ctx context.Context) (*AuthContext, error) {
 	authCtx, ok := ctx.Value(KeyAuthContext).(*AuthContext)
 	if !ok {
