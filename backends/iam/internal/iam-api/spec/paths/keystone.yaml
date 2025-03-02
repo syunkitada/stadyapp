@@ -1,6 +1,7 @@
 v3:
   get:
     security: []
+    tags: ["cli"]
     summary: Get keystone version
     description: Get keystone version
     operationId: getKeystoneVersion

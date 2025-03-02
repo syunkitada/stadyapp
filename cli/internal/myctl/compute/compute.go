@@ -13,21 +13,21 @@ var RootCmd = &cobra.Command{
 	Short: "CLI for mycloudstack",
 }
 
-type Controller struct {
+type CLIController struct {
 	token string
 }
 
-func NewController() IController {
+func NewCLIController() ICLIController {
 	token := os.Getenv("OS_TOKEN")
 
-	return &Controller{token: token}
+	return &CLIController{token: token}
 }
 
-func (self *Controller) RequestEditorFn(ctx context.Context, req *http.Request) error {
+func (self *CLIController) RequestEditorFn(ctx context.Context, req *http.Request) error {
 	req.Header.Set("x-auth-token", self.token)
 	return nil
 }
 
-func (self *Controller) GetBaseURL() string {
+func (self *CLIController) GetBaseURL() string {
 	return "http://localhost:11080/api/compute"
 }

@@ -1598,164 +1598,87 @@ func (a UpdateKeystoneRoleInput_Role) MarshalJSON() ([]byte, error) {
 }
 
 var file string
-var controller IController
+var controller ICLIController
 
-type IController interface {
+type ICLIController interface {
 	GetBaseURL() string
 	RequestEditorFn(ctx context.Context, req *http.Request) error
+
+	GetKeystoneVersion(ctx context.Context, res *GetKeystoneVersionResponse, err error)
+
+	GetKeystoneDomains(ctx context.Context, res *GetKeystoneDomainsResponse, err error)
+
+	CreateKeystoneDomain(ctx context.Context, res *CreateKeystoneDomainResponse, err error)
+
+	DeleteKeystoneDomainByID(ctx context.Context, res *DeleteKeystoneDomainByIDResponse, err error)
+
+	GetKeystoneDomainByID(ctx context.Context, res *GetKeystoneDomainByIDResponse, err error)
+
+	UpdateKeystoneDomainByID(ctx context.Context, res *UpdateKeystoneDomainByIDResponse, err error)
+
+	UnassignKeystoneRoleFromUserDomain(ctx context.Context, res *UnassignKeystoneRoleFromUserDomainResponse, err error)
+
+	AssignKeystoneRoleToUserDomain(ctx context.Context, res *AssignKeystoneRoleToUserDomainResponse, err error)
+
+	CreateKeystoneApplicationCredential(ctx context.Context, res *CreateKeystoneApplicationCredentialResponse, err error)
+}
+
+var getCmd = &cobra.Command{
+	Use: "get",
+}
+
+var createCmd = &cobra.Command{
+	Use: "create",
+}
+
+var updateCmd = &cobra.Command{
+	Use: "update",
+}
+
+var deleteCmd = &cobra.Command{
+	Use: "delete",
 }
 
 var GetKeystoneDomainsName string
 
-var GetKeystoneGroupsName string
-
-var GetKeystoneProjectsName string
-var GetKeystoneProjectsTags []string
-
-var GetKeystoneRoleAssignmentsRoleId string
-var GetKeystoneRoleAssignmentsUserId string
-var GetKeystoneRoleAssignmentsScopeDomainId string
-var GetKeystoneRoleAssignmentsScopeProjectId string
-
-var GetKeystoneRolesName string
-
-var GetKeystoneUsersName string
-
-var GetPubkeysKind string
-
-var GetWebUserProjectId string
-
 func init() {
-	controller = NewController()
+	controller = NewCLIController()
 
-	RootCmd.AddCommand(GetKeystoneVersion)
-
-	RootCmd.AddCommand(CreateKeystoneFederationAuthToken)
-
-	CreateKeystoneToken.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
-	CreateKeystoneToken.MarkPersistentFlagRequired("file")
-
-	RootCmd.AddCommand(CreateKeystoneToken)
+	getCmd.AddCommand(GetKeystoneVersion)
 
 	GetKeystoneDomains.PersistentFlags().StringVarP(&GetKeystoneDomainsName, "name", "", "", "Filters the response by a domain name")
 
-	RootCmd.AddCommand(GetKeystoneDomains)
+	getCmd.AddCommand(GetKeystoneDomains)
 
 	CreateKeystoneDomain.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
 	CreateKeystoneDomain.MarkPersistentFlagRequired("file")
 
-	RootCmd.AddCommand(CreateKeystoneDomain)
+	createCmd.AddCommand(CreateKeystoneDomain)
 
-	RootCmd.AddCommand(DeleteKeystoneDomainByID)
+	deleteCmd.AddCommand(DeleteKeystoneDomainByID)
 
-	RootCmd.AddCommand(GetKeystoneDomainByID)
+	getCmd.AddCommand(GetKeystoneDomainByID)
 
 	UpdateKeystoneDomainByID.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
 	UpdateKeystoneDomainByID.MarkPersistentFlagRequired("file")
 
-	RootCmd.AddCommand(UpdateKeystoneDomainByID)
-
-	RootCmd.AddCommand(UnassignKeystoneRoleFromUserDomain)
-
-	RootCmd.AddCommand(AssignKeystoneRoleToUserDomain)
-
-	GetKeystoneGroups.PersistentFlags().StringVarP(&GetKeystoneGroupsName, "name", "", "", "Filters the response by a group name")
-
-	RootCmd.AddCommand(GetKeystoneGroups)
-
-	RootCmd.AddCommand(GetKeystoneGroupByID)
-
-	GetKeystoneProjects.PersistentFlags().StringVarP(&GetKeystoneProjectsName, "name", "", "", "Filters the response by a project name")
-
-	GetKeystoneProjects.PersistentFlags().StringSliceVarP(&GetKeystoneProjectsTags, "tags", "", nil, "Filters the response by tags")
-
-	RootCmd.AddCommand(GetKeystoneProjects)
-
-	CreateKeystoneProject.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
-	CreateKeystoneProject.MarkPersistentFlagRequired("file")
-
-	RootCmd.AddCommand(CreateKeystoneProject)
-
-	RootCmd.AddCommand(DeleteKeystoneProjectByID)
-
-	RootCmd.AddCommand(GetKeystoneProjectByID)
-
-	UpdateKeystoneProjectByID.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
-	UpdateKeystoneProjectByID.MarkPersistentFlagRequired("file")
-
-	RootCmd.AddCommand(UpdateKeystoneProjectByID)
-
-	RootCmd.AddCommand(UnassignKeystoneRoleFromGroupProject)
-
-	RootCmd.AddCommand(AssignKeystoneRoleToGroupProject)
-
-	RootCmd.AddCommand(UnassignKeystoneRoleFromUserProject)
-
-	RootCmd.AddCommand(AssignKeystoneRoleToUserProject)
-
-	GetKeystoneRoleAssignments.PersistentFlags().StringVarP(&GetKeystoneRoleAssignmentsRoleId, "roleid", "", "", "Filters the response by a role id")
-
-	GetKeystoneRoleAssignments.PersistentFlags().StringVarP(&GetKeystoneRoleAssignmentsUserId, "userid", "", "", "Filters the response by a user id")
-
-	GetKeystoneRoleAssignments.PersistentFlags().StringVarP(&GetKeystoneRoleAssignmentsScopeDomainId, "scopedomainid", "", "", "Filters the response by a domain id")
-
-	GetKeystoneRoleAssignments.PersistentFlags().StringVarP(&GetKeystoneRoleAssignmentsScopeProjectId, "scopeprojectid", "", "", "Filters the response by a role assignment id")
-
-	RootCmd.AddCommand(GetKeystoneRoleAssignments)
-
-	GetKeystoneRoles.PersistentFlags().StringVarP(&GetKeystoneRolesName, "name", "", "", "Filters the response by a role name")
-
-	RootCmd.AddCommand(GetKeystoneRoles)
-
-	CreateKeystoneRole.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
-	CreateKeystoneRole.MarkPersistentFlagRequired("file")
-
-	RootCmd.AddCommand(CreateKeystoneRole)
-
-	RootCmd.AddCommand(DeleteKeystoneRoleByID)
-
-	RootCmd.AddCommand(GetKeystoneRoleByID)
-
-	UpdateKeystoneRoleByID.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
-	UpdateKeystoneRoleByID.MarkPersistentFlagRequired("file")
-
-	RootCmd.AddCommand(UpdateKeystoneRoleByID)
-
-	GetKeystoneUsers.PersistentFlags().StringVarP(&GetKeystoneUsersName, "name", "", "", "Filters the response by a user name")
-
-	RootCmd.AddCommand(GetKeystoneUsers)
-
-	CreateKeystoneUser.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
-	CreateKeystoneUser.MarkPersistentFlagRequired("file")
-
-	RootCmd.AddCommand(CreateKeystoneUser)
-
-	RootCmd.AddCommand(DeleteKeystoneUserByID)
-
-	RootCmd.AddCommand(GetKeystoneUserByID)
-
-	RootCmd.AddCommand(GetKeystoneUserProjectsByUserID)
+	updateCmd.AddCommand(UpdateKeystoneDomainByID)
 
 	CreateKeystoneApplicationCredential.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
 	CreateKeystoneApplicationCredential.MarkPersistentFlagRequired("file")
 
-	RootCmd.AddCommand(CreateKeystoneApplicationCredential)
+	createCmd.AddCommand(CreateKeystoneApplicationCredential)
 
-	GetPubkeys.PersistentFlags().StringVarP(&GetPubkeysKind, "kind", "", "", "kind of public key")
-
-	GetPubkeys.MarkPersistentFlagRequired("file")
-
-	RootCmd.AddCommand(GetPubkeys)
-
-	GetWebUser.PersistentFlags().StringVarP(&GetWebUserProjectId, "projectid", "", "", "project id")
-
-	RootCmd.AddCommand(GetWebUser)
-
+	RootCmd.AddCommand(getCmd)
+	RootCmd.AddCommand(createCmd)
+	RootCmd.AddCommand(deleteCmd)
+	RootCmd.AddCommand(updateCmd)
 }
 
 var GetKeystoneVersion = &cobra.Command{
-	Use:   "GetKeystoneVersion",
-	Short: "GetKeystoneVersion",
+	Use:   "keystoneversion",
+	Short: "Get keystone version",
+	Long:  "Get keystone version",
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := NewClientWithResponses(
@@ -1769,67 +1692,16 @@ var GetKeystoneVersion = &cobra.Command{
 
 		ctx := context.Background()
 
-		res, err := client.GetKeystoneVersion(ctx)
+		res, err := client.GetKeystoneVersionWithResponse(ctx)
 
-		fmt.Println(res, err)
+		controller.GetKeystoneVersion(ctx, res, err)
 	},
 }
-var CreateKeystoneFederationAuthToken = &cobra.Command{
-	Use:   "CreateKeystoneFederationAuthToken <provider> <protocol>",
-	Short: "CreateKeystoneFederationAuthToken",
-	Args:  cobra.ExactArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
 
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.CreateKeystoneFederationAuthToken(ctx, args[0], args[1])
-
-		fmt.Println(res, err)
-	},
-}
-var CreateKeystoneToken = &cobra.Command{
-	Use:   "CreateKeystoneToken",
-	Short: "CreateKeystoneToken",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		bytes, err := os.ReadFile(file)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		body := CreateKeystoneTokenJSONRequestBody{}
-		err = json.Unmarshal(bytes, &body)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		res, err := client.CreateKeystoneToken(ctx, body)
-
-		fmt.Println(res, err)
-	},
-}
 var GetKeystoneDomains = &cobra.Command{
-	Use:   "GetKeystoneDomains",
-	Short: "GetKeystoneDomains",
+	Use:   "keystonedomains",
+	Short: "Get keystone domains",
+	Long:  "Get keystone domains",
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := NewClientWithResponses(
@@ -1849,14 +1721,16 @@ var GetKeystoneDomains = &cobra.Command{
 			params.Name = &GetKeystoneDomainsName
 		}
 
-		res, err := client.GetKeystoneDomains(ctx, params)
+		res, err := client.GetKeystoneDomainsWithResponse(ctx, params)
 
-		fmt.Println(res, err)
+		controller.GetKeystoneDomains(ctx, res, err)
 	},
 }
+
 var CreateKeystoneDomain = &cobra.Command{
-	Use:   "CreateKeystoneDomain",
-	Short: "CreateKeystoneDomain",
+	Use:   "keystonedomain",
+	Short: "Create a new keystone domain",
+	Long:  "Create a new keystone domain",
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := NewClientWithResponses(
@@ -1881,14 +1755,16 @@ var CreateKeystoneDomain = &cobra.Command{
 			fmt.Println(err)
 		}
 
-		res, err := client.CreateKeystoneDomain(ctx, body)
+		res, err := client.CreateKeystoneDomainWithResponse(ctx, body)
 
-		fmt.Println(res, err)
+		controller.CreateKeystoneDomain(ctx, res, err)
 	},
 }
+
 var DeleteKeystoneDomainByID = &cobra.Command{
-	Use:   "DeleteKeystoneDomainByID <id>",
-	Short: "DeleteKeystoneDomainByID",
+	Use:   "keystonedomainbyid <id>",
+	Short: "Delete a domain by ID",
+	Long:  "Delete a domain by ID",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := NewClientWithResponses(
@@ -1902,14 +1778,16 @@ var DeleteKeystoneDomainByID = &cobra.Command{
 
 		ctx := context.Background()
 
-		res, err := client.DeleteKeystoneDomainByID(ctx, args[0])
+		res, err := client.DeleteKeystoneDomainByIDWithResponse(ctx, args[0])
 
-		fmt.Println(res, err)
+		controller.DeleteKeystoneDomainByID(ctx, res, err)
 	},
 }
+
 var GetKeystoneDomainByID = &cobra.Command{
-	Use:   "GetKeystoneDomainByID <id>",
-	Short: "GetKeystoneDomainByID",
+	Use:   "keystonedomainbyid <id>",
+	Short: "Get a domain by ID",
+	Long:  "Get a domain by ID",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := NewClientWithResponses(
@@ -1923,14 +1801,16 @@ var GetKeystoneDomainByID = &cobra.Command{
 
 		ctx := context.Background()
 
-		res, err := client.GetKeystoneDomainByID(ctx, args[0])
+		res, err := client.GetKeystoneDomainByIDWithResponse(ctx, args[0])
 
-		fmt.Println(res, err)
+		controller.GetKeystoneDomainByID(ctx, res, err)
 	},
 }
+
 var UpdateKeystoneDomainByID = &cobra.Command{
-	Use:   "UpdateKeystoneDomainByID <id>",
-	Short: "UpdateKeystoneDomainByID",
+	Use:   "keystonedomainbyid <id>",
+	Short: "Update a domain by ID",
+	Long:  "Update a domain by ID",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := NewClientWithResponses(
@@ -1955,14 +1835,16 @@ var UpdateKeystoneDomainByID = &cobra.Command{
 			fmt.Println(err)
 		}
 
-		res, err := client.UpdateKeystoneDomainByID(ctx, args[0], body)
+		res, err := client.UpdateKeystoneDomainByIDWithResponse(ctx, args[0], body)
 
-		fmt.Println(res, err)
+		controller.UpdateKeystoneDomainByID(ctx, res, err)
 	},
 }
+
 var UnassignKeystoneRoleFromUserDomain = &cobra.Command{
-	Use:   "UnassignKeystoneRoleFromUserDomain <id> <userId> <roleId>",
-	Short: "UnassignKeystoneRoleFromUserDomain",
+	Use:   "unassignkeystonerolefromuserdomain <id> <userId> <roleId>",
+	Short: "Unassign a role from a user on a domain",
+	Long:  "Unassign a role to a user on a domain",
 	Args:  cobra.ExactArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := NewClientWithResponses(
@@ -1976,14 +1858,16 @@ var UnassignKeystoneRoleFromUserDomain = &cobra.Command{
 
 		ctx := context.Background()
 
-		res, err := client.UnassignKeystoneRoleFromUserDomain(ctx, args[0], args[1], args[2])
+		res, err := client.UnassignKeystoneRoleFromUserDomainWithResponse(ctx, args[0], args[1], args[2])
 
-		fmt.Println(res, err)
+		controller.UnassignKeystoneRoleFromUserDomain(ctx, res, err)
 	},
 }
+
 var AssignKeystoneRoleToUserDomain = &cobra.Command{
-	Use:   "AssignKeystoneRoleToUserDomain <id> <userId> <roleId>",
-	Short: "AssignKeystoneRoleToUserDomain",
+	Use:   "assignkeystoneroletouserdomain <id> <userId> <roleId>",
+	Short: "Assign a role to a user on a domain",
+	Long:  "Assign a role to a user on a domain",
 	Args:  cobra.ExactArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := NewClientWithResponses(
@@ -1997,573 +1881,16 @@ var AssignKeystoneRoleToUserDomain = &cobra.Command{
 
 		ctx := context.Background()
 
-		res, err := client.AssignKeystoneRoleToUserDomain(ctx, args[0], args[1], args[2])
+		res, err := client.AssignKeystoneRoleToUserDomainWithResponse(ctx, args[0], args[1], args[2])
 
-		fmt.Println(res, err)
+		controller.AssignKeystoneRoleToUserDomain(ctx, res, err)
 	},
 }
-var GetKeystoneGroups = &cobra.Command{
-	Use:   "GetKeystoneGroups",
-	Short: "GetKeystoneGroups",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
 
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		params := &GetKeystoneGroupsParams{}
-
-		if GetKeystoneGroupsName != "" {
-			params.Name = &GetKeystoneGroupsName
-		}
-
-		res, err := client.GetKeystoneGroups(ctx, params)
-
-		fmt.Println(res, err)
-	},
-}
-var GetKeystoneGroupByID = &cobra.Command{
-	Use:   "GetKeystoneGroupByID <id>",
-	Short: "GetKeystoneGroupByID",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.GetKeystoneGroupByID(ctx, args[0])
-
-		fmt.Println(res, err)
-	},
-}
-var GetKeystoneProjects = &cobra.Command{
-	Use:   "GetKeystoneProjects",
-	Short: "GetKeystoneProjects",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		params := &GetKeystoneProjectsParams{}
-
-		if GetKeystoneProjectsName != "" {
-			params.Name = &GetKeystoneProjectsName
-		}
-
-		res, err := client.GetKeystoneProjects(ctx, params)
-
-		fmt.Println(res, err)
-	},
-}
-var CreateKeystoneProject = &cobra.Command{
-	Use:   "CreateKeystoneProject",
-	Short: "CreateKeystoneProject",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		bytes, err := os.ReadFile(file)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		body := CreateKeystoneProjectJSONRequestBody{}
-		err = json.Unmarshal(bytes, &body)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		res, err := client.CreateKeystoneProject(ctx, body)
-
-		fmt.Println(res, err)
-	},
-}
-var DeleteKeystoneProjectByID = &cobra.Command{
-	Use:   "DeleteKeystoneProjectByID <id>",
-	Short: "DeleteKeystoneProjectByID",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.DeleteKeystoneProjectByID(ctx, args[0])
-
-		fmt.Println(res, err)
-	},
-}
-var GetKeystoneProjectByID = &cobra.Command{
-	Use:   "GetKeystoneProjectByID <id>",
-	Short: "GetKeystoneProjectByID",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.GetKeystoneProjectByID(ctx, args[0])
-
-		fmt.Println(res, err)
-	},
-}
-var UpdateKeystoneProjectByID = &cobra.Command{
-	Use:   "UpdateKeystoneProjectByID <id>",
-	Short: "UpdateKeystoneProjectByID",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		bytes, err := os.ReadFile(file)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		body := UpdateKeystoneProjectByIDJSONRequestBody{}
-		err = json.Unmarshal(bytes, &body)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		res, err := client.UpdateKeystoneProjectByID(ctx, args[0], body)
-
-		fmt.Println(res, err)
-	},
-}
-var UnassignKeystoneRoleFromGroupProject = &cobra.Command{
-	Use:   "UnassignKeystoneRoleFromGroupProject <id> <groupId> <roleId>",
-	Short: "UnassignKeystoneRoleFromGroupProject",
-	Args:  cobra.ExactArgs(3),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.UnassignKeystoneRoleFromGroupProject(ctx, args[0], args[1], args[2])
-
-		fmt.Println(res, err)
-	},
-}
-var AssignKeystoneRoleToGroupProject = &cobra.Command{
-	Use:   "AssignKeystoneRoleToGroupProject <id> <groupId> <roleId>",
-	Short: "AssignKeystoneRoleToGroupProject",
-	Args:  cobra.ExactArgs(3),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.AssignKeystoneRoleToGroupProject(ctx, args[0], args[1], args[2])
-
-		fmt.Println(res, err)
-	},
-}
-var UnassignKeystoneRoleFromUserProject = &cobra.Command{
-	Use:   "UnassignKeystoneRoleFromUserProject <id> <userId> <roleId>",
-	Short: "UnassignKeystoneRoleFromUserProject",
-	Args:  cobra.ExactArgs(3),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.UnassignKeystoneRoleFromUserProject(ctx, args[0], args[1], args[2])
-
-		fmt.Println(res, err)
-	},
-}
-var AssignKeystoneRoleToUserProject = &cobra.Command{
-	Use:   "AssignKeystoneRoleToUserProject <id> <userId> <roleId>",
-	Short: "AssignKeystoneRoleToUserProject",
-	Args:  cobra.ExactArgs(3),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.AssignKeystoneRoleToUserProject(ctx, args[0], args[1], args[2])
-
-		fmt.Println(res, err)
-	},
-}
-var GetKeystoneRoleAssignments = &cobra.Command{
-	Use:   "GetKeystoneRoleAssignments",
-	Short: "GetKeystoneRoleAssignments",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		params := &GetKeystoneRoleAssignmentsParams{}
-
-		if GetKeystoneRoleAssignmentsRoleId != "" {
-			params.RoleId = &GetKeystoneRoleAssignmentsRoleId
-		}
-
-		if GetKeystoneRoleAssignmentsUserId != "" {
-			params.UserId = &GetKeystoneRoleAssignmentsUserId
-		}
-
-		if GetKeystoneRoleAssignmentsScopeDomainId != "" {
-			params.ScopeDomainId = &GetKeystoneRoleAssignmentsScopeDomainId
-		}
-
-		if GetKeystoneRoleAssignmentsScopeProjectId != "" {
-			params.ScopeProjectId = &GetKeystoneRoleAssignmentsScopeProjectId
-		}
-
-		res, err := client.GetKeystoneRoleAssignments(ctx, params)
-
-		fmt.Println(res, err)
-	},
-}
-var GetKeystoneRoles = &cobra.Command{
-	Use:   "GetKeystoneRoles",
-	Short: "GetKeystoneRoles",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		params := &GetKeystoneRolesParams{}
-
-		if GetKeystoneRolesName != "" {
-			params.Name = &GetKeystoneRolesName
-		}
-
-		res, err := client.GetKeystoneRoles(ctx, params)
-
-		fmt.Println(res, err)
-	},
-}
-var CreateKeystoneRole = &cobra.Command{
-	Use:   "CreateKeystoneRole",
-	Short: "CreateKeystoneRole",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		bytes, err := os.ReadFile(file)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		body := CreateKeystoneRoleJSONRequestBody{}
-		err = json.Unmarshal(bytes, &body)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		res, err := client.CreateKeystoneRole(ctx, body)
-
-		fmt.Println(res, err)
-	},
-}
-var DeleteKeystoneRoleByID = &cobra.Command{
-	Use:   "DeleteKeystoneRoleByID <id>",
-	Short: "DeleteKeystoneRoleByID",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.DeleteKeystoneRoleByID(ctx, args[0])
-
-		fmt.Println(res, err)
-	},
-}
-var GetKeystoneRoleByID = &cobra.Command{
-	Use:   "GetKeystoneRoleByID <id>",
-	Short: "GetKeystoneRoleByID",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.GetKeystoneRoleByID(ctx, args[0])
-
-		fmt.Println(res, err)
-	},
-}
-var UpdateKeystoneRoleByID = &cobra.Command{
-	Use:   "UpdateKeystoneRoleByID <id>",
-	Short: "UpdateKeystoneRoleByID",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		bytes, err := os.ReadFile(file)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		body := UpdateKeystoneRoleByIDJSONRequestBody{}
-		err = json.Unmarshal(bytes, &body)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		res, err := client.UpdateKeystoneRoleByID(ctx, args[0], body)
-
-		fmt.Println(res, err)
-	},
-}
-var GetKeystoneUsers = &cobra.Command{
-	Use:   "GetKeystoneUsers",
-	Short: "GetKeystoneUsers",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		params := &GetKeystoneUsersParams{}
-
-		if GetKeystoneUsersName != "" {
-			params.Name = &GetKeystoneUsersName
-		}
-
-		res, err := client.GetKeystoneUsers(ctx, params)
-
-		fmt.Println(res, err)
-	},
-}
-var CreateKeystoneUser = &cobra.Command{
-	Use:   "CreateKeystoneUser",
-	Short: "CreateKeystoneUser",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		bytes, err := os.ReadFile(file)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		body := CreateKeystoneUserJSONRequestBody{}
-		err = json.Unmarshal(bytes, &body)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		res, err := client.CreateKeystoneUser(ctx, body)
-
-		fmt.Println(res, err)
-	},
-}
-var DeleteKeystoneUserByID = &cobra.Command{
-	Use:   "DeleteKeystoneUserByID <id>",
-	Short: "DeleteKeystoneUserByID",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.DeleteKeystoneUserByID(ctx, args[0])
-
-		fmt.Println(res, err)
-	},
-}
-var GetKeystoneUserByID = &cobra.Command{
-	Use:   "GetKeystoneUserByID <id>",
-	Short: "GetKeystoneUserByID",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.GetKeystoneUserByID(ctx, args[0])
-
-		fmt.Println(res, err)
-	},
-}
-var GetKeystoneUserProjectsByUserID = &cobra.Command{
-	Use:   "GetKeystoneUserProjectsByUserID <id>",
-	Short: "GetKeystoneUserProjectsByUserID",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		res, err := client.GetKeystoneUserProjectsByUserID(ctx, args[0])
-
-		fmt.Println(res, err)
-	},
-}
 var CreateKeystoneApplicationCredential = &cobra.Command{
-	Use:   "CreateKeystoneApplicationCredential <userId>",
-	Short: "CreateKeystoneApplicationCredential",
+	Use:   "keystoneapplicationcredential <userId>",
+	Short: "Create a new keystone application credential",
+	Long:  "Create a new keystone application credential",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := NewClientWithResponses(
@@ -2588,61 +1915,9 @@ var CreateKeystoneApplicationCredential = &cobra.Command{
 			fmt.Println(err)
 		}
 
-		res, err := client.CreateKeystoneApplicationCredential(ctx, args[0], body)
+		res, err := client.CreateKeystoneApplicationCredentialWithResponse(ctx, args[0], body)
 
-		fmt.Println(res, err)
-	},
-}
-var GetPubkeys = &cobra.Command{
-	Use:   "GetPubkeys",
-	Short: "GetPubkeys",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		params := &GetPubkeysParams{}
-
-		params.Kind = GetPubkeysKind
-
-		res, err := client.GetPubkeys(ctx, params)
-
-		fmt.Println(res, err)
-	},
-}
-var GetWebUser = &cobra.Command{
-	Use:   "GetWebUser",
-	Short: "GetWebUser",
-	Args:  cobra.ExactArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		client, err := NewClientWithResponses(
-			controller.GetBaseURL(),
-			WithRequestEditorFn(controller.RequestEditorFn),
-		)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		ctx := context.Background()
-
-		params := &GetWebUserParams{}
-
-		if GetWebUserProjectId != "" {
-			params.ProjectId = &GetWebUserProjectId
-		}
-
-		res, err := client.GetWebUser(ctx, params)
-
-		fmt.Println(res, err)
+		controller.CreateKeystoneApplicationCredential(ctx, res, err)
 	},
 }
 
@@ -7625,69 +6900,70 @@ func ParseGetWebUserResponse(rsp *http.Response) (*GetWebUserResponse, error) {
 var swaggerSpec = []string{
 
 	"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",
-	"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",
+	"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",
+	"w/+TlQ2hAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

@@ -86,6 +86,8 @@ paths:
   /keystone/v3:
     get:
       security: []
+      tags:
+        - cli
       summary: Get keystone version
       description: Get keystone version
       operationId: getKeystoneVersion
@@ -179,6 +181,8 @@ paths:
                 $ref: '#/components/schemas/Error'
   /keystone/v3/domains:
     get:
+      tags:
+        - cli
       summary: Get keystone domains
       description: Get keystone domains
       operationId: getKeystoneDomains
@@ -209,6 +213,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     post:
+      tags:
+        - cli
       summary: Create a new keystone domain
       description: Create a new keystone domain
       operationId: createKeystoneDomain
@@ -239,6 +245,8 @@ paths:
                 $ref: '#/components/schemas/Error'
   /keystone/v3/domains/{id}:
     get:
+      tags:
+        - cli
       summary: Get a domain by ID
       description: Get a domain by ID
       operationId: getKeystoneDomainByID
@@ -269,6 +277,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     patch:
+      tags:
+        - cli
       summary: Update a domain by ID
       description: Update a domain by ID
       operationId: updateKeystoneDomainByID
@@ -305,6 +315,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     delete:
+      tags:
+        - cli
       summary: Delete a domain by ID
       description: Delete a domain by ID
       operationId: deleteKeystoneDomainByID
@@ -332,6 +344,8 @@ paths:
                 $ref: '#/components/schemas/Error'
   /keystone/v3/domains/{id}/users/{user_id}/roles/{role_id}:
     put:
+      tags:
+        - cli
       summary: Assign a role to a user on a domain
       description: Assign a role to a user on a domain
       operationId: assignKeystoneRoleToUserDomain
@@ -370,6 +384,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     delete:
+      tags:
+        - cli
       summary: Unassign a role from a user on a domain
       description: Unassign a role to a user on a domain
       operationId: unassignKeystoneRoleFromUserDomain
@@ -1136,6 +1152,8 @@ paths:
                 $ref: '#/components/schemas/Error'
   /keystone/v3/users/{user_id}/application_credentials:
     post:
+      tags:
+        - cli
       summary: Create a new keystone application credential
       description: Create a new keystone application credential
       operationId: createKeystoneApplicationCredential

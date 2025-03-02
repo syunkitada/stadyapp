@@ -1,36 +1,71 @@
-var file string
-var controller IController
+var getCmd = &cobra.Command{
+	Use: "get",
+}
 
-type IController interface {
+var createCmd = &cobra.Command{
+	Use: "create",
+}
+
+var updateCmd = &cobra.Command{
+	Use: "update",
+}
+
+var deleteCmd = &cobra.Command{
+	Use: "delete",
+}
+
+var file string
+
+var controller ICLIController
+
+type ICLIController interface {
 	GetBaseURL() string
 	RequestEditorFn(ctx context.Context, req *http.Request) error
+
+    {{ range . -}}
+    {{ $opid := .OperationId -}}
+
+    {{- range $i, $tag := .Spec.Tags }}
+    {{- if eq $tag "cli" }}
+    {{ $opid }}(ctx context.Context, res *{{ $opid }}Response, err error)
+
+    {{- end }}{{/* if eq $tag "cli" */}}
+    {{- end }}{{/* range $i, $tag := .Spec.Tags */}}
+
+    {{ end }}{{/* range . */}}
 }
 
 {{ range . -}}
-{{ $hasParams := .RequiresParamObject -}}
-{{ $pathParams := .PathParams -}}
 {{ $opid := .OperationId -}}
+{{ $queryParams := .QueryParams -}}
 
-{{- range $paramIdx, $param := .QueryParams }}
+{{- range $i, $tag := .Spec.Tags }}
+{{- if eq $tag "cli" }}
+
+{{- range $paramIdx, $param := $queryParams }}
 var {{ $opid }}{{ $param.GoName }} {{ $param.Schema.GoType }}
 {{- end }}
 
+{{- end }}{{/* if eq $tag "cli" */}}
+{{- end }}{{/* range $i, $tag := $operation.Spec.Tags */}}
 {{ end }}{{/* range . */}}
 
 func init() {
-    controller = NewController()
+    controller = NewCLIController()
 
 {{ range . -}}
-{{ $hasParams := .RequiresParamObject -}}
-{{ $pathParams := .PathParams -}}
 {{ $opid := .OperationId -}}
+{{ $operation := . -}}
 
-    {{ if .HasBody}}
-    {{ $opid }}.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
-	{{ $opid }}.MarkPersistentFlagRequired("file")
+{{- range $i, $tag := $operation.Spec.Tags }}
+{{- if eq $tag "cli" }}
+
+    {{ if $operation.HasBody}}
+    {{ $operation.OperationId }}.PersistentFlags().StringVarP(&file, "file", "f", "", "file path")
+	{{ $operation.OperationId }}.MarkPersistentFlagRequired("file")
     {{ end }}{{/* if .HasBody */}}
 
-    {{- range $paramIdx, $param := .QueryParams }}
+    {{- range $paramIdx, $param := $operation.QueryParams }}
 
     {{- if eq $param.Schema.GoType "string" }}
 
@@ -46,19 +81,56 @@ func init() {
     {{ $opid }}.MarkPersistentFlagRequired("file")
     {{ end }}
 
-    {{- end }}{{/* range $paramIdx, $param := .QueryParams */}}
+    {{- end }}{{/* range $paramIdx, $param := $operation.QueryParams */}}
 
-	RootCmd.AddCommand({{ $opid }})
-{{ end }}{{/* range . */}}
+    {{- if eq (printf "%.3s" $opid) "Get" }}
+    getCmd.AddCommand({{ $opid }})
+    {{- else if eq (printf "%.6s" $opid) "Create" }}
+    createCmd.AddCommand({{ $opid }})
+    {{- else if eq (printf "%.6s" $opid) "Update" }}
+    updateCmd.AddCommand({{ $opid }})
+    {{- else if eq (printf "%.6s" $opid) "Delete" }}
+    deleteCmd.AddCommand({{ $opid }})
+    {{- else }}
+
+    {{- end }}
+
+{{- end }}{{/* if eq $tag "cli" */}}
+{{- end }}{{/* range $i, $tag := .Spec.Tags */}}
+
+{{- end }}{{/* range . */}}
+
+	RootCmd.AddCommand(getCmd)
+	RootCmd.AddCommand(createCmd)
+	RootCmd.AddCommand(deleteCmd)
+	RootCmd.AddCommand(updateCmd)
 }
 
 {{ range . -}}
+{{ $operation := . -}}
+{{ $opid := .OperationId -}}
 {{ $hasParams := .RequiresParamObject -}}
 {{ $pathParams := .PathParams -}}
-{{ $opid := .OperationId -}}
+{{ $queryParams := .QueryParams -}}
+
+{{- range $i, $tag := .Spec.Tags }}
+{{- if eq $tag "cli" }}
+
+{{ $cmd := $opid | lower }}
+{{- if eq (printf "%.3s" $opid) "Get" }}
+  {{- $cmd = slice $opid 3 | lower }}
+{{- else if eq (printf "%.6s" $opid) "Create" }}
+  {{- $cmd = slice $opid 6 | lower }}
+{{- else if eq (printf "%.6s" $opid) "Update" }}
+  {{- $cmd = slice $opid 6 | lower }}
+{{- else if eq (printf "%.6s" $opid) "Delete" }}
+  {{- $cmd = slice $opid 6 | lower }}
+{{- end }}
+
 var {{ $opid }} = &cobra.Command{
-	Use:   "{{ $opid }}{{ if gt (len $pathParams) 0 }}{{ range $i, $pathParam := $pathParams }} <{{ $pathParam.GoVariableName }}>{{ end }}{{ end }}",
-	Short: "{{ $opid }}",
+	Use:   "{{ $cmd }}{{ if gt (len $pathParams) 0 }}{{ range $i, $pathParam := $pathParams }} <{{ $pathParam.GoVariableName }}>{{ end }}{{ end }}",
+	Short: "{{ $operation.Spec.Summary }}",
+	Long: "{{ $operation.Spec.Description }}",
     Args: cobra.ExactArgs({{ len $pathParams }}),
 	Run: func(cmd *cobra.Command, args []string) {
 		client, err := NewClientWithResponses(
@@ -76,7 +148,7 @@ var {{ $opid }} = &cobra.Command{
 		params := &{{ $opid }}Params{}
         {{ end }}{{/* if $hasParams */}}
 
-        {{- range $paramIdx, $param := .QueryParams }}
+        {{- range $paramIdx, $param := $queryParams }}
         {{ if $param.Required }}
         params.{{ $param.GoName }} = {{ $opid }}{{ $param.GoName }}
         {{ else }}
@@ -87,15 +159,15 @@ var {{ $opid }} = &cobra.Command{
         }
         {{ end }}
         {{ end }}{{/* if/else $param.Required */}}
-        {{ end }}{{/* range $paramIdx, $param := .QueryParams */}}
+        {{ end }}{{/* range $paramIdx, $param := $queryParams */}}
 
-        {{ if .HasBody }}
+        {{ if $operation.HasBody }}
         bytes, err := os.ReadFile(file)
         if err != nil {
             fmt.Println(err)
         }
 
-        {{ range .Bodies }}
+        {{ range $operation.Bodies }}
         body := {{ $opid }}{{ .NameTag }}RequestBody{}
         err = json.Unmarshal(bytes, &body)
         if err != nil {
@@ -105,16 +177,20 @@ var {{ $opid }} = &cobra.Command{
 
         {{ end }}{{/* .HasBody */}}
 
-		res, err := client.{{ $opid }}(ctx{{ if gt (len $pathParams) 0 -}}
+		res, err := client.{{ $opid }}WithResponse(ctx{{ if gt (len $pathParams) 0 -}}
         {{- range $i, $pathParam := $pathParams }}, args[{{ $i }}]{{ end }}{{ end -}}
-        {{- if .HasBody }}, body{{ end -}}
+        {{- if $operation.HasBody }}, body{{ end -}}
         {{- if $hasParams }}, params{{ end -}}
         )
 
-		fmt.Println(res, err)
+        controller.{{ $opid }}(ctx, res, err)
 	},
 }
-{{ end }}{{/* range . */}}
+
+{{- end }}{{/* if eq $tag "cli" */}}
+{{- end }}{{/* range $i, $tag := .Spec.Tags */}}
+
+{{- end }}{{/* range . */}}
 
 
 

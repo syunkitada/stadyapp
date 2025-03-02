@@ -1,5 +1,6 @@
 domains:
   get:
+    tags: ["cli"]
     summary: Get keystone domains
     description: Get keystone domains
     operationId: getKeystoneDomains
@@ -30,6 +31,7 @@ domains:
             schema:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
   post:
+    tags: ["cli"]
     summary: Create a new keystone domain
     description: Create a new keystone domain
     operationId: createKeystoneDomain
@@ -61,6 +63,7 @@ domains:
 
 domains_id:
   get:
+    tags: ["cli"]
     summary: Get a domain by ID
     description: Get a domain by ID
     operationId: getKeystoneDomainByID
@@ -92,6 +95,7 @@ domains_id:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
 
   patch:
+    tags: ["cli"]
     summary: Update a domain by ID
     description: Update a domain by ID
     operationId: updateKeystoneDomainByID
@@ -129,6 +133,7 @@ domains_id:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
 
   delete:
+    tags: ["cli"]
     summary: Delete a domain by ID
     description: Delete a domain by ID
     operationId: deleteKeystoneDomainByID
@@ -157,6 +162,7 @@ domains_id:
 
 domains_id_users_user_id_roles_role_id:
   put:
+    tags: ["cli"]
     summary: Assign a role to a user on a domain
     description: Assign a role to a user on a domain
     operationId: assignKeystoneRoleToUserDomain
@@ -196,6 +202,7 @@ domains_id_users_user_id_roles_role_id:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
 
   delete:
+    tags: ["cli"]
     summary: Unassign a role from a user on a domain
     description: Unassign a role to a user on a domain
     operationId: unassignKeystoneRoleFromUserDomain
@@ -236,6 +243,7 @@ domains_id_users_user_id_roles_role_id:
 
 domains_id_groups_group_id_roles_role_id:
   put:
+    tags: ["cli"]
     summary: Assign a role to a group on a domain
     description: Assign a role to a group on a domain
     operationId: assignKeystoneRoleToGroupDomain
@@ -275,6 +283,7 @@ domains_id_groups_group_id_roles_role_id:
               $ref: "../../../../../libs/openapi_common/schemas.yaml#/components/schemas/Error"
 
   delete:
+    tags: ["cli"]
     summary: Unassign a role from a group on a domain
     description: Unassign a role to a group on a domain
     operationId: unassignKeystoneRoleFromGroupDomain

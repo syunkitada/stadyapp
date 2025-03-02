@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/syunkitada/stadyapp/cli/internal/myctl/compute"
 	"github.com/syunkitada/stadyapp/cli/internal/myctl/iam"
 )
 
@@ -16,7 +15,7 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(iam.RootCmd)
-	rootCmd.AddCommand(compute.RootCmd)
+	// rootCmd.AddCommand(compute.RootCmd)
 }
 
 func Execute() {
